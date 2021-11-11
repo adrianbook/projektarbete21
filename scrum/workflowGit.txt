@@ -1,0 +1,23 @@
+koda kod i egen branch
+
+pusha egen branch
+
+skapa pullrequest på github och se över konflikter
+	
+	vid små konflikter:
+
+		1. lös konflikter på gihub.
+		2. godkänn pullrequest
+
+	vid mer omfattande konflikter:
+		
+		1. pulla main lokalt och mergea in på din egen branch.
+		2. lös konflikter.
+		3. checkout main.
+		4. mergea in din egen branch.
+		5. pusha
+		6. (ta bort/godkänn pullrequest på github.)
+
+Allmänt:
+	
+	Mergea aldrig in din branch på main utan att först mergea main på din.
