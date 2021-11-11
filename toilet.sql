@@ -18,4 +18,4 @@ values
 insert into toilet
 (Id, longitude, latitude)
 values
-(2, 57.689921,11.949313);
+(3, 57.689921,11.949313);
