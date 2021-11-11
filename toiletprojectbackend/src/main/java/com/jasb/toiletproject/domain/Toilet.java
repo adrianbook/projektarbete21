@@ -1,19 +1,15 @@
 package com.jasb.toiletproject.domain;
 
-import lombok.Data;
 
 
-
-@Data
-//@Entity
 public class Toilet {
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    //@Id
+
     private long id;
     private double longitude;
     private double latitude;
 
     public Toilet() {};
+
     public Toilet(long id, Double longitude, Double latitude){
         this.id = id;
         this.longitude = longitude;
