@@ -1,7 +1,9 @@
 package com.jasb.toiletproject.domain;
 
 
+import lombok.Data;
 
+@Data
 public class Toilet {
 
     private long id;
