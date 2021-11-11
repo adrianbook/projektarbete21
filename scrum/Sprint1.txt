@@ -1,0 +1,6 @@
+Vårt projekt går ut på att registrera offentliga toaletter i Göteborg med position och betyg och presentera dem på en karta via en webbapp.
+
+Vi har lagt upp första sprinten och bestämt oss för arbetsflödet 'att göra' -> 'pågående' -> 'review' -> 'klart'.
+Review-steget innebär att vi jobbar med pull-request på scrum-kortnivå. En uppgift ska alltså ses över av någon annan innan den anses vara klar.
+Detta dels för att kunna fånga upp eventuella konstigheter eller fel och dels för att alla deltagare ska ha någorlunda koll på hela kodbasen och ingen ska bli isolerad på sitt hörn.
+Vi har valt att samla allt scrum-relaterat i det webbaserade verktyget Jira som har många bra verktyg utformade för just detta.
