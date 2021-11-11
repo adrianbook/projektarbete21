@@ -1,9 +1,16 @@
 package com.jasb.toiletproject.domain;
 
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
 public class Toilet {
 
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
     private long id;
     private double longitude;
     private double latitude;
