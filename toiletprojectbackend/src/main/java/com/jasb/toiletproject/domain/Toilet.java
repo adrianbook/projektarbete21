@@ -1,6 +1,5 @@
 package com.jasb.toiletproject.domain;
 
-
 import lombok.Data;
 
 import javax.persistence.Entity;

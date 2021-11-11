@@ -1,7 +1,4 @@
 create database toiletdb;
-#CREATE USER sa@localhost IDENTIFIED BY yrgo2021;
-#GRANT ALL PRIVILEGES ON * . * TO sa@localhost;
-#FLUSH PRIVILEGES;
 use toiletdb;
 
 create table toilet
@@ -21,4 +18,4 @@ values
 insert into toilet
 (Id, longitude, latitude)
 values
-(2, 57.689921,11.949313);
+(3, 57.689921,11.949313);
