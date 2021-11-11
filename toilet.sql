@@ -1,4 +1,7 @@
 create database toiletdb;
+#CREATE USER sa@localhost IDENTIFIED BY yrgo2021;
+#GRANT ALL PRIVILEGES ON * . * TO sa@localhost;
+#FLUSH PRIVILEGES;
 use toiletdb;
 
 create table toilet
