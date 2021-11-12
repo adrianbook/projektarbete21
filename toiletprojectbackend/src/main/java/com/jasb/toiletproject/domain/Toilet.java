@@ -1,6 +1,5 @@
 package com.jasb.toiletproject.domain;
 
-
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -24,6 +23,31 @@ public class Toilet {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
     public String toString() {
         return String.format("Toiler nr %d at lat %f long %f", id, latitude, longitude);
     }

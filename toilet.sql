@@ -1,24 +1,21 @@
 create database toiletdb;
-#CREATE USER sa@localhost IDENTIFIED BY yrgo2021;
-#GRANT ALL PRIVILEGES ON * . * TO sa@localhost;
-#FLUSH PRIVILEGES;
 use toiletdb;
 
 create table toilet
-(Id integer not null,
-longitude decimal(9,6) not null,
-latitude decimal(9,6) not null,
-primary key(Id));
+(id bigint not null,
+longitude double not null,
+latitude double not null,
+primary key(id));
 
 insert into toilet
-(Id, longitude, latitude)
+(id, longitude, latitude)
 values
 (1, 57.697905,11.929820);
 insert into toilet
-(Id, longitude, latitude)
+(id, longitude, latitude)
 values
 (2, 57.699229,11.934269);
 insert into toilet
-(Id, longitude, latitude)
+(id, longitude, latitude)
 values
-(2, 57.689921,11.949313);
+(3, 57.689921,11.949313);
