@@ -16,6 +16,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'javax.servlet:javax.servlet-api'
 	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'mysql:mysql-connector-java:8.0.25'

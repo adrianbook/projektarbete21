@@ -23,6 +23,6 @@ import javax.persistence.Id;
         this.latitude = latitude;
     }
     public String toString() {
-        return String.format("Toiler nr %d at lat %f long %f", id, latitude, longitude);
+        return String.format("Toilet nr %d at lat %f long %f", id, latitude, longitude);
     }
 }
