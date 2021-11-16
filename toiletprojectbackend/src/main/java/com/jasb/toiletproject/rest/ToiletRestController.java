@@ -7,7 +7,9 @@ import com.jasb.toiletproject.domain.Toilet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,4 +39,5 @@ public class ToiletRestController {
     public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
         return data.findById(id);
     }
+
 }
