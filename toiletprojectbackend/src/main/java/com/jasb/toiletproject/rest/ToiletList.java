@@ -9,6 +9,14 @@ public class ToiletList {
 
     public ToiletList() {};
 
+    public List<Toilet> getToilets() {
+        return toilets;
+    }
+
+    public void setToilets(List<Toilet> toilets) {
+        this.toilets = toilets;
+    }
+
     public ToiletList(List<Toilet> toilets) {
         this.toilets = toilets;
     };
