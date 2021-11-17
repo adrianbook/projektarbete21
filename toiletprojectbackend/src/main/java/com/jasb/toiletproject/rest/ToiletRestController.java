@@ -33,7 +33,7 @@ public class ToiletRestController {
         return new ToiletList(data.findAll());
     }
 
-
+    @CrossOrigin
     @PostMapping(value="/toilets",
                 consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType. APPLICATION_XHTML_XML_VALUE},
                 produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XHTML_XML_VALUE })
