@@ -17,6 +17,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/v1/toilets")
+@CrossOrigin
 public class ToiletRestController {
 
     @Autowired

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-    @RequestMapping("admin/api/v1/toilets")
+@RequestMapping("admin/api/v1/toilets")
+@CrossOrigin("localhost:5500")
 public class AdminToiletRestController {
 
 
