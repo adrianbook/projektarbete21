@@ -16,7 +16,8 @@ skapa pullrequest på github och se över konflikter
 		3. checkout main.
 		4. mergea in din egen branch.
 		5. pusha
-		6. (ta bort/godkänn pullrequest på github.)
+		6. checkout [din branch]
+		7. (ta bort/godkänn pullrequest på github.)
 
 Allmänt:
 	

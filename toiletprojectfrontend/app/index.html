@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div id="map" style="height: 1000px;">
+    <div id="map" style="height: 500px;">
         <script>
             let getAllUrl = "http://localhost:8080/toilets"
 
@@ -36,13 +36,43 @@
 
                 toilets.forEach(toilet => {
                     var marker = L.marker([toilet.longitude, toilet.latitude]).addTo(mymap);
-                    
-                    marker.bindPopup("<b>Toilett #"+toilet.id+"</b><br>please take a shit.")
+
+                    marker.bindPopup("<b>Toilett #" + toilet.id + "</b><br>please take a shit.")
                 });
             }
 
-        </script>
-        <h1>KARTA</h1>
 
+
+        </script>
     </div>
+    <div>
+        <form id="postform" >
+            <ul>
+                <li>
+                    <label for="long">longitud</label>
+                    <input type="text" id="long" name="longitude">
+                </li>
+                <li>
+                    <label for="lat">latitud</label>
+                    <input type="text" id="lat" name="latitude">
+                </li>
+                <li class="button">
+                    <button>pang</button>
+                </li>
+            </ul>
+        </form>
+        <div id="div"></div>
+    </div>
+    <script>
+            
+        const body ={}
+        const div = document.getElementById("div")
+        const long = document.getElementById("long")
+        const form = document.getElementById("postform")
+        console.log(form)
+        form.addEventListener('click', (e) => { 
+            console.log("hej")
+         })
+    </script>
+       
 </body>

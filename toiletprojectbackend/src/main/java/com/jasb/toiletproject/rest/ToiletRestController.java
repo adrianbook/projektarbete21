@@ -6,6 +6,7 @@ import com.jasb.toiletproject.data.ToiletRepository;
 import com.jasb.toiletproject.domain.Toilet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +28,15 @@ public class ToiletRestController {
     ToiletRepository data;
 
     @CrossOrigin
-    @RequestMapping(value = "/toilets", method = RequestMethod.GET)
+    @GetMapping("/toilets")
     public ToiletList allToilets() {
         return new ToiletList(data.findAll());
     }
 
-    @RequestMapping(value="/toilets", method = RequestMethod.POST)
+
+    @PostMapping(value="/toilets",
+                consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType. APPLICATION_XHTML_XML_VALUE},
+                produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XHTML_XML_VALUE })
     public ResponseEntity createNewToilet(@RequestBody Toilet toilet) {
         data.save(toilet);
         return new ResponseEntity<Toilet>(toilet, HttpStatus.CREATED);
