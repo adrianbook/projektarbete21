@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div id="map" style="height: 500px;">
+    <div id="map" style="height: 650px;">
     </div>
     <div>
         <form id="postform" >
@@ -42,7 +42,7 @@
 
             function run(toilets) {
 
-                var mymap = L.map('map').setView([57.703, 11.964], 12)
+                var mymap = L.map('map').setView([57.703, 11.964], 2)
 
                 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',

@@ -37,7 +37,7 @@ const InputTodo = (props) => {
             <button
             className="input-submit"    
             >
-            <FaPlusCircle/>
+            <FaPlusCircle className="submit-button"/>
             </button>
         </form>
     )

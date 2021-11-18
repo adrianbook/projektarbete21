@@ -63,3 +63,9 @@
   outline: none;
   border: none;
 }
+
+.submit-button {
+  font-size: 1.9rem;
+  float: right;
+  margin-right: -25px;
+}
