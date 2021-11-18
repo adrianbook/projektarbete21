@@ -16,7 +16,7 @@
             let loginUrl = "http://localhost:8080/login"
             let authHeader;
             
-            let result = fetch(loginUrl, {
+            fetch(loginUrl, {
                 method: 'POST',
                 mode:"cors",
                 cache: "no-cache",
@@ -24,14 +24,17 @@
                 headers: {
                     'Accept': '*/*',
                     'Content-Type': 'application/json',
-                    'Accept-Encoding': 'gzip, deflate, br'
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Accept': '*/*',
+                    'Connection': 'keep-alive'
                 },
                 body: JSON.stringify({
                     "username": "linda",
                     "password": "password"
                 })
             })
-           console.log(result)
+           .then(res => res)
+           .then(obj => console.log(obj))
 
             fetch(getAllUrl, {
                 method: 'GET',
