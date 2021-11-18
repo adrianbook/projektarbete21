@@ -63,6 +63,8 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .compact();
 
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
+        //response.addHeader("Access-Control-Allow-Origin" , "*");
+        //response.addHeader("Access-Control-Allow-Credentials" , "true" );
     }
 
 }

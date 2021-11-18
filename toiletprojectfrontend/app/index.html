@@ -15,27 +15,49 @@
             let getAllUrl = "http://localhost:8080/admin/api/v1/toilets/"
             let loginUrl = "http://localhost:8080/login"
             let authHeader;
-            
+            let body = JSON.stringify({
+                    "username": "linda",
+                    "password": "password"
+            })
+            var xmlrequest = new XMLHttpRequest()
+            xmlrequest.open("POST", loginUrl)
+            xmlrequest.setRequestHeader('Accept', '*/*')
+            xmlrequest.setRequestHeader('Content-Type', 'application/json')
+            xmlrequest.send(body)
+            xmlrequest.onreadystatechange = () => {
+                if(this.readyState == this.HEADERS_RECEICVED) {
+                    var please = xmlrequest.getResponseHeader("Authorization")
+                    console.log(please)
+                }
+            }
+            let hope = xmlrequest.getResponseHeader("Authorization")
+            console.log(hope)
+            /*
             fetch(loginUrl, {
                 method: 'POST',
                 mode:"cors",
-                cache: "no-cache",
+                cache: "default",
                 credentials: "same-origin",
                 headers: {
-                    'Accept': '*/*',
+                    'Accept': '**',
                     'Content-Type': 'application/json',
                     'Accept-Encoding': 'gzip, deflate, br',
-                    'Accept': '*/*',
                     'Connection': 'keep-alive'
+                    
                 },
                 body: JSON.stringify({
                     "username": "linda",
                     "password": "password"
                 })
             })
-           .then(res => res)
-           .then(obj => console.log(obj))
-
+            .then(function(response) {
+                console.log(...response.headers.values())
+            })
+*/
+        
+            
+        
+       
             fetch(getAllUrl, {
                 method: 'GET',
                 mode:"cors",
@@ -50,7 +72,7 @@
                 .then(obj => {
                     run(obj.toilets)
                 })
-
+            
             function run(toilets) {
 
                 var mymap = L.map('map').setView([57.703, 11.964], 13)

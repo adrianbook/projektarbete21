@@ -43,10 +43,5 @@ public class JwtConfig {
     public String getAuthorizationHeader() {
         return HttpHeaders.AUTHORIZATION;
     }
-    /*
-    public static SecretKey convertStringToSecretKeyto(String encodedKey) {
-        byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
-        SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
-        return originalKey;
-    }*/
+
 }

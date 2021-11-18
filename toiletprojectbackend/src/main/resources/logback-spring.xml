@@ -9,4 +9,7 @@
         <appender-ref ref="FILE" />
     </root>
     <logger name="org.springframework.web" level="DEBUG"/>
+    <logger name="io.jsonwebtoken.jjwt-api" level="DEBUG"/>
+    <logger name="io.jsonwebtoken.jjwt-impl" level="DEBUG"/>
+    <logger name="io.jsonwebtoken.jjwt-jackson" level="DEBUG"/>
 </configuration>
