@@ -19,9 +19,10 @@
                     "username": "linda",
                     "password": "password"
             })
+            /*
             var xmlrequest = new XMLHttpRequest()
             xmlrequest.open("POST", loginUrl)
-            xmlrequest.setRequestHeader('Accept', '*/*')
+            xmlrequest.setRequestHeader('Accept', '')
             xmlrequest.setRequestHeader('Content-Type', 'application/json')
             xmlrequest.send(body)
             xmlrequest.onreadystatechange = () => {
@@ -32,14 +33,15 @@
             }
             let hope = xmlrequest.getResponseHeader("Authorization")
             console.log(hope)
-            /*
+            */
+            
             fetch(loginUrl, {
                 method: 'POST',
                 mode:"cors",
                 cache: "default",
                 credentials: "same-origin",
                 headers: {
-                    'Accept': '**',
+                    'Accept': '*/*',
                     'Content-Type': 'application/json',
                     'Accept-Encoding': 'gzip, deflate, br',
                     'Connection': 'keep-alive'
@@ -53,7 +55,7 @@
             .then(function(response) {
                 console.log(...response.headers.values())
             })
-*/
+
         
             
         
