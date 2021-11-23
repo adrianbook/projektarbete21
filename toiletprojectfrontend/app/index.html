@@ -31,15 +31,69 @@
         <div id="div"></div>
     </div>
         <script>
-            let getAllUrl = "http://localhost:8080/toilets"
+            let getAllUrl = "http://localhost:8080/admin/api/v1/toilets/"
+            let loginUrl = "http://localhost:8080/login"
+            let authHeader;
+            let body = JSON.stringify({
+                    "username": "linda",
+                    "password": "password"
+            })
+            /*
+            var xmlrequest = new XMLHttpRequest()
+            xmlrequest.open("POST", loginUrl)
+            xmlrequest.setRequestHeader('Accept', '')
+            xmlrequest.setRequestHeader('Content-Type', 'application/json')
+            xmlrequest.send(body)
+            xmlrequest.onreadystatechange = () => {
+                if(this.readyState == this.HEADERS_RECEICVED) {
+                    var please = xmlrequest.getResponseHeader("Authorization")
+                    console.log(please)
+                }
+            }
+            let hope = xmlrequest.getResponseHeader("Authorization")
+            console.log(hope)
+            */
+            
+            fetch(loginUrl, {
+                method: 'POST',
+                mode:"cors",
+                cache: "default",
+                credentials: "same-origin",
+                headers: {
+                    'Accept': '*/*',
+                    'Content-Type': 'application/json',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Connection': 'keep-alive'
+                    
+                },
+                body: JSON.stringify({
+                    "username": "linda",
+                    "password": "password"
+                })
+            })
+            .then(function(response) {
+                console.log(...response.headers.values())
+            })
 
-
-            fetch(getAllUrl)
+        
+            
+        
+       
+            fetch(getAllUrl, {
+                method: 'GET',
+                mode:"cors",
+                cache: "no-cache",
+                credentials: "same-origin",
+                headers: {
+                    'Content-Type': 'text/plain',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsaW5kYSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJ0b2lsZXQ6cmVhZCJ9LHsiYXV0aG9yaXR5IjoidG9pbGV0OndyaXRlIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2MzcxMzU2NDMsImV4cCI6MTYzNzk2NzYwMH0.Fgul5a-5dARb0r1J5qcmbQnlh59yTlFziQd9_TdW72F0v3B2OoE4nyfnAcqkULltzNg7bonO4V2_kRrXop-hyA'
+                }
+            })
                 .then(res => res.json())
                 .then(obj => {
                     run(obj.toilets)
                 })
-
+            
             function run(toilets) {
 
                 var mymap = L.map('map').setView([57.703, 11.964], 2)

@@ -8,10 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@Data
 @Entity
-@XmlRootElement
-public class Toilet {
+@Data public class Toilet {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -51,6 +50,6 @@ public class Toilet {
     }
 
     public String toString() {
-        return String.format("Toiler nr %d at lat %f long %f", id, latitude, longitude);
+        return String.format("Toilet nr %d at lat %f long %f", id, latitude, longitude);
     }
 }
