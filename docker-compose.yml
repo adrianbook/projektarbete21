@@ -4,10 +4,11 @@ services:
   frontend:
     container_name: frontend-dev
     build:
-      context: ./toiletprojectfrontend
+      context: ./toiletprojectfrontend/toilettapp
       dockerfile: Dockerfile
     volumes:
-      - './toiletprojectfrontend/react-form-handling/public:/public'
+      - './toiletprojectfrontend/toilettapp/src:/src'
+      - './toiletprojectfrontend/toilettapp/public:/public'
  #     - '/node_modules'
     ports:
       - 3001:3000
