@@ -16,10 +16,19 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'javax.servlet:javax.servlet-api'
 	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok:1.18.22'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'mysql:mysql-connector-java:8.0.25'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.5.6'
+	implementation 'org.springframework.boot:spring-boot-starter-security:2.5.6'
+	implementation 'io.jsonwebtoken:jjwt-api:0.10.7'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.10.7'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.10.7'
+	implementation 'com.google.guava:guava:31.0.1-jre'
+	testImplementation 'org.apache.httpcomponents:httpclient'
+
+
 }
 
 test {
