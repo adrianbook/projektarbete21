@@ -10,9 +10,13 @@ function App() {
   ])
 
   useEffect(() => {
-  let fetching =  fetch("http://localhost:8080/toilets")
-                fetching.then(res => res.json())
+  let fetching =  fetch("http://localhost:8080/toilets", {method: "GET"})
+                fetching.then(res => {
+                console.log(res.status)
+                return  res.json()
+                })
                 .then(obj => {
+                  console.log(obj)
                     const positions = []
                     obj.toilets.forEach(pos => {
                         positions.push([pos.longitude, pos.latitude])
@@ -23,6 +27,9 @@ function App() {
                   setMarkers(positions)
                   console.log(fetching)
                 })
+               .catch(error => {
+                 console.log("Error: "+error)
+               })
   
   }, [setMarkers])
 
