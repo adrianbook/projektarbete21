@@ -3,13 +3,38 @@ version: '3.7'
 services:
   frontend:
     container_name: frontend-dev
+    hostname: frontend-dev
     build:
-      context: ./toiletprojectfrontend
+      context: ./toiletprojectfrontend/toilettapp
       dockerfile: Dockerfile
     volumes:
-      - './toiletprojectfrontend/react-form-handling/public:/public'
+      - './toiletprojectfrontend/toilettapp/src:/src'
+      - './toiletprojectfrontend/toilettapp/public:/public'
  #     - '/node_modules'
     ports:
-      - 3001:3000
+      - 3000:3000
     environment:
       - CHOKIDAR_USEPOLLING=true
+  backend:
+    container_name: backend-dev
+    hostname: backend-dev
+    build:
+      context: ./toiletprojectbackend
+      dockerfile: Dockerfile
+    volumes:
+      - './toiletprojectbackend/build/libs/toiletproject-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/toiletproject-0.0.1-SNAPSHOT.war'
+    ports:
+      - 8081:8080
+      - 5050:5050
+  db:
+    container_name: db-dev
+    hostname: db-dev
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Yrgo2021
+    ports:
+      - 3305:3306
+    volumes:
+      - './dbVolume:/var/lib/mysql'

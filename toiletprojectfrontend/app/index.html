@@ -10,9 +10,28 @@
 </head>
 
 <body>
-    <div id="map" style="height: 1000px;">
+    <div id="map" style="height: 650px;">
+    </div>
+    <div>
+        <form id="postform" >
+            <ul>
+                <li>
+                    <label for="long">longitud</label>
+                    <input type="text" id="long" name="longitude">
+                </li>
+                <li>
+                    <label for="lat">latitud</label>
+                    <input type="text" id="lat" name="latitude">
+                </li>
+                <li class="button">
+                    <button type="submit" id="knapp">pang</button>
+                </li>
+            </ul>
+        </form>
+        <div id="div"></div>
+    </div>
         <script>
-            let getAllUrl = "http://localhost:9091/api/v1/toilets/getalltoilets"
+            let getAllUrl = "http://localhost:8080/admin/api/v1/toilets/"
             let loginUrl = "http://localhost:8080/login"
             let authHeader;
             let body = JSON.stringify({
@@ -33,7 +52,7 @@
             }
             let hope = xmlrequest.getResponseHeader("Authorization")
             console.log(hope)
-            
+            */
             
             fetch(loginUrl, {
                 method: 'POST',
@@ -41,7 +60,7 @@
                 cache: "default",
                 credentials: "same-origin",
                 headers: {
-                    'Accept': '**',
+                    'Accept': '*/*',
                     'Content-Type': 'application/json',
                     'Accept-Encoding': 'gzip, deflate, br',
                     'Connection': 'keep-alive'
@@ -55,7 +74,7 @@
             .then(function(response) {
                 console.log(...response.headers.values())
             })
-            */
+
         
             
         
@@ -66,7 +85,8 @@
                 cache: "no-cache",
                 credentials: "same-origin",
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'text/plain',
+                    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsaW5kYSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJ0b2lsZXQ6cmVhZCJ9LHsiYXV0aG9yaXR5IjoidG9pbGV0OndyaXRlIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2MzcxMzU2NDMsImV4cCI6MTYzNzk2NzYwMH0.Fgul5a-5dARb0r1J5qcmbQnlh59yTlFziQd9_TdW72F0v3B2OoE4nyfnAcqkULltzNg7bonO4V2_kRrXop-hyA'
                 }
             })
                 .then(res => res.json())
@@ -76,7 +96,7 @@
             
             function run(toilets) {
 
-                var mymap = L.map('map').setView([57.703, 11.964], 13)
+                var mymap = L.map('map').setView([57.703, 11.964], 2)
 
                 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -89,13 +109,39 @@
 
                 toilets.forEach(toilet => {
                     var marker = L.marker([toilet.longitude, toilet.latitude]).addTo(mymap);
-                    
-                    marker.bindPopup("<b>Toilett #"+toilet.id+"</b><br>please take a shit.")
+
+                    marker.bindPopup("<b>Toilett #" + toilet.id + "</b><br>please take a shit.")
                 });
             }
+            const form = document.getElementById("postform")
+            const longElem = document.getElementById("long")
+            const latElem = document.getElementById("lat")
+            let pos = {}
+            longElem.addEventListener('input', (e)=> {
+                pos.longitude = e.target.value
+            })
+            latElem.addEventListener('input', (e) => {
+                pos.latitude = e.target.value
+            })
+            form.addEventListener('submit', (e)=> {
+               // e.preventDefault()
 
-        </script>
-        <h1>KARTA</h1>
+                fetch(getAllUrl,{
+                    method: 'POST',
+                   // mode:"cors",
+                    //cache: "no-cache",
+                    //credentials: "same-origin",
+                    headers: {
+                        'Accept': '*/*',
+                        'Content-Type': 'application/json',
+                        'Accept-Encoding': 'gzip, deflate, br'
+                },
+                body: JSON.stringify(pos)
+                })
+            })
 
-    </div>
+
+            
+        
+    </script>
 </body>

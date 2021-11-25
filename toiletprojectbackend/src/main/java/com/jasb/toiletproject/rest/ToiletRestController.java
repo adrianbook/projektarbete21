@@ -7,6 +7,7 @@ import com.jasb.toiletproject.domain.Toilet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +26,7 @@ public class ToiletRestController {
     @Autowired
     ToiletRepository data;
 
+
     @GetMapping("/getalltoilets")
     //@PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ToiletList allToilets() {
@@ -32,12 +34,14 @@ public class ToiletRestController {
         return new ToiletList(data.findAll());
     }
 
+
     @PostMapping()
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
         log.info("Add ing new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude() );
         data.save(t);
         return new ResponseEntity<Toilet>(t, HttpStatus.CREATED);
+
     }
     @GetMapping(path ="{id}")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")

@@ -1,5 +1,5 @@
 # pull official base image
-FROM node:13.12.0-alpine
+FROM node:14.16.0-alpine
 
 # set working directory
 WORKDIR /
@@ -8,11 +8,12 @@ WORKDIR /
 ENV PATH /node_modules/.bin:$PATH
 
 # install app dependencies
-COPY react-form-handling/package.json ./
-COPY react-form-handling/package-lock.json ./
+COPY package.json ./
+COPY package-lock.json ./
 
 # add app
-COPY /react-form-handling ./
+COPY src ./src
+COPY public ./public
 RUN npm install
 
 # start app

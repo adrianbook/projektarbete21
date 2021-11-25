@@ -1,4 +1,8 @@
+Leg Uncrosser 2000 - av JASB - Jens Bankel, Adrian Book, Staffan Godman, Björn Munthe - 
+
 Vårt projekt går ut på att registrera offentliga toaletter i Göteborg med position och betyg och presentera dem på en karta via en webbapp.
+
+Tanken är att appen ska vara användardriven, att man genom att logga in med användarnamn och lösenord ska få möjlighet att lägga till nya toaletter och betygsätta befintliga. Dock ska vi som grund lägga in de offentliga toaletter som Göteborgs stad presenterar på sin hemsida i databasen.
 
 Vi har lagt upp första sprinten och bestämt oss för arbetsflödet 'att göra' -> 'pågående' -> 'review' -> 'klart'.
 Review-steget innebär att vi jobbar med pull-request på scrum-kortnivå. En uppgift ska alltså ses över av någon annan innan den anses vara klar.
