@@ -12,7 +12,7 @@
 <body>
     <div id="map" style="height: 1000px;">
         <script>
-            let getAllUrl = "http://localhost:8080/admin/api/v1/toilets/"
+            let getAllUrl = "http://localhost:9091/api/v1/toilets/getalltoilets"
             let loginUrl = "http://localhost:8080/login"
             let authHeader;
             let body = JSON.stringify({
@@ -33,7 +33,7 @@
             }
             let hope = xmlrequest.getResponseHeader("Authorization")
             console.log(hope)
-            */
+            
             
             fetch(loginUrl, {
                 method: 'POST',
@@ -41,7 +41,7 @@
                 cache: "default",
                 credentials: "same-origin",
                 headers: {
-                    'Accept': '*/*',
+                    'Accept': '**',
                     'Content-Type': 'application/json',
                     'Accept-Encoding': 'gzip, deflate, br',
                     'Connection': 'keep-alive'
@@ -55,7 +55,7 @@
             .then(function(response) {
                 console.log(...response.headers.values())
             })
-
+            */
         
             
         
@@ -66,8 +66,7 @@
                 cache: "no-cache",
                 credentials: "same-origin",
                 headers: {
-                    'Content-Type': 'text/plain',
-                    'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsaW5kYSIsImF1dGhvcml0aWVzIjpbeyJhdXRob3JpdHkiOiJ0b2lsZXQ6cmVhZCJ9LHsiYXV0aG9yaXR5IjoidG9pbGV0OndyaXRlIn0seyJhdXRob3JpdHkiOiJST0xFX0FETUlOIn1dLCJpYXQiOjE2MzcxMzU2NDMsImV4cCI6MTYzNzk2NzYwMH0.Fgul5a-5dARb0r1J5qcmbQnlh59yTlFziQd9_TdW72F0v3B2OoE4nyfnAcqkULltzNg7bonO4V2_kRrXop-hyA'
+                    'Content-Type': 'application/json',
                 }
             })
                 .then(res => res.json())
