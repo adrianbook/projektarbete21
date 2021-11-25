@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
-const MapComponent = (props) => (
+const MapComponent = (props) => { 
+return (
   <MapContainer center={props.pos} zoom={props.zoom} scrollWheelZoom={props.scrollwheel} id="map">
   <TileLayer
     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -16,6 +17,6 @@ const MapComponent = (props) => (
       ))
   }
 </MapContainer>
-)
+)}
 
 export default MapComponent
