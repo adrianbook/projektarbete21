@@ -1,5 +1,5 @@
 
-FROM openjdk:11
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} toiletproject-0.0.1-SNAPSHOT.jar
-ENTRYPOINT ["java","-jar","toiletproject-0.0.1-SNAPSHOT.jar"]
+FROM tomcat
+ARG WAR_FILE=build/libs
+COPY ${WAR_FILE}/toiletproject-0.0.1-SNAPSHOT.war /usr/local/tomcat/webapps/
+# ["java","-jar","toiletproject-0.0.1-SNAPSHOT.jar"]
