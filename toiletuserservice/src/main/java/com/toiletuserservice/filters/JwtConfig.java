@@ -1,19 +1,15 @@
-package com.jasb.toiletproject.jwt;
+package com.toiletuserservice.filters;
 
-import com.google.common.net.HttpHeaders;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
+import org.springframework.http.HttpHeaders;
 
 @Configuration
 @ConfigurationProperties(prefix = "application.jwt")
 public class JwtConfig {
     private String secretKey;
     private String tokenPrefix;
-    private Integer tokenExpirationAfterDays;
+    private Integer tokenExpirationAfterMiliseconds;
 
     public JwtConfig() {}
 
@@ -33,12 +29,12 @@ public class JwtConfig {
         this.tokenPrefix = tokenPrefix;
     }
 
-    public Integer getTokenExpirationAfterDays() {
-        return tokenExpirationAfterDays;
+    public Integer getTokenExpirationAfterMiliseconds() {
+        return tokenExpirationAfterMiliseconds;
     }
 
-    public void setTokenExpirationAfterDays(Integer tokenExpirationAfterDays) {
-        this.tokenExpirationAfterDays = tokenExpirationAfterDays;
+    public void setTokenExpirationAfterMiliseconds(Integer tokenExpirationAfterMiliseconds) {
+        this.tokenExpirationAfterMiliseconds = tokenExpirationAfterMiliseconds;
     }
     public String getAuthorizationHeader() {
         return HttpHeaders.AUTHORIZATION;
