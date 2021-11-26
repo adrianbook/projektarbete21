@@ -35,8 +35,7 @@ public class ToiletRestController {
     }
 
 
-    @PostMapping()
-    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    @PostMapping("/create")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
         log.info("Add ing new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude() );
         data.save(t);

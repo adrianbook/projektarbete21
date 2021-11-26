@@ -10,7 +10,7 @@ function App() {
   ])
 
   useEffect(() => {
-  let fetching =  fetch("http://localhost:8080/toilets", {method: "GET"})
+  let fetching =  fetch("http://localhost:9091/api/v1/toilets/getalltoilets", {method: "GET"})
                 fetching.then(res => {
                 console.log(res.status)
                 return  res.json()

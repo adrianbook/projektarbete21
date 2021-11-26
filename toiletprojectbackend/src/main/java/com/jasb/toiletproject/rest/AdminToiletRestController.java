@@ -13,7 +13,6 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("admin/api/v1/toilets")
-@CrossOrigin("localhost:5500")
 public class AdminToiletRestController {
 
 
