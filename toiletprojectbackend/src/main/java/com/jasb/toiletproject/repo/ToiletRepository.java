@@ -1,4 +1,4 @@
-package com.jasb.toiletproject.data;
+package com.jasb.toiletproject.repo;
 
 import com.jasb.toiletproject.domain.Toilet;
 import org.springframework.data.jpa.repository.JpaRepository;
