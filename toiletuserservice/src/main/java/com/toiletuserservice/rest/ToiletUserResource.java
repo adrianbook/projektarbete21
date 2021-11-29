@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * Restcontoller for userservice usin Spring boot
+ * Restcontoller for userservice using Spring boot
  * base url i /api/
  * Written by JASB
  */
@@ -28,7 +28,7 @@ public class ToiletUserResource {
 
     /**
      * Endpoint for returning all users from the database
-     * enpoint is /api/users abd accepts a REST GET request
+     * endpoint is /api/users abd accepts a REST GET request
      * @return ResponseEntity<List<ToiletUser>>> a list of toiletusers in the form of a ResponseEntity
      * Accessible to a user who sends a JWT with the Role ROLE_SUPER_ADMIN
      */
