@@ -32,11 +32,11 @@ services:
     hostname: backend-dev
     depends_on:
       - db
-    build:
-      context: ./toiletprojectbackend
-      dockerfile: Dockerfile
-    #volumes:
-     #- './toiletprojectbackend/build/libs/toiletproject-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/toiletproject-0.0.1-SNAPSHOT.war'
+    #build: .
+    image: openjdk:11
+    volumes:
+      - './toiletprojectbackend/build/libs/toiletproject-0.0.1-SNAPSHOT.jar:/usr/toiletproject-0.0.1-SNAPSHOT.jar'
+
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db-dev:3306/toiletdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
@@ -45,4 +45,22 @@ services:
       - 9091:8080
     links:
       - db:db
-
+    entrypoint: ["java","-jar","/usr/toiletproject-0.0.1-SNAPSHOT.jar"]
+  userservice:
+    container_name: userservice-dev
+    hostname: userservice-dev
+    depends_on:
+      - db
+    #build: .
+    image: openjdk:11
+    volumes:
+      - './toiletuserservice/build/libs/toileruserservice-0.0.1-SNAPSHOT.jar:/usr/toileruserservice-0.0.1-SNAPSHOT.jar'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-dev:3306/userservicedb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Yrgo2021
+    ports:
+      - 8080:8080
+    links:
+      - db:db
+    entrypoint: ["java","-jar","/usr/toileruserservice-0.0.1-SNAPSHOT.jar"]

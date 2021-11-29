@@ -2,6 +2,7 @@ package com.toiletuserservice.security;
 
 import com.toiletuserservice.filters.CustomAuthenticationFilter;
 import com.toiletuserservice.filters.JwtConfig;
+import com.toiletuserservice.filters.JwtTokenVerifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,12 +45,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/api/user/save", "/api/role/addtouser")
+                .antMatchers("/login", "/api/user/save")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), jwtConfig));
+                .addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), jwtConfig))
+                .addFilterBefore(new JwtTokenVerifier(jwtConfig), CustomAuthenticationFilter.class);
     }
 
     @Bean

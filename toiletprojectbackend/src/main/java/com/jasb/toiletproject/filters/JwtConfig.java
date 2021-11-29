@@ -1,4 +1,4 @@
-package com.jasb.toiletproject.security;
+package com.jasb.toiletproject.filters;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -11,7 +11,8 @@ public class JwtConfig {
     private String tokenPrefix;
     private Integer tokenExpirationAfterDays;
 
-    public JwtConfig() {}
+    public JwtConfig() {
+    }
 
     public String getSecretKey() {
         return secretKey;
@@ -36,6 +37,7 @@ public class JwtConfig {
     public void setTokenExpirationAfterDays(Integer tokenExpirationAfterDays) {
         this.tokenExpirationAfterDays = tokenExpirationAfterDays;
     }
+
     public String getAuthorizationHeader() {
         return HttpHeaders.AUTHORIZATION;
     }
