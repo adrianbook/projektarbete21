@@ -6,6 +6,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+/**
+ * JPA Entity representation of a Toilet in the database
+ * Written by JASB
+ */
 @Entity
 @Data
 @AllArgsConstructor
