@@ -17,6 +17,13 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+/**
+ * Implementation of the ToiletUserService interface and the UserDetailsService interface.
+ * Uses the JPA repositories ToiletUserRepo and RoleRepo to interact with the database
+ * Uses passwordEncoder to secure the passwords
+ * Written by JASB
+ */
 @Service @RequiredArgsConstructor @Transactional @Slf4j
 public class ToiletUserServiceImpl implements ToiletUserService, UserDetailsService {
 
@@ -24,7 +31,13 @@ public class ToiletUserServiceImpl implements ToiletUserService, UserDetailsServ
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
 
-
+    /**
+     * Method that searches for a user by username
+     * @Overrie from UserDetailsService
+     * @param username
+     * @return userdetails based on the responce from database
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         ToiletUser toiletUser = userRepo.findToiletUserByUsername(username);
@@ -44,33 +57,61 @@ public class ToiletUserServiceImpl implements ToiletUserService, UserDetailsServ
                                                 authorities
                                                 );
     }
+
+    /**
+     * Saves a new ToiletUser to the database
+     * Sets default authority to ROLE_APPUSER
+     * @Override from ToiletUserService
+     * @param toiletUser
+     * @return a representation of the created ToiletUser
+     */
     @Override
     public ToiletUser saveToiletUser(ToiletUser toiletUser) {
         log.info("Saving new user {} to the database", toiletUser.getUsername());
         toiletUser.setPassword(passwordEncoder.encode(toiletUser.getPassword()));
+        toiletUser.getRoles().add(roleRepo.findByName("ROLE_APPUSER"));
         return userRepo.save(toiletUser);
     }
 
+    /**
+     * Saves a new role to the database
+     * @param role
+     * @return a representation of the created Role
+     */
     @Override
     public Role saveRole(Role role) {
         log.info("Saving new role {} to the database", role.getName());
         return roleRepo.save(role);
     }
 
+    /**
+     * adds a new Role to a User
+     * @param username
+     * @param rolename
+     */
     @Override
-    public void addRoleToUser(String username, String roleName) {
-        log.info("Adding role {} to user {}",roleName, username );
+    public void addRoleToUser(String username, String rolename) {
+        log.info("Adding role {} to user {}",rolename, username );
         ToiletUser toiletUser = userRepo.findToiletUserByUsername(username);
-        Role role = roleRepo.findByName(roleName);
+        Role role = roleRepo.findByName(rolename);
         toiletUser.getRoles().add(role);
     }
 
+    /**
+     * Gets a toiletuser from the database based on a username
+     * @param username
+     * @return a toiletUser
+     */
     @Override
     public ToiletUser getToiletUser(String username) {
         log.info("Fetching user {}", username );
         return userRepo.findToiletUserByUsername(username);
     }
 
+    /**
+     * Gets all toiletUsers
+     * @return a list of ToiletUsers
+     */
     @Override
     public List<ToiletUser> getToiletUsers() {
         return userRepo.findAll();

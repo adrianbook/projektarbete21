@@ -1,6 +1,7 @@
 package com.jasb.toiletproject.security;
 
 import com.jasb.toiletproject.filters.CustomAuthorizationFilter;
+import com.jasb.toiletproject.filters.JwtConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +34,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/toilets/getalltoilets")
+                .antMatchers("/api/v1/toilets/getalltoilets", "/api/v1/toilets/create")
                 .permitAll()
-                .and().authorizeRequests()
+                .and()
+                .authorizeRequests()
                 .anyRequest()
                 .authenticated()
                 .and()

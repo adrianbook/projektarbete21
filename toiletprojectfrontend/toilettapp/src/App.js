@@ -6,7 +6,7 @@ import CreateUser from "./routes/CreateUser";
 const App = () => {
 
     return (
-        <BrowserRouter>
+  <BrowserRouter>
     <Routes>
       <Route path="/" element={<MapPage/>} />
       <Route path="/login" element={<Login/>}/>
