@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 /**
- * Restcontoller for userservice usin Spring boot
+ * Restcontoller for userservice using Spring boot
  * base url i /api/
  * Written by JASB
  */
@@ -28,7 +28,7 @@ public class ToiletUserResource {
 
     /**
      * Endpoint for returning all users from the database
-     * enpoint is /api/users abd accepts a REST GET request
+     * endpoint is /api/users abd accepts a REST GET request
      * @return ResponseEntity<List<ToiletUser>>> a list of toiletusers in the form of a ResponseEntity
      * Accessible to a user who sends a JWT with the Role ROLE_SUPER_ADMIN
      */
@@ -48,9 +48,11 @@ public class ToiletUserResource {
      * @return ResponseEntity<ToiletUser> a conformation and representation of the new user
      */
     @PostMapping("/user/save")
-    public ResponseEntity<ToiletUser> saveToiletUsers(@RequestBody ToiletUser toiletUser) {
+    public ResponseEntity<String> saveToiletUsers(@RequestBody ToiletUser toiletUser) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveToiletUser(toiletUser));
+        userService.saveToiletUser(toiletUser);
+        // TODO får nu tillbaka "User created" även om det inte funkade
+        return ResponseEntity.created(uri).body("User created");
     }
 
     /**
