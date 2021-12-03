@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { loginCall } from "../servercalls/Calls"
 
 export default function Login() {
   const [loginInfo, setLoginInfo] = useState({
@@ -19,13 +20,16 @@ export default function Login() {
     e.preventDefault()
     console.log(`name: ${loginInfo.username} \npassword: ${loginInfo.password}`)
     //login to server
-    const loginInfoJson = JSON.stringify(loginInfo)
-    localStorage.setItem("loggedInUser", loginInfoJson) //kan beskådas i devTools -> application -> localstorage på chrome
-    setLoggedIn(true)
+    loginCall(loginInfo)
+        .then( token => {
+            sessionStorage.setItem("loggedInUser", token) //kan beskådas i devTools -> application -> localstorage på chrome
+      setLoggedIn(true)
+    })
   }
 
   const logOut = () => {
-    setLoggedIn(false)
+      sessionStorage.setItem("loggedInUser", "") //kan beskådas i devTools -> application -> localstorage på chrome
+      setLoggedIn(false)
     setLoginInfo({
       username: "",
       password: ""
