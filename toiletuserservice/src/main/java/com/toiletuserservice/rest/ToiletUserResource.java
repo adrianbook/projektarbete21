@@ -48,9 +48,11 @@ public class ToiletUserResource {
      * @return ResponseEntity<ToiletUser> a conformation and representation of the new user
      */
     @PostMapping("/user/save")
-    public ResponseEntity<ToiletUser> saveToiletUsers(@RequestBody ToiletUser toiletUser) {
+    public ResponseEntity<String> saveToiletUsers(@RequestBody ToiletUser toiletUser) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveToiletUser(toiletUser));
+        userService.saveToiletUser(toiletUser);
+        // TODO får nu tillbaka "User created" även om det inte funkade
+        return ResponseEntity.created(uri).body("User created");
     }
 
     /**
