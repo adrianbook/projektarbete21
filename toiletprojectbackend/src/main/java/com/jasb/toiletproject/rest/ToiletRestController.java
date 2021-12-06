@@ -32,39 +32,31 @@ public class ToiletRestController {
         return new ToiletList(data.findAll());
     }
 
-
-/*    @PostMapping("/create")
+    @PostMapping("/create")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
+        List<Toilet> currentToilets = data.findAll();
+        double startLatitude = t.getLatitude() - 0.00009;
+        double endLatitude = t.getLatitude() + 0.00009;
+        double startLongitude = t.getLongitude() - 0.00009;
+        double endLongitude = t.getLongitude() + 0.00009;
+        double lat = t.getLatitude();
+        double lon = t.getLongitude();
+        for (Toilet toilet :
+                currentToilets) {
+            if(toilet.getLatitude() > startLatitude &&
+                    toilet.getLatitude() < endLatitude &&
+                    toilet.getLongitude() > startLongitude &&
+                    toilet.getLongitude() < endLongitude){
+                //throw new ToiletTooCloseException();
+                return new ResponseEntity<>("Toilet to close to another " +
+                        "toilet", HttpStatus.BAD_REQUEST);
+            }
+        }
         log.info("Add ing new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude());
         data.save(t);
         return new ResponseEntity<Toilet>(t, HttpStatus.CREATED);
-    }*/
-@PostMapping("/create")
-@PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-public ResponseEntity addToilet(@RequestBody Toilet t) {
-    List<Toilet> currentToilets = data.findAll();
-    double startLatitude = t.getLatitude() - 0.00009;
-    double endLatitude = t.getLatitude() + 0.00009;
-    double startLongitude = t.getLongitude() - 0.00009;
-    double endLongitude = t.getLongitude() + 0.00009;
-    double lat = t.getLatitude();
-    double lon = t.getLongitude();
-    for (Toilet toilet :
-            currentToilets) {
-        if(toilet.getLatitude() > startLatitude &&
-                toilet.getLatitude() < endLatitude &&
-                toilet.getLongitude() > startLongitude &&
-                toilet.getLongitude() < endLongitude){
-            //throw new ToiletTooCloseException();
-            return new ResponseEntity<>("Toilet to close to another " +
-                    "toilet", HttpStatus.BAD_REQUEST);
-        }
     }
-    log.info("Add ing new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude());
-    data.save(t);
-    return new ResponseEntity<Toilet>(t, HttpStatus.CREATED);
-}
 
     @GetMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
