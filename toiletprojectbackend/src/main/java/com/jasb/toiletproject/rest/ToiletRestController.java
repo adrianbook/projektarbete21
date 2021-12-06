@@ -48,7 +48,6 @@ public class ToiletRestController {
                     toilet.getLatitude() < endLatitude &&
                     toilet.getLongitude() > startLongitude &&
                     toilet.getLongitude() < endLongitude){
-                //throw new ToiletTooCloseException();
                 return new ResponseEntity<>("Toilet to close to another " +
                         "toilet", HttpStatus.BAD_REQUEST);
             }
