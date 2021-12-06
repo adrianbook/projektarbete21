@@ -1,6 +1,6 @@
 package com.jasb.toiletproject.filters;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * Gets the values from application.properties
  * Written by JASB
  */
-@Getter
+@Data
 @NoArgsConstructor
 @Configuration
 @ConfigurationProperties(prefix = "application.jwt")
