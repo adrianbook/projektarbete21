@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../App.css"
 import MapComponent from "../components/MapComponent";
+import scraping from "../components/scraping"
 
 function App() {
   const [markers, setMarkers] = useState([
-    [57.703, 11.964],
-    [57.709, 11.97]
+    ...scraping 
+
   ])
 
   useEffect(() => {
