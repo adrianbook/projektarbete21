@@ -13,6 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.*;
+
 
 /**
  * RestController class intended for uses by users.
@@ -43,15 +45,34 @@ public class ToiletRestController {
         return new ToiletList(data.findAll());
     }
 
+
     /**
      * POST endpoint for adding a new toilet. Open to anyone with
      * the ROLE_APPUSER credentiols.
      * @param t a JSON representation of a toilet in the request body
      * @return a JSON representation of the created toilet and a responsecode
      */
+
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
+        List<Toilet> currentToilets = data.findAll();
+        double startLatitude = t.getLatitude() - 0.00009;
+        double endLatitude = t.getLatitude() + 0.00009;
+        double startLongitude = t.getLongitude() - 0.00009;
+        double endLongitude = t.getLongitude() + 0.00009;
+        double lat = t.getLatitude();
+        double lon = t.getLongitude();
+        for (Toilet toilet :
+                currentToilets) {
+            if(toilet.getLatitude() > startLatitude &&
+                    toilet.getLatitude() < endLatitude &&
+                    toilet.getLongitude() > startLongitude &&
+                    toilet.getLongitude() < endLongitude){
+                return new ResponseEntity<>("Toilet to close to another " +
+                        "toilet", HttpStatus.BAD_REQUEST);
+            }
+        }
         log.info("Add ing new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude());
         data.save(t);
         return new ResponseEntity<Toilet>(t, HttpStatus.CREATED);

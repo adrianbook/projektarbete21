@@ -11,8 +11,8 @@ services:
       MYSQL_ROOT_PASSWORD: Yrgo2021
     ports:
       - 3306:3306
-    volumes:
-      - './dbVolume:/var/lib/mysql'
+    #volumes:
+     # - './dbVolume:/var/lib/mysql'
   frontend:
     container_name: frontend-dev
     hostname: frontend-dev
@@ -63,5 +63,3 @@ services:
     links:
       - db:db
     entrypoint: ["java","-jar","/usr/toileruserservice-0.0.1-SNAPSHOT.jar"]
-
-

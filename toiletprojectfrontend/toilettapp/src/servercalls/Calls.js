@@ -13,6 +13,17 @@
         .then(res => res.status === 201
         );
     }
+const sendNewToiletToServer = (toiletData) => {
+    return fetch('http://localhost:9091/api/v1/toilets/create', {
+        method: 'POST',
+        body: JSON.stringify({latitude: parseFloat(toiletData.latitude), longitude: parseFloat(toiletData.longitude)}),
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        }
+    } ).then(r => console.log(r.status))
+
+}
 
  const loginCall = (credentials) => {
      return fetch('http://localhost:8080/login', {
@@ -31,4 +42,4 @@
          );
  }
 
-export {sendNewUserToServer, loginCall}
+export {sendNewUserToServer, loginCall, sendNewToiletToServer}
