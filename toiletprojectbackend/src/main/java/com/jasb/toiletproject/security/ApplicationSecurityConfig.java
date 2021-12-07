@@ -34,7 +34,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/toilets/getalltoilets", "/api/v1/toilets/create")
+                .antMatchers("/api/v1/toilets/getalltoilets")
                 .permitAll()
                 .and()
                 .authorizeRequests()

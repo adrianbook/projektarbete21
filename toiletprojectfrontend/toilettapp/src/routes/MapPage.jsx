@@ -42,7 +42,8 @@ function App() {
     paddingBottom: "1rem"
   }}>
   <Link to="/login">Login</Link> |{" "}
-  <Link to="/createuser">Create User</Link>
+  <Link to="/createuser">Create User</Link> |{" "}
+      <Link to="/addtoilet">Add new loo</Link>
   </nav>
   <MapComponent pos={[57.703, 11.964]} zoom={13} scrollwheel={false} markers={markers}/>
   </div>
