@@ -48,11 +48,14 @@ public class ToiletRestController {
                     toilet.getLatitude() < endLatitude &&
                     toilet.getLongitude() > startLongitude &&
                     toilet.getLongitude() < endLongitude){
+                log.info("Did not add toilet at longitude: {} latitude: {}",
+                        toilet.getLongitude(), toilet.getLatitude() + " it's" +
+                                " to close to another toilet");
                 return new ResponseEntity<>("Toilet to close to another " +
                         "toilet", HttpStatus.BAD_REQUEST);
             }
         }
-        log.info("Add ing new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude());
+        log.info("Adding new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude());
         data.save(t);
         return new ResponseEntity<Toilet>(t, HttpStatus.CREATED);
     }

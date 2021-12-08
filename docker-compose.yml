@@ -6,13 +6,13 @@ services:
     hostname: db-dev
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    #restart: always
     environment:
       MYSQL_ROOT_PASSWORD: Yrgo2021
     ports:
       - 3306:3306
-    #volumes:
-     # - './dbVolume:/var/lib/mysql'
+    volumes:
+      - './dbVolume:/var/lib/mysql'
   frontend:
     container_name: frontend-dev
     hostname: frontend-dev
