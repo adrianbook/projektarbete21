@@ -11,15 +11,28 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * RestController class intended for uses by admin only.
+ * Contains endpoints that a basic user should not have
+ * access to.
+ *
+ * Written by JASB
+ */
 @Slf4j
 @RestController
 @RequestMapping("admin/api/v1/toilets")
 public class AdminToiletRestController {
 
-
+    /**
+     * Dependency injection of JPArepository
+     */
     @Autowired
     ToiletRepository data;
 
+    /**
+     * GET endpoint for getting all the toilets from the admin api
+     * @return a list of alla toilets in the database
+     */
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ToiletList allToilets() {
@@ -27,6 +40,11 @@ public class AdminToiletRestController {
         return new ToiletList(data.findAll());
     }
 
+    /**
+     * POST endpoint for adding a toilet from the admin api
+     * @param t JSON request body from the post request
+     * @return a json representation of the added toilet and a statuscode.
+     */
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
@@ -35,6 +53,12 @@ public class AdminToiletRestController {
         return new ResponseEntity<Toilet>(t, HttpStatus.CREATED);
     }
 
+    /**
+     * GET endpoint for getting a toilet by its assigned id
+     * takes an id in the path
+     * @param id id from the request uri
+     * @return
+     */
     @GetMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
@@ -42,6 +66,10 @@ public class AdminToiletRestController {
         return data.findById(id);
     }
 
+    /**
+     * DELETE endpoint to delete a toilet ny given id
+     * @param id id from the request uri
+     */
     @DeleteMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void deleteToilet(@PathVariable("id") long id) {
@@ -49,6 +77,12 @@ public class AdminToiletRestController {
         data.deleteById(id);
     }
 
+    /**
+     * PUT endpoint to update an existing Toilet in the database by given id
+     * @param id id from the request uri
+     * @param newToilet JSON representation of the new data to be saved in the toilet
+     * @return response
+     */
     @PutMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public Optional<Toilet> updateToilet(@PathVariable("id") long id, @RequestBody Toilet newToilet) {

@@ -13,7 +13,7 @@ COPY package-lock.json ./
 
 # add app
 COPY src ./src
-COPY public ./public
+COPY public /public
 RUN npm install
 
 # start app
