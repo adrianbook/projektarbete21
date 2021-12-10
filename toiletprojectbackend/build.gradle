@@ -27,6 +27,7 @@ dependencies {
 	testImplementation 'org.apache.httpcomponents:httpclient'
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	implementation 'com.auth0:java-jwt:3.18.2'
+	implementation files("../entities/build/libs/entities-1.0.jar")
 }
 
 test {
