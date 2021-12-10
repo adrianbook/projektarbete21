@@ -36,6 +36,7 @@ services:
     image: openjdk:11
     volumes:
       - './toiletprojectbackend/build/libs/toiletproject-0.0.1-SNAPSHOT.jar:/usr/toiletproject-0.0.1-SNAPSHOT.jar'
+
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db-dev:3306/toiletdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
@@ -55,7 +56,7 @@ services:
     volumes:
       - './toiletuserservice/build/libs/toileruserservice-0.0.1-SNAPSHOT.jar:/usr/toileruserservice-0.0.1-SNAPSHOT.jar'
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db-dev:3306/userservicedb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-dev:3306/toiletdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: Yrgo2021
     ports:
@@ -63,3 +64,4 @@ services:
     links:
       - db:db
     entrypoint: ["java","-jar","/usr/toileruserservice-0.0.1-SNAPSHOT.jar"]
+
