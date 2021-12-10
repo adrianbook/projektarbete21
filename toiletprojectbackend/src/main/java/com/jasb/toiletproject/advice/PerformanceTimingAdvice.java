@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class PerformanceTimingAdvice {
-    @Around(value = "execution(* com.jasb.toiletproject.rest..*.*(..))")
+    @Around(value = "execution(* com.jasb.toiletproject.*.*.*(..))")
     public Object performTimingMeasurement (ProceedingJoinPoint method) throws Throwable {
         //before
         long startTime =System.nanoTime();

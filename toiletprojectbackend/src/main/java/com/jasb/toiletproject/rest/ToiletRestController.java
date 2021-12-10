@@ -40,8 +40,6 @@ public class ToiletRestController {
         double endLatitude = t.getLatitude() + 0.00009;
         double startLongitude = t.getLongitude() - 0.00009;
         double endLongitude = t.getLongitude() + 0.00009;
-        double lat = t.getLatitude();
-        double lon = t.getLongitude();
         for (Toilet toilet :
                 currentToilets) {
             if(toilet.getLatitude() > startLatitude &&

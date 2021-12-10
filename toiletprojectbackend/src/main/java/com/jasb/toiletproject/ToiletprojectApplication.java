@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
-@EnableAspectJAutoProxy/*(proxyTargetClass=true)*/
+@EnableAspectJAutoProxy
 public class ToiletprojectApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
