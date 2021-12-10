@@ -2,15 +2,16 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "../App.css"
 import MapComponent from "../components/MapComponent";
+import scraping from "../util/scraping"
 
 function App() {
   const [markers, setMarkers] = useState([
-    [57.703, 11.964],
-    [57.709, 11.97]
+    ...scraping 
+
   ])
 
   useEffect(() => {
-  let fetching =  fetch("http://localhost:8080/toilets", {method: "GET"})
+  let fetching =  fetch("http://localhost:9091/api/v1/toilets/getalltoilets", {method: "GET"})
                 fetching.then(res => {
                 console.log(res.status)
                 return  res.json()
@@ -41,7 +42,8 @@ function App() {
     paddingBottom: "1rem"
   }}>
   <Link to="/login">Login</Link> |{" "}
-  <Link to="/createuser">Create User</Link>
+  <Link to="/createuser">Create User</Link> |{" "}
+      <Link to="/addtoilet">Add new loo</Link>
   </nav>
   <MapComponent pos={[57.703, 11.964]} zoom={13} scrollwheel={false} markers={markers}/>
   </div>

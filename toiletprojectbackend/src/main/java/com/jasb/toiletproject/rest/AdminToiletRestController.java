@@ -1,7 +1,8 @@
 package com.jasb.toiletproject.rest;
 
-import com.jasb.toiletproject.data.ToiletRepository;
+import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.toiletproject.domain.Toilet;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,40 +11,82 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+/**
+ * RestController class intended for uses by admin only.
+ * Contains endpoints that a basic user should not have
+ * access to.
+ *
+ * Written by JASB
+ */
+@Slf4j
 @RestController
 @RequestMapping("admin/api/v1/toilets")
-@CrossOrigin("localhost:5500")
 public class AdminToiletRestController {
 
-
+    /**
+     * Dependency injection of JPArepository
+     */
     @Autowired
     ToiletRepository data;
 
+    /**
+     * GET endpoint for getting all the toilets from the admin api
+     * @return a list of alla toilets in the database
+     */
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ToiletList allToilets() {
+        log.info("Returning all toilets");
         return new ToiletList(data.findAll());
     }
 
+    /**
+     * POST endpoint for adding a toilet from the admin api
+     * @param t JSON request body from the post request
+     * @return a json representation of the added toilet and a statuscode.
+     */
     @PostMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
         data.save(t);
+        log.info("Adding new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude());
         return new ResponseEntity<Toilet>(t, HttpStatus.CREATED);
     }
-    @GetMapping (path = "{id}")
+
+    /**
+     * GET endpoint for getting a toilet by its assigned id
+     * takes an id in the path
+     * @param id id from the request uri
+     * @return
+     */
+    @GetMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
+        log.info("Finding toilet with id {}", id);
         return data.findById(id);
     }
 
-    @DeleteMapping (path = "{id}")
+    /**
+     * DELETE endpoint to delete a toilet ny given id
+     * @param id id from the request uri
+     */
+    @DeleteMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public void deleteToilet(@PathVariable("id") long id) {data.deleteById(id);}
+    public void deleteToilet(@PathVariable("id") long id) {
+        log.info("Deleting toilet with {}", id);
+        data.deleteById(id);
+    }
 
-    @PutMapping (path = "{id}")
+    /**
+     * PUT endpoint to update an existing Toilet in the database by given id
+     * @param id id from the request uri
+     * @param newToilet JSON representation of the new data to be saved in the toilet
+     * @return response
+     */
+    @PutMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public Optional<Toilet> updateStudent(@PathVariable("id") long id, @RequestBody Toilet newToilet) {
+    public Optional<Toilet> updateToilet(@PathVariable("id") long id, @RequestBody Toilet newToilet) {
+        log.info("Updating toilet with id {} with info {}", id, newToilet.toString());
         return data.findById(id)
                 .map(toilet -> {
                     toilet.setLongitude(newToilet.getLongitude());
@@ -51,5 +94,4 @@ public class AdminToiletRestController {
                     return data.save(toilet);
                 });
     }
-
 }

@@ -1,24 +1,18 @@
 package com.jasb.toiletproject.rest;
 
 import com.jasb.toiletproject.domain.Toilet;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Helper class for toilet API to return more than one toilet
+ */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class ToiletList {
     private List<Toilet> toilets;
-
-    public ToiletList() {};
-
-    public List<Toilet> getToilets() {
-        return toilets;
-    }
-
-    public void setToilets(List<Toilet> toilets) {
-        this.toilets = toilets;
-    }
-
-    public ToiletList(List<Toilet> toilets) {
-        this.toilets = toilets;
-    };
-
 }
