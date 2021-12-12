@@ -1,7 +1,7 @@
 package com.toiletuserservice.service;
 
-import com.toiletuserservice.domain.Role;
-import com.toiletuserservice.domain.ToiletUser;
+import entities.Role;
+import entities.ToiletUser;
 import com.toiletuserservice.repo.RoleRepo;
 import com.toiletuserservice.repo.ToiletUserRepo;
 import lombok.RequiredArgsConstructor;

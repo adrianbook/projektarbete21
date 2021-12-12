@@ -1,7 +1,7 @@
 package com.toiletuserservice.service;
 
-import com.toiletuserservice.domain.Role;
-import com.toiletuserservice.domain.ToiletUser;
+import entities.Role;
+import entities.ToiletUser;
 
 import java.util.List;
 
