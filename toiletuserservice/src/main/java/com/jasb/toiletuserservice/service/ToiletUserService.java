@@ -1,4 +1,4 @@
-package com.toiletuserservice.service;
+package com.jasb.toiletuserservice.service;
 
 import com.jasb.entities.Role;
 import com.jasb.entities.ToiletUser;

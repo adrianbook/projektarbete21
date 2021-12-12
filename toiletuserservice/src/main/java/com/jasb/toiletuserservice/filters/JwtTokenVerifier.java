@@ -1,4 +1,4 @@
-package com.toiletuserservice.filters;
+package com.jasb.toiletuserservice.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

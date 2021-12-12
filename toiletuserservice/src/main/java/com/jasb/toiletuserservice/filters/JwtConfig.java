@@ -1,4 +1,4 @@
-package com.toiletuserservice.filters;
+package com.jasb.toiletuserservice.filters;
 
 import lombok.Data;
 import lombok.Getter;

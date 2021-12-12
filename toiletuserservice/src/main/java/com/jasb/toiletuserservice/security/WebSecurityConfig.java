@@ -1,8 +1,8 @@
-package com.toiletuserservice.security;
+package com.jasb.toiletuserservice.security;
 
-import com.toiletuserservice.filters.CustomAuthenticationFilter;
-import com.toiletuserservice.filters.JwtConfig;
-import com.toiletuserservice.filters.JwtTokenVerifier;
+import com.jasb.toiletuserservice.filters.CustomAuthenticationFilter;
+import com.jasb.toiletuserservice.filters.JwtConfig;
+import com.jasb.toiletuserservice.filters.JwtTokenVerifier;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;

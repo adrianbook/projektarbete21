@@ -1,4 +1,4 @@
-package com.toiletuserservice.repo;
+package com.jasb.toiletuserservice.repo;
 
 import com.jasb.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
