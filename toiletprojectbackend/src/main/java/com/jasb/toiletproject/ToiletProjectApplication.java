@@ -5,20 +5,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Import;
 
-@EntityScan("entities")
 @SpringBootApplication
+@EntityScan("com.jasb.entities")
+//@Import({com.jasb.entities.Toilet.class})
 @EnableAspectJAutoProxy
-public class ToiletprojectApplication extends SpringBootServletInitializer {
+public class ToiletProjectApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ToiletprojectApplication.class, args);
+		SpringApplication.run(ToiletProjectApplication.class, args);
 	}
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(ToiletprojectApplication.class);
+		return application.sources(ToiletProjectApplication.class);
 	}
 }
+

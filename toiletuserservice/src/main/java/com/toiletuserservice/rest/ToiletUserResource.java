@@ -1,8 +1,8 @@
 package com.toiletuserservice.rest;
 
 
-import entities.Role;
-import entities.ToiletUser;
+import com.jasb.entities.Role;
+import com.jasb.entities.ToiletUser;
 import com.toiletuserservice.service.ToiletUserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

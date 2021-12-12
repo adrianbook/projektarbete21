@@ -1,4 +1,4 @@
-package entities;
+package com.jasb.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +21,5 @@ public class Role {
     private long id;
     @Column(unique=true)
     private String name;
-
-
 }
 

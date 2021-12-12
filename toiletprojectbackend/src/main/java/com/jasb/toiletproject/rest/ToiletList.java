@@ -1,6 +1,6 @@
 package com.jasb.toiletproject.rest;
 
-import entities.Toilet;
+import com.jasb.entities.Toilet;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

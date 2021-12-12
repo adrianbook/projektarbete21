@@ -22,7 +22,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok:1.18.22'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -31,7 +31,6 @@ dependencies {
 	implementation 'com.auth0:java-jwt:3.18.2'
 	implementation 'com.google.guava:guava:31.0.1-jre'
 	implementation files("../entities/build/libs/entities-1.0.jar")
-
 }
 
 test {
