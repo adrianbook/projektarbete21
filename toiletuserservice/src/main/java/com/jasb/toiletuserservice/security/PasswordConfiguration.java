@@ -1,4 +1,4 @@
-package com.toiletuserservice.security;
+package com.jasb.toiletuserservice.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

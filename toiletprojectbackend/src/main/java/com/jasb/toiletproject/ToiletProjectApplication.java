@@ -6,11 +6,9 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EntityScan("com.jasb.entities")
-//@Import({com.jasb.entities.Toilet.class})
 @EnableAspectJAutoProxy
 public class ToiletProjectApplication extends SpringBootServletInitializer {
 

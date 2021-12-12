@@ -1,9 +1,9 @@
-package com.toiletuserservice.rest;
+package com.jasb.toiletuserservice.rest;
 
 
 import com.jasb.entities.Role;
 import com.jasb.entities.ToiletUser;
-import com.toiletuserservice.service.ToiletUserService;
+import com.jasb.toiletuserservice.service.ToiletUserService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
