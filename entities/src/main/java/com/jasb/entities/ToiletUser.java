@@ -1,4 +1,4 @@
-package entities;
+package com.jasb.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,5 +28,4 @@ public class ToiletUser {
     private String email;
     @ManyToMany(fetch = FetchType.EAGER )
     private Collection<Role> roles = new ArrayList<>();
-
 }

@@ -1,7 +1,7 @@
 package com.jasb.toiletproject.repo;
 
 
-import entities.Toilet;
+import com.jasb.entities.Toilet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

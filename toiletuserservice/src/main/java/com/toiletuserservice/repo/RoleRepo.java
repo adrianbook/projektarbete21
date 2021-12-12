@@ -1,6 +1,6 @@
 package com.toiletuserservice.repo;
 
-import entities.Role;
+import com.jasb.entities.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepo extends JpaRepository<Role, Long> {

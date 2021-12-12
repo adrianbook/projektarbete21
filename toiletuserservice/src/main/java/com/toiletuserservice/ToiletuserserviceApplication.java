@@ -1,7 +1,7 @@
 package com.toiletuserservice;
 
-import entities.Role;
-import entities.ToiletUser;
+import com.jasb.entities.Role;
+import com.jasb.entities.ToiletUser;
 import com.toiletuserservice.service.ToiletUserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.ArrayList;
 
 @SpringBootApplication
-@EntityScan("entities")
+@EntityScan("com.jasb.entities")
 public class ToiletuserserviceApplication {
 
 	public static void main(String[] args) {
