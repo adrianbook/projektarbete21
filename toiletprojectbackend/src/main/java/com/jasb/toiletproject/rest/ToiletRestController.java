@@ -2,7 +2,7 @@ package com.jasb.toiletproject.rest;
 
 
 import com.jasb.toiletproject.repo.ToiletRepository;
-import entities.Toilet;
+import com.jasb.entities.Toilet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,18 +1,16 @@
-package com.toiletuserservice;
+package com.jasb.toiletuserservice;
 
-import com.toiletuserservice.domain.Role;
-import com.toiletuserservice.domain.ToiletUser;
-import com.toiletuserservice.service.ToiletUserService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-
 @SpringBootApplication
+@EntityScan("com.jasb.entities")
+@EnableAspectJAutoProxy
 public class ToiletuserserviceApplication {
 
 	public static void main(String[] args) {

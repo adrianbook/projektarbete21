@@ -1,9 +1,9 @@
-package com.toiletuserservice.service;
+package com.jasb.toiletuserservice.service;
 
-import com.toiletuserservice.domain.Role;
-import com.toiletuserservice.domain.ToiletUser;
-import com.toiletuserservice.repo.RoleRepo;
-import com.toiletuserservice.repo.ToiletUserRepo;
+import com.jasb.entities.Role;
+import com.jasb.entities.ToiletUser;
+import com.jasb.toiletuserservice.repo.RoleRepo;
+import com.jasb.toiletuserservice.repo.ToiletUserRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

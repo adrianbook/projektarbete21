@@ -1,4 +1,4 @@
-package com.toiletuserservice;
+package com.jasb.toiletuserservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
