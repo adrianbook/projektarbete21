@@ -4,11 +4,12 @@ import "../App.css"
 import MapComponent from "../components/MapComponent";
 import scraping from "../util/scraping"
 
-function App() {
+function App(props) {
   const [markers, setMarkers] = useState([
     ...scraping 
-
   ])
+
+  let newToilet = props?.location?.state || false
 
   useEffect(() => {
   let fetching =  fetch("http://localhost:9091/api/v1/toilets/getalltoilets", {method: "GET"})
@@ -31,8 +32,23 @@ function App() {
                .catch(error => {
                  console.log("Error: "+error)
                })
-  
   }, [setMarkers])
+
+  useEffect(() =>{
+    if (newToilet) {
+      setMarkers((prevState) => ([
+        ...prevState.markers,
+        newToilet
+      ]))
+    }
+  }, [newToilet])
+
+  const addMarker = marker => {
+    setMarkers([
+      ...markers,
+      marker
+    ])
+  } 
 
   return (
   <div>

@@ -21,7 +21,11 @@ const sendNewToiletToServer = (toiletData) => {
             'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
             'Content-Type': 'application/json'
         }
-    } ).then(r => console.log(r.status))
+    } ).then(r => {
+        if (r.status !== 201) throw new Error()
+        console.log(r.status)
+        return r.json()
+    })
 
 }
 
