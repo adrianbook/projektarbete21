@@ -62,6 +62,9 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getSubject();
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+        if(roles.length == 0) {
+            roles[0] = "NO_ROLE";
+        }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         stream(roles).forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role));
