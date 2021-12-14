@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { sendNewToiletToServer } from "../servercalls/Calls";
 
 
 export default function AddToilet() {
+    const navigate = useNavigate()
     const [toiletData, setToiletData] = useState({
         latitude: "",
         longitude: ""
@@ -20,7 +21,12 @@ export default function AddToilet() {
     const handleSubmit = e => {
         e.preventDefault()
        sendNewToiletToServer(toiletData)
-
+            .then(newlyAddedToilet => {
+                navigate({
+                    pathname: '/',
+                    state: newlyAddedToilet
+                })
+            })
     }
 
     return(
