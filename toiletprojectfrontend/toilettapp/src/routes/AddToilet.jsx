@@ -21,10 +21,10 @@ export default function AddToilet() {
     const handleSubmit = e => {
         e.preventDefault()
        sendNewToiletToServer(toiletData)
-            .then(r => {
+            .then(newlyAddedToilet => {
                 navigate({
                     pathname: '/',
-                    state: r
+                    state: newlyAddedToilet
                 })
             })
     }
