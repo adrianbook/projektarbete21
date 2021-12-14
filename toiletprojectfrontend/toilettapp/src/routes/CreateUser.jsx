@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { sendNewUserToServer }  from "../servercalls/Calls"
+import { sendNewUserToServer, loginCall }  from "../servercalls/Calls"
 
-export default function CreateUser() {
+export default function CreateUser(props) {
   const [userData, setUserData] = useState({
     name: "",
     username: "",
@@ -10,7 +10,7 @@ export default function CreateUser() {
     password: "",
     confirmPassword:""
   });
-  const [userCreated, setUserCreated] = useState(false)
+  const navigate = useNavigate()
 
   const handleChange = e => {
     setUserData({
@@ -30,11 +30,16 @@ export default function CreateUser() {
                   email: userData.email,
                   password: userData.password
                   })
-          .then( res => {
-            // TODO fixa bra meddelande i prompten
-            if (!res) {prompt("Error creating user")}
-            // TODO logga in direkt här
-            setUserCreated(res)
+          .then( userAdded => {
+            if (!userAdded) throw new Error("error creating user")
+            return loginCall({username: userData.username, password: userData.password})  
+          })
+          .catch((e) => {
+            prompt("Error creating user")
+            console.log(e)
+          }).then((token) => {
+            sessionStorage.setItem("loggedInUser", token)
+            //post userdata to server
             setUserData({
               name: "",
               username: "",
@@ -42,26 +47,20 @@ export default function CreateUser() {
               password: "",
               confirmPassword:""
             })
+            props.setLoginInfo({
+              loggedIn: true
+            })
+            navigate({
+              pathname: "/"
+            })
           })
-      //post userdata to server
-
     }
   };
-
-  const createNewUser = e => {
-    setUserCreated(false)
-  }
-
-  let createUserMode = {}
-  let userCreatedMode = {}
-
-  if (userCreated) createUserMode.display = "none"
-  else userCreatedMode.display = "none"
 
     return (
       <main style={{ padding: "1rem 0" }}>
         <h2>Create User</h2>
-        <form onSubmit={handleSubmit} style={createUserMode}>
+        <form onSubmit={handleSubmit}>
           <label>
             Name:
             <input
@@ -120,11 +119,6 @@ export default function CreateUser() {
           <button>submit</button>
         </form>
         <br/>
-        <div style={userCreatedMode}>
-          <h3>Account created</h3>
-          <br/>
-          <button onClick={createNewUser}>Create another</button>
-        </div>
         <Link to="/">To toiletmap</Link>
       </main>
     );

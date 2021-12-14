@@ -30,6 +30,8 @@ const sendNewToiletToServer = (toiletData) => {
 }
 
  const loginCall = (credentials) => {
+     console.log("inside loginCall")
+     console.log(credentials)
      return fetch('http://localhost:8080/login', {
          method: 'POST',
          body: new URLSearchParams({

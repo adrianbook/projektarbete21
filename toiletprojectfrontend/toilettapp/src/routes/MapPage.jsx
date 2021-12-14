@@ -4,7 +4,7 @@ import "../App.css"
 import MapComponent from "../components/MapComponent";
 import scraping from "../util/scraping"
 
-function App(props) {
+function MapPage(props) {
   const [markers, setMarkers] = useState([
     ...scraping 
   ])
@@ -68,4 +68,4 @@ function App(props) {
   */
 }
 
-export default App;
+export default MapPage;
