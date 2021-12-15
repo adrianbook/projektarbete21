@@ -62,6 +62,7 @@ const App = () => {
   <button style={loggedOutVisible}><Link to="/login">Login</Link></button> |{" "}
   <button style={loggedOutVisible}><Link to="/createuser">Create User</Link> </button>|{" "}
   <button style={loggedInVisible}><Link to="/addtoilet">Add new loo</Link></button>
+
     <Routes>
       <Route path="/" element={<MapPage loggedIn={loginInfo.loggedIn} />} />
       <Route path="/login" element={<Login

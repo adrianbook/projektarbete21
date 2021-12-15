@@ -1,0 +1,6 @@
+com/jasb/entities/Role.java
+ com.jasb.entities.Role
+com/jasb/entities/Toilet.java
+ com.jasb.entities.Toilet
+com/jasb/entities/ToiletUser.java
+ com.jasb.entities.ToiletUser

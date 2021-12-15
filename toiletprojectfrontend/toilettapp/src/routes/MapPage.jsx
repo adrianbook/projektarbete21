@@ -48,19 +48,11 @@ function MapPage(props) {
       ...markers,
       marker
     ])
-  } 
+  }
 
   return (
   <div>
   <h1>Toilett..</h1>
-  <nav style={{
-    borderBottom: "solid 1px",
-    paddingBottom: "1rem"
-  }}>
-  <Link to="/login">Login</Link> |{" "}
-  <Link to="/createuser">Create User</Link> |{" "}
-      <Link to="/addtoilet">Add new loo</Link>
-  </nav>
   <MapComponent pos={[57.703, 11.964]} zoom={13} scrollwheel={false} markers={markers}/>
   </div>
   );
