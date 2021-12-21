@@ -21,9 +21,10 @@ const sendNewToiletToServer = (toiletData) => {
             'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
             'Content-Type': 'application/json'
         }
-    } ).then(r => {
-        if (r.status !== 201) throw new Error()
-        console.log(r.status)
+    } )
+    .then(r => {
+        if (r.status === 400) throw new Error("toilet allready exists")
+        if (r.status !== 201) throw new Error("unexpected error occured adding toilet")
         return r.json()
     })
 

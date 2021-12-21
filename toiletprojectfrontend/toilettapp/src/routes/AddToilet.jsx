@@ -27,6 +27,10 @@ export default function AddToilet() {
                     state: newlyAddedToilet
                 })
             })
+            .catch(error => {
+                console.log(error)
+                prompt(error.message)
+            })
     }
 
     return(
