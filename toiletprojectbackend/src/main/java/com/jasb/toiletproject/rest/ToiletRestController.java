@@ -1,10 +1,12 @@
 package com.jasb.toiletproject.rest;
 
 
-import com.jasb.toiletproject.repo.ToiletRepository;
+import com.jasb.entities.Rating;
 import com.jasb.entities.Toilet;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jasb.toiletproject.service.rating.RatingService;
+import com.jasb.toiletproject.service.toilet.ToCloseToAnotherToiletException;
+import com.jasb.toiletproject.service.toilet.ToiletService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -24,25 +26,30 @@ import java.util.*;
  *
  * Written by JASB
  */
-@Slf4j
+
 @RestController
 @RequestMapping("api/v1/toilets")
 @CrossOrigin
+@RequiredArgsConstructor
 public class ToiletRestController {
     /**
      * Dependencyinjection of JPArepostitory
      */
-    @Autowired
+   /* @Autowired
     ToiletRepository data;
+    @Autowired
+    RatingRepository ratingData;*/
+
+    private final ToiletService toiletService;
+    private final RatingService ratingService;
 
     /**
      * Open GET endpoint that returns all the toilets in the database
      * @return list of all the toilets in the database
      */
     @GetMapping("/getalltoilets")
-    public ToiletList allToilets() {
-        log.info("Returning all toilets");
-        return new ToiletList(data.findAll());
+    public List<Toilet> allToilets() {
+        return toiletService.getAllToilets();
     }
 
 
@@ -56,28 +63,23 @@ public class ToiletRestController {
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
-        List<Toilet> currentToilets = data.findAll();
-        double startLatitude = t.getLatitude() - 0.00009;
-        double endLatitude = t.getLatitude() + 0.00009;
-        double startLongitude = t.getLongitude() - 0.00009;
-        double endLongitude = t.getLongitude() + 0.00009;
-        for (Toilet toilet :
-                currentToilets) {
-            if(toilet.getLatitude() > startLatitude &&
-                    toilet.getLatitude() < endLatitude &&
-                    toilet.getLongitude() > startLongitude &&
-                    toilet.getLongitude() < endLongitude){
-                log.info("Did not add toilet at longitude: {} latitude: {}",
-                        toilet.getLongitude(), toilet.getLatitude() + " it's" +
-                                " to close to another toilet");
-                return new ResponseEntity<>("Toilet to close to another " +
-                        "toilet", HttpStatus.BAD_REQUEST);
-            }
+        try {
+            toiletService.addToilet(t);
+        } catch (ToCloseToAnotherToiletException e) {
+            return new ResponseEntity<>("Toilet to close to another " +
+                    "toilet", HttpStatus.BAD_REQUEST);
         }
-        log.info("Adding new toilet at longitude: {} latitude:  {}", t.getLongitude(), t.getLatitude());
-        data.save(t);
-        return new ResponseEntity<Toilet>(t, HttpStatus.CREATED);
+        return new ResponseEntity<>(t, HttpStatus.CREATED);
     }
+
+    @PostMapping("/createrating/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    public ResponseEntity addRating(@PathVariable long id,
+                                    @RequestBody Rating r) {
+        ratingService.addRating(id, r);
+        return new ResponseEntity<>(r, HttpStatus.CREATED);
+    }
+
 
     /**
      * GET endpont for getting a toilet by its assigned id Open to anyone with
@@ -88,7 +90,6 @@ public class ToiletRestController {
     @GetMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
-        log.info("Finding toilet with id {}", id);
-        return data.findById(id);
+        return toiletService.getToiletById(id);
     }
 }
