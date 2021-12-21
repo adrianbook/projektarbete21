@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import MapPage from "./routes/MapPage";
 import Login from "./routes/Login";
 import CreateUser from "./routes/CreateUser";
 import AddToilet from "./routes/AddToilet";
-import { loginCall } from "./servercalls/Calls";
+import { loginCall, verifyUser } from "./servercalls/Calls";
 
 
 const App = () => {
@@ -12,7 +12,33 @@ const App = () => {
     username: "",
     password: "",
     loggedIn: false
-});
+  });
+
+  const [display, setDisplay ] = useState({
+    loggedInVisible: loginInfo.loggedIn ? {} : {display: "none"},
+    loggedOutVisible: loginInfo.loggedIn ? {display: "none"} : {}
+  })
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("loggedInUser")
+    if (token) {
+      verifyUser(token)
+        .then(tokenValid => {
+          if (tokenValid) {
+            setLoginInfo({
+              loggedIn: true
+            })
+          }
+        })
+    }
+  }, [setLoginInfo])
+
+  useEffect(() => {
+    setDisplay({
+      loggedInVisible: loginInfo.loggedIn ? {} : {display: "none"},
+      loggedOutVisible: loginInfo.loggedIn ? {display: "none"} : {}
+    })
+  }, [loginInfo.loggedIn, setDisplay])
 
   const handleChange = (e) => {
     setLoginInfo({
@@ -23,7 +49,6 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(`name: ${loginInfo.username} \npassword: ${loginInfo.password}`)
     //login to server
     loginCall(loginInfo)
         .then( token => {
@@ -50,18 +75,16 @@ const App = () => {
   })
   }
 
-  let loggedInVisible = loginInfo.loggedIn ? {} : {display: "none"}
-  let loggedOutVisible = loginInfo.loggedIn ? {display: "none"} : {}
 
 
 
 
     return (
   <BrowserRouter>
-  <button onClick={logOut} style={loggedInVisible}>LOG OUT</button> | {" "}
-  <button style={loggedOutVisible}><Link to="/login">Login</Link></button> |{" "}
-  <button style={loggedOutVisible}><Link to="/createuser">Create User</Link> </button>|{" "}
-  <button style={loggedInVisible}><Link to="/addtoilet">Add new loo</Link></button>
+  <button onClick={logOut} style={display.loggedInVisible}>LOG OUT</button> | {" "}
+  <button style={display.loggedOutVisible}><Link to="/login">Login</Link></button> |{" "}
+  <button style={display.loggedOutVisible}><Link to="/createuser">Create User</Link> </button>|{" "}
+  <button style={display.loggedInVisible}><Link to="/addtoilet">Add new loo</Link></button>
 
     <Routes>
       <Route path="/" element={<MapPage loggedIn={loginInfo.loggedIn} />} />

@@ -48,4 +48,15 @@ const sendNewToiletToServer = (toiletData) => {
          );
  }
 
-export {sendNewUserToServer, loginCall, sendNewToiletToServer}
+const verifyUser = (token) => {
+    console.log("INSIDE VERIFYUSER")
+    return fetch('http://localhost:8080/api/verifyuser',{
+        method: "GET",
+        headers: {
+            'AUTHORIZATION': token,
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.status === 200)
+}
+
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser}
