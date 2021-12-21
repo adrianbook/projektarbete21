@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup , useMap} from 'react-leaflet';
 import React, { useEffect, useState } from "react";
 
+
 function LocationMarker() {
   const [position, setPosition] = useState(null);
   const map = useMap();
@@ -21,7 +22,7 @@ function LocationMarker() {
       </Marker>
   );
 }
-const MapComponent = (props) => { 
+const MapComponent = (props) => {
 return (
   <MapContainer center={props.pos} zoom={props.zoom} scrollWheelZoom={props.scrollwheel} id="map">
   <TileLayer

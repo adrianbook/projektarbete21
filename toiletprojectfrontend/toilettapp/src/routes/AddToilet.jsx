@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { sendNewToiletToServer } from "../servercalls/Calls";
 
 
+
 export default function AddToilet() {
     const navigate = useNavigate()
     const [toiletData, setToiletData] = useState({

@@ -4,12 +4,14 @@ import "../App.css"
 import MapComponent from "../components/MapComponent";
 import scraping from "../util/scraping"
 
+
 function MapPage(props) {
   const [markers, setMarkers] = useState([
-    ...scraping 
+    ...scraping,
   ])
 
   let newToilet = props?.location?.state || false
+
 
   useEffect(() => {
   let fetching =  fetch("http://localhost:9091/api/v1/toilets/getalltoilets", {method: "GET"})
