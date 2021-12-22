@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -32,6 +34,14 @@ public class ToiletUserResource {
      * @return ResponseEntity<List<ToiletUser>>> a list of toiletusers in the form of a ResponseEntity
      * Accessible to a user who sends a JWT with the Role ROLE_SUPER_ADMIN
      */
+
+    @GetMapping("/verifyuser")
+    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
+    public ResponseEntity<String> getTokenVerification() {
+        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        String result = (String) authentication.getPrincipal();
+        return ResponseEntity.ok(result);
+    }
 
     @GetMapping("/users")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN')")
