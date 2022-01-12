@@ -7,7 +7,7 @@
         .then(obj => {
         const positions = []
         obj.toilets.forEach(pos => {
-            positions.push([pos.longitude, pos.latitude])
+            positions.push([pos.latitude, pos.longitude])
         });
         return positions
     })
