@@ -3,35 +3,23 @@ import { useState, useEffect } from "react";
 import "../App.css"
 import MapComponent from "../components/MapComponent";
 import scraping from "../util/scraping"
+import {getAllToiletsCall} from "../servercalls/Calls";
+
 
 function MapPage(props) {
   const [markers, setMarkers] = useState([
-    ...scraping 
+    ...scraping,
   ])
 
   let newToilet = props?.location?.state || false
 
+
   useEffect(() => {
-  let fetching =  fetch("http://localhost:9091/api/v1/toilets/getalltoilets", {method: "GET"})
-                fetching.then(res => {
-                console.log(res.status)
-                return  res.json()
-                })
-                .then(obj => {
-                  console.log(obj)
-                    const positions = []
-                    obj.toilets.forEach(pos => {
-                        positions.push([pos.longitude, pos.latitude])
-                    });
-                    return positions
-                })
-                .then(positions => {
-                  setMarkers(positions)
-                  console.log(fetching)
-                })
-               .catch(error => {
-                 console.log("Error: "+error)
-               })
+    getAllToiletsCall()
+        .then(res => {
+          setMarkers(res)
+        })
+
   }, [setMarkers])
 
   useEffect(() =>{
