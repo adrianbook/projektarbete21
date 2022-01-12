@@ -77,6 +77,7 @@ public class ToiletRestController {
     public ResponseEntity addRating(@PathVariable long id,
                                     @RequestBody Rating r) {
         ratingService.addRating(id, r);
+        // Todo: returnerar alltid created just nu...
         return new ResponseEntity<>(r, HttpStatus.CREATED);
     }
 

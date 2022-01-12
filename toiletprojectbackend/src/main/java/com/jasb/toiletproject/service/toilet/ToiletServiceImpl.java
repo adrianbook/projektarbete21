@@ -2,6 +2,7 @@ package com.jasb.toiletproject.service.toilet;
 
 import com.jasb.entities.Rating;
 import com.jasb.entities.Toilet;
+import com.jasb.entities.ToiletUser;
 import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.toiletproject.util.Proximity;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +46,7 @@ public class ToiletServiceImpl implements ToiletService {
     }
 
     @Override
-    public void addRating(Long toiletId, Rating rating) {
+    public void addRating(Long toiletId, Rating rating/*, ToiletUser toiletUser*/) {
         /*toiletDao.addRating(toiletId, rating);*/
         Optional<Toilet> t = toiletDao.findById(toiletId);
         Toilet toilet = t.get();

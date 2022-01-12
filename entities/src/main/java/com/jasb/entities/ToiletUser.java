@@ -29,6 +29,6 @@ public class ToiletUser {
     @ManyToMany(fetch = FetchType.EAGER )
     private Collection<Role> roles = new ArrayList<>();
     // försvinner en user vill vi att dess rating skall försvinna
-    /*@OneToMany(cascade = CascadeType.ALL)
+    /*@OneToMany()
     private Collection<Rating> ratings = new ArrayList<>();*/
 }

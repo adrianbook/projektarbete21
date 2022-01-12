@@ -21,6 +21,6 @@ public class Rating implements Serializable {
     private long Id;
     private int rating;
     private String notes;
-    /*@ManyToOne
-    private Toilet toilet;*/
+    @OneToOne
+    private ToiletUser toiletUser;
 }
