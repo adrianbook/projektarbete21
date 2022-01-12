@@ -24,6 +24,7 @@ const sendNewToiletToServer = (toiletData) => {
     } )
     .then(r => {
         if (r.status === 400) throw new Error("toilet allready exists")
+        if (r.status === 403) throw new Error("toilet rejected. Is the account valid and assigned a role?")
         if (r.status !== 201) throw new Error("unexpected error occured adding toilet")
         return r.json()
     })
