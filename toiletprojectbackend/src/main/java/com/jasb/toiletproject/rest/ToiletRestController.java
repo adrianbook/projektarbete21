@@ -74,7 +74,7 @@ public class ToiletRestController {
 
     @PostMapping("/createrating/{id}")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public ResponseEntity addRating(@PathVariable long id,
+    public ResponseEntity addRating(@PathVariable ("id") long id,
                                     @RequestBody Rating r) {
         ratingService.addRating(id, r);
         // Todo: returnerar alltid created just nu...
