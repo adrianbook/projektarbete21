@@ -21,8 +21,13 @@ configurations {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+<<<<<<< HEAD
 	implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.2'
 	compileOnly 'javax.servlet:javax.servlet-api'
+=======
+    implementation 'org.jetbrains:annotations:20.1.0'
+    compileOnly 'javax.servlet:javax.servlet-api'
+>>>>>>> e05bd74c24a14a1a6cdcaeefcb240f0ac055f3cb
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

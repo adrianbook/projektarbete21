@@ -43,8 +43,8 @@ public class ToiletUserResource {
     /*@PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_ADMIN', " +
             "'ROLE_APPUSER')")*/
     public ResponseEntity<ToiletUser> getToiletUserByUserName(@PathVariable(
-            "username")String userName) {
-        return ResponseEntity.ok(userService.getToiletUser(userName));
+            "username")String username) {
+        return ResponseEntity.ok(userService.getToiletUser(username));
     }
 
 
