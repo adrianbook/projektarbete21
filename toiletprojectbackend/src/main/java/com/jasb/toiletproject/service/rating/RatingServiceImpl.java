@@ -48,6 +48,7 @@ public class RatingServiceImpl implements RatingService {
     public void addRating(long toiletId, Rating rating) {
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
                 SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.toString());
         String username = (String) authentication.getPrincipal();
 
         String url = "http://userservice-dev:8080/api/user/{username}";
