@@ -21,6 +21,7 @@ configurations {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux:2.6.2'
 	compileOnly 'javax.servlet:javax.servlet-api'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
