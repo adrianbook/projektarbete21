@@ -1,12 +1,16 @@
 package com.jasb.toiletproject.rest;
 
-
 import com.jasb.entities.Rating;
 import com.jasb.entities.Toilet;
 import com.jasb.toiletproject.service.rating.RatingService;
 import com.jasb.toiletproject.service.toilet.ToCloseToAnotherToiletException;
 import com.jasb.toiletproject.service.toilet.ToiletService;
 import lombok.RequiredArgsConstructor;
+import com.jasb.toiletproject.repo.ToiletRepository;
+import com.jasb.entities.Toilet;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -31,6 +35,7 @@ import java.util.*;
 @RequestMapping("api/v1/toilets")
 @CrossOrigin
 @RequiredArgsConstructor
+@Slf4j
 public class ToiletRestController {
     /**
      * Dependencyinjection of JPArepostitory
@@ -42,6 +47,9 @@ public class ToiletRestController {
 
     private final ToiletService toiletService;
     private final RatingService ratingService;
+
+
+
 
     /**
      * Open GET endpoint that returns all the toilets in the database
@@ -72,14 +80,14 @@ public class ToiletRestController {
         return new ResponseEntity<>(t, HttpStatus.CREATED);
     }
 
-    @PostMapping("/createrating/{id}")
+/*    @PostMapping("/createrating/{id}")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity addRating(@PathVariable ("id") long id,
                                     @RequestBody Rating r) {
         ratingService.addRating(id, r);
         // Todo: returnerar alltid created just nu...
         return new ResponseEntity<>(r, HttpStatus.CREATED);
-    }
+    }*/
 
 
     /**
@@ -93,4 +101,31 @@ public class ToiletRestController {
     public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
         return toiletService.getToiletById(id);
     }
+
+    @PutMapping("/rate")
+    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    public ResponseEntity setRatingForToilet(@RequestBody RatingRestObject ratingRestObject) {
+        try {
+            Rating addedRating = ratingService.addRating(ratingRestObject.toilet, ratingRestObject.rating, ratingRestObject.notes);
+            log.info("added rating: "+addedRating);
+            return new ResponseEntity<Rating>(addedRating, HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("unexpected error adding rating: ");
+            e.printStackTrace();
+            return new ResponseEntity("error adding rating", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
+
+class RatingRestObject {
+    Toilet toilet;
+    int rating;
+    String notes;
+
+    public RatingRestObject(Toilet toilet, int rating, String notes) {
+        this.toilet = toilet;
+        this.rating = rating;
+        this.notes = notes;
+    }
+}
+

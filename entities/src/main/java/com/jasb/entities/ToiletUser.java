@@ -18,7 +18,8 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ToiletUser {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     @Column(unique=true)
@@ -28,7 +29,5 @@ public class ToiletUser {
     private String email;
     @ManyToMany(fetch = FetchType.EAGER )
     private Collection<Role> roles = new ArrayList<>();
-    // försvinner en user vill vi att dess rating skall försvinna
-    /*@OneToMany()
-    private Collection<Rating> ratings = new ArrayList<>();*/
+
 }

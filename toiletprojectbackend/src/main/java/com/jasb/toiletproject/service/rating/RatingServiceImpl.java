@@ -18,6 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
+
 @Service @Slf4j @RequiredArgsConstructor
 public class RatingServiceImpl implements RatingService {
 
@@ -32,7 +34,8 @@ public class RatingServiceImpl implements RatingService {
 
 
     @Override
-    public void addRating(long toiletId, Rating rating) {
+    public Rating addRating(Toilet toilet, int ratingVal, String notes) {
+        Optional<Toilet> fetchedToilet = toiletService.getToiletById(toilet.getId());
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
                 SecurityContextHolder.getContext().getAuthentication();
         String username = (String) authentication.getPrincipal();
@@ -43,12 +46,10 @@ public class RatingServiceImpl implements RatingService {
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<ToiletUser> response = restTemplate.exchange(url,
                 HttpMethod.GET,entity, ToiletUser.class,username);
-        System.out.println(response.getBody());
+        Rating rating = ratingDao.upsertRating( new Rating(fetchedToilet.get(), response.getBody(), ratingVal, notes));
 
         log.info("Adding rating for {}", rating.getId());
-        rating.setToiletUser(response.getBody());
-        ratingDao.save(rating);
-        toiletService.addRating(toiletId, rating);
+        return rating;
     }
 
 }

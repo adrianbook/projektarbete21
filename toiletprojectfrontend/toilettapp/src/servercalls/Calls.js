@@ -5,16 +5,18 @@ const getAllToiletsCall = () => {
             return  res.json()
         })
         .then(obj => {
-            const positions = []
-            obj.toilets.forEach(pos => {
-                positions.push([pos.longitude, pos.latitude])
-            });
-            return positions
-        })
-        .catch(error => {
-            console.log("Error: "+error)
-        })
-}
+
+        const positions = []
+        obj.toilets.forEach(pos => {
+            positions.push([pos.latitude, pos.longitude])
+        });
+        return positions
+    })
+    .catch(error => {
+        console.log("Error: "+error)
+    })
+ }
+
  const sendNewUserToServer = (userData) => {
     return fetch('http://localhost:8080/api/user/save',
         {
@@ -37,9 +39,11 @@ const sendNewToiletToServer = (toiletData) => {
             'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
             'Content-Type': 'application/json'
         }
-    } ).then(r => {
-        if (r.status !== 201) throw new Error()
-        console.log(r.status)
+    } )
+    .then(r => {
+        if (r.status === 400) throw new Error("toilet allready exists")
+        if (r.status === 403) throw new Error("toilet rejected. Is the account valid and assigned a role?")
+        if (r.status !== 201) throw new Error("unexpected error occured adding toilet")
         return r.json()
     })
 

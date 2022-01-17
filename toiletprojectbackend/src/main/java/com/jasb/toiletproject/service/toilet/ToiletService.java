@@ -10,5 +10,5 @@ public interface ToiletService {
     public List<Toilet> getAllToilets();
     public void addToilet(Toilet toilet) throws ToCloseToAnotherToiletException;
     public Optional<Toilet> getToiletById(long id);
-    public void addRating(Long toiletId, Rating rating/*, String username*/);
+    /*public void addRating(Long toiletId, Rating rating*//*, String username*//*);*/
 }

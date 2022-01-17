@@ -45,15 +45,15 @@ public class ToiletServiceImpl implements ToiletService {
         return toiletDao.findById(id);
     }
 
-    @Override
-    public void addRating(Long toiletId, Rating rating/*, ToiletUser toiletUser*/) {
-        /*toiletDao.addRating(toiletId, rating);*/
+/*    @Override
+    public  Rating addRating(Long toiletId, Rating rating*//*, ToiletUser toiletUser*//*) {
+        *//*toiletDao.addRating(toiletId, rating);*//*
         Optional<Toilet> t = toiletDao.findById(toiletId);
         Toilet toilet = t.get();
-        /*toilet.setRatings(Collections.singleton(rating));*/
+        *//*toilet.setRatings(Collections.singleton(rating));*//*
         Collection<Rating> ratings = toilet.getRatings();
         ratings.add(rating);
         toilet.setRatings(ratings);
         toiletDao.save(toilet);
-    }
+    }*/
 }
