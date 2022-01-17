@@ -7,6 +7,7 @@ import com.jasb.entities.ToiletUser;
 import com.jasb.toiletproject.repo.RatingRepository;
 import com.jasb.toiletproject.repo.ToiletUserRepo;
 import com.jasb.toiletproject.service.toilet.ToiletService;
+import com.jasb.toiletproject.util.TokenHolder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -28,16 +29,16 @@ public class RatingServiceImpl implements RatingService {
     private final RestTemplate restTemplate;
 
 
+
+
     @Override
     public void addRating(long toiletId, Rating rating) {
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
                 SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.toString());
         String username = (String) authentication.getPrincipal();
-
         String url = "http://userservice-dev:8080/api/user/{username}";
         HttpHeaders headers = new HttpHeaders();
-
+        headers.add(HttpHeaders.AUTHORIZATION, TokenHolder.token);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<ToiletUser> response = restTemplate.exchange(url,

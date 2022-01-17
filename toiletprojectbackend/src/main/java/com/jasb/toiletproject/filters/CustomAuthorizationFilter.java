@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.base.Strings;
+import com.jasb.toiletproject.util.TokenHolder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +38,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
     private AuthenticationManager authenticationManager;
     private JwtConfig jwtConfig;
 
+
     /**
      * Constructor that calls the superclass constructor for authenticationmanager
      * @param authenticationManager
@@ -55,7 +57,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
      */
     private UsernamePasswordAuthenticationToken parseToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
-
+        TokenHolder.token = authorizationHeader;
         String token = authorizationHeader.substring(jwtConfig.getTokenPrefix().length());
         Algorithm algorithm = Algorithm.HMAC256(jwtConfig.getSecretKey().getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();
