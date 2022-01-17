@@ -16,7 +16,7 @@ public class RatingRepositoryImpl {
     @PersistenceContext
     private EntityManager em;
 
-    private Rating findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet) {
+    public Rating findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet) {
         Rating rating = (Rating) em.createQuery("select rating from Rating as rating where rating.toiletUser=:toiletUser and rating.toilet=:toilet")
                 .setParameter("toiletUser", toiletUser)
                 .setParameter("toilet", toilet)

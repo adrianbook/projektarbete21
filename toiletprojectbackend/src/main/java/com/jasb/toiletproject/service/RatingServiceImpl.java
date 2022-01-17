@@ -21,6 +21,10 @@ public class RatingServiceImpl implements RatingService {
     @Autowired
     RatingRepository ratingRepo;
 
+    public boolean checkIfRatingExistsForToiletAndToiletUser(Toilet toilet, String userName) {
+        return ratingRepo.findByToiletUserAndToilet(userRepo.findByUsername(userName), toilet) != null;
+    }
+
     @Override
     public Rating upsertRating(Toilet toilet, String userName, int ratingVal) {
         Toilet fetchedToilet = toiletRepo.getById(toilet.getId());
