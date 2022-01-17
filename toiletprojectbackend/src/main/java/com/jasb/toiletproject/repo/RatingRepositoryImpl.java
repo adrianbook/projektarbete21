@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Component
 @Transactional
@@ -16,24 +17,29 @@ public class RatingRepositoryImpl {
     @PersistenceContext
     private EntityManager em;
 
-    public Rating findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet) {
-        Rating rating = (Rating) em.createQuery("select rating from Rating as rating where rating.toiletUser=:toiletUser and rating.toilet=:toilet")
+    public Optional<Rating> findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet) {
+        Optional rating = (Optional) em.createQuery("select rating from Rating as rating where rating.toiletUser=:toiletUser and rating.toilet=:toilet")
                 .setParameter("toiletUser", toiletUser)
                 .setParameter("toilet", toilet)
                 .getResultList()
                 .stream()
-                .findFirst()
-                .orElse(null);
+                .findFirst();
+
         return rating;
     }
 
     public Rating upsertRating(Rating rating) {
+        /*
+
+        System.out.println("!!!!!!!!!!!!!!RATINGID!!!!!!!!!!!!!!!!!!!   "+rating.getId());
         Rating oldRating = findByToiletUserAndToilet(rating.getToiletUser(), rating.getToilet());
         if (oldRating != null) {
             rating.setId(oldRating.getId());
         }
-        em.merge(rating);
+         */
+        rating = em.merge(rating);
         rating.getToiletUser().setPassword(null);
+        rating.getToiletUser().setRoles(null);
         return rating;
     }
 }

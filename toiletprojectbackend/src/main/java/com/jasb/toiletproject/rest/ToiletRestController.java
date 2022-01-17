@@ -2,6 +2,9 @@ package com.jasb.toiletproject.rest;
 
 import com.jasb.entities.Rating;
 import com.jasb.entities.Toilet;
+import com.jasb.entities.ToiletUser;
+import com.jasb.toiletproject.exceptions.ToiletNotFoundException;
+import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
 import com.jasb.toiletproject.service.rating.RatingService;
 import com.jasb.toiletproject.service.toilet.ToCloseToAnotherToiletException;
 import com.jasb.toiletproject.service.toilet.ToiletService;
@@ -106,9 +109,35 @@ public class ToiletRestController {
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity setRatingForToilet(@RequestBody RatingRestObject ratingRestObject) {
         try {
-            Rating addedRating = ratingService.addRating(ratingRestObject.toilet, ratingRestObject.rating, ratingRestObject.notes);
-            log.info("added rating: "+addedRating);
-            return new ResponseEntity<Rating>(addedRating, HttpStatus.CREATED);
+            Rating rating;
+            Optional<Toilet> fetchedToilet = toiletService.getToiletById(ratingRestObject.toilet.getId());
+            if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(ratingRestObject.toilet.getId());
+
+            Toilet toilet = fetchedToilet.get();
+            ToiletUser user = ratingService.fetchToiletUser();
+
+            Optional<Rating> fetchedRating = ratingService.checkIfRatingExistForUserAndToilet(user, toilet);
+
+            if (fetchedRating.isEmpty()) {
+                rating = ratingService.addRating(
+                        new Rating(toilet, user, ratingRestObject.rating, ratingRestObject.notes));
+                log.info("added rating: "+rating);
+                return new ResponseEntity<Rating>(rating, HttpStatus.CREATED);
+            } else {
+                rating = fetchedRating.get();
+                rating.setRating(ratingRestObject.rating);
+                rating.setNotes(ratingRestObject.notes);
+                rating = ratingService.addRating(rating);
+
+                log.info("added rating: "+rating);
+                return new ResponseEntity<Rating>(rating, HttpStatus.OK);
+            }
+        } catch (ToiletUserNotFoundException e) {
+            log.error("could not find toiletuser "+ e.getCause().getMessage());
+            return new ResponseEntity("server error. could not find user", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ToiletNotFoundException e) {
+            log.error(e.getLocalizedMessage());
+            return new ResponseEntity("server error. could not find toilet", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             log.error("unexpected error adding rating: ");
             e.printStackTrace();
