@@ -1,8 +1,10 @@
 package com.jasb.toiletproject.rest;
 
 
+import com.jasb.entities.Rating;
 import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.entities.Toilet;
+import com.jasb.toiletproject.service.RatingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,6 +36,8 @@ public class ToiletRestController {
      */
     @Autowired
     ToiletRepository data;
+    @Autowired
+    RatingService ratingService;
 
     /**
      * Open GET endpoint that returns all the toilets in the database
@@ -91,4 +95,34 @@ public class ToiletRestController {
         log.info("Finding toilet with id {}", id);
         return data.findById(id);
     }
+
+    @PutMapping("/rate")
+    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    public ResponseEntity setRatingForToilet(@RequestBody RatingRestObject ratingRestObject) {
+        try {
+            System.out.println("toilet: "+ratingRestObject.toilet);
+            System.out.println("username: "+ratingRestObject.userName);
+            System.out.println("rating : "+ratingRestObject.rating);
+            Rating addedRating = ratingService.upsertRating(ratingRestObject.toilet, ratingRestObject.userName, ratingRestObject.rating);
+            log.info("added rating: "+addedRating);
+            return new ResponseEntity<Rating>(addedRating, HttpStatus.CREATED);
+        } catch (Exception e) {
+            log.error("unexpected error adding rating: ");
+            e.printStackTrace();
+            return new ResponseEntity("error adding rating", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
+
+class RatingRestObject {
+    Toilet toilet;
+    String userName;
+    int rating;
+
+    public RatingRestObject(Toilet toilet, String userName, int rating) {
+        this.toilet = toilet;
+        this.userName = userName;
+        this.rating = rating;
+    }
+}
+

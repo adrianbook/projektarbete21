@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"toilet_user_id", "toilet_id"})})
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,7 +18,21 @@ public class Rating {
     private int rating;
     private String notes;
     @ManyToOne
+    @JoinColumn(name = "toilet_user_id")
     private ToiletUser toiletUser;
     @ManyToOne
+    @JoinColumn(name = "toilet_id")
     private Toilet toilet;
+
+    public Rating(Toilet toilet, ToiletUser toiletUser, int rating) {
+        this.toilet = toilet;
+        this.toiletUser = toiletUser;
+        this.rating = rating;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("rating_id: %d, toilet_id: %d, user_id: %d, rating: %d",
+                this.Id, this.toilet.getId(), this.toiletUser.getId(), this.rating);
+    }
 }

@@ -18,7 +18,8 @@ import java.util.Collection;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ToiletUser {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String name;
     @Column(unique=true)

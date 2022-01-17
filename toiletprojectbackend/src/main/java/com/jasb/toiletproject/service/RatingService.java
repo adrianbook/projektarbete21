@@ -5,5 +5,4 @@ import com.jasb.entities.Toilet;
 
 public interface RatingService {
     Rating upsertRating(Toilet toilet, String userName, int rating);
-    Rating deleteRating(Rating ratingToDelete);
 }
