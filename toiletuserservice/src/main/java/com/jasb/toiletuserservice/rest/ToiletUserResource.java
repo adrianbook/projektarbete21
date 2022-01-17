@@ -49,6 +49,14 @@ public class ToiletUserResource {
         return ResponseEntity.ok(userService.getToiletUsers());
     }
 
+    @GetMapping(path ="/user/{username}")
+    @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_APPUSER')")
+    public ResponseEntity<ToiletUser> getToiletUserByUserName(@PathVariable(
+            "username")String username) {
+        return ResponseEntity.ok(userService.getToiletUser(username));
+    }
+
+
     /**
      * Endpoint  for saving a new ToiletUser to the database
      * endpoint is /api/user/save and accepts a REST POST request
