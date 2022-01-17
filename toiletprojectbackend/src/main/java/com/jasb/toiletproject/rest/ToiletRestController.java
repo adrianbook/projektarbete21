@@ -48,8 +48,8 @@ public class ToiletRestController {
      * @return list of all the toilets in the database
      */
     @GetMapping("/getalltoilets")
-    public List<Toilet> allToilets() {
-        return toiletService.getAllToilets();
+    public ToiletList allToilets() {
+        return new ToiletList(toiletService.getAllToilets());
     }
 
 

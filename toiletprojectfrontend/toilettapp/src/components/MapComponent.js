@@ -4,15 +4,15 @@ import React, { useEffect, useState } from "react";
 
 function LocationMarker() {
   const [position, setPosition] = useState(null);
-  const map = useMap();
+  const mymap = useMap();
 
 
   useEffect(() => {
-    map.locate().on("locationfound", function (e) {
+    mymap.locate().on("locationfound", function (e) {
       setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
+      mymap.flyTo(e.latlng, mymap.getZoom());
     });
-  }, [map]);
+  }, [mymap]);
 
   return position === null ? null : (
       <Marker position={position}>
@@ -23,23 +23,23 @@ function LocationMarker() {
   );
 }
 const MapComponent = (props) => {
-return (
-  <MapContainer center={props.pos} zoom={props.zoom} scrollWheelZoom={props.scrollwheel} id="map">
-  <TileLayer
-    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-  />
-  <LocationMarker />
-  {props.markers.map( marker => (
+  return (
+      <MapContainer center={props.pos} zoom={props.zoom} scrollWheelZoom={props.scrollwheel} id="map">
+        <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <LocationMarker />
+        {props.markers?.map( marker => (
 
-    <Marker position={marker} key={props.markers.indexOf(marker)}>
-    <Popup>
-      A pretty CSS3 popup. <br /> Easily customizable.
-    </Popup>
-  </Marker>
-      ))
-  }
-</MapContainer>
-)}
+            <Marker position={marker} key={props.markers.indexOf(marker)}>
+              <Popup>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </Popup>
+            </Marker>
+        ))
+        }
+      </MapContainer>
+  )}
 
 export default MapComponent

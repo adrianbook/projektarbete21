@@ -1,20 +1,20 @@
- const getAllToiletsCall = () => {
+const getAllToiletsCall = () => {
     return fetch("http://localhost:9091/api/v1/toilets/getalltoilets",
         {method: "GET"})
-            .then(res => {
+        .then(res => {
             return  res.json()
         })
         .then(obj => {
-        const positions = []
-        obj.toilets.forEach(pos => {
-            positions.push([pos.longitude, pos.latitude])
-        });
-        return positions
-    })
-    .catch(error => {
-        console.log("Error: "+error)
-    })
- }
+            const positions = []
+            obj.toilets.forEach(pos => {
+                positions.push([pos.longitude, pos.latitude])
+            });
+            return positions
+        })
+        .catch(error => {
+            console.log("Error: "+error)
+        })
+}
  const sendNewUserToServer = (userData) => {
     return fetch('http://localhost:8080/api/user/save',
         {
