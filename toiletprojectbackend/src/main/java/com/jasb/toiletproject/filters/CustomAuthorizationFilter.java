@@ -57,7 +57,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
      */
     private UsernamePasswordAuthenticationToken parseToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
-        TokenHolder.token = authorizationHeader;
+        TokenHolder.TOKEN = authorizationHeader;
         String token = authorizationHeader.substring(jwtConfig.getTokenPrefix().length());
         Algorithm algorithm = Algorithm.HMAC256(jwtConfig.getSecretKey().getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();

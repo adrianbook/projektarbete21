@@ -2,6 +2,6 @@ package com.jasb.toiletproject.util;
 
 
 public class TokenHolder {
-    public static String token;
+    public static String TOKEN;
 
 }

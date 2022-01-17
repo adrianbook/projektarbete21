@@ -38,7 +38,7 @@ public class RatingServiceImpl implements RatingService {
         String username = (String) authentication.getPrincipal();
         String url = "http://userservice-dev:8080/api/user/{username}";
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, TokenHolder.token);
+        headers.add(HttpHeaders.AUTHORIZATION, TokenHolder.TOKEN);
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(headers);
         ResponseEntity<ToiletUser> response = restTemplate.exchange(url,
