@@ -11,27 +11,11 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD:toiletprojectbackend/src/main/java/com/jasb/toiletproject/service/rating/RatingServiceImpl.java
-import org.springframework.boot.web.server.Http2;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-=======
 import org.springframework.http.*;
->>>>>>> e05bd74c24a14a1a6cdcaeefcb240f0ac055f3cb:toiletprojectbackend/src/main/java/com/jasb/toiletproject/service/rating/ratingServiceImpl.java
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
-
-import javax.print.attribute.standard.Media;
-import java.util.Collection;
 
 @Service @Slf4j @RequiredArgsConstructor
 public class RatingServiceImpl implements RatingService {
