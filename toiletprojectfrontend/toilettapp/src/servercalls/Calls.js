@@ -5,10 +5,10 @@ const getAllToiletsCall = () => {
             return  res.json()
         })
         .then(obj => {
-
+        console.log(obj)
         const positions = []
-        obj.toilets.forEach(pos => {
-            positions.push([pos.latitude, pos.longitude])
+            obj.toilets.forEach(pos => {
+            positions.push({thispos: [pos.latitude, pos.longitude], id: pos.id })
         });
         return positions
     })
@@ -87,12 +87,12 @@ const addRating = (ratingData) => {
             'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({toilet: ratingData.toilet, rating: parseInt(ratingData.rating), notes: ratingData.notes})
+        body: JSON.stringify({toiletId: ratingData.toiletId, rating: parseInt(ratingData.rating), notes: ratingData.notes})
     })
         .then(r => {
             if (r.status === 403) throw new Error("rating rejected. Is the account valid and assigned a role?")
-            if (r.status === 500) throw new Error(r.json())
-            if (r.status !== 201) throw new Error("unexpected error occured adding toilet")
+            if (r.status === 500) throw new Error(r.status)
+            if (r.status !== 201 && r.status !== 200) throw new Error("unexpected error occured adding rating")
             return r.json()
     })
 }

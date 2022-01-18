@@ -29,8 +29,6 @@ public class RatingRepositoryImpl {
 
     public Rating upsertRating(Rating rating) {
         rating = em.merge(rating);
-        rating.getToiletUser().setPassword(null);
-        rating.getToiletUser().setRoles(null);
         return rating;
     }
 }

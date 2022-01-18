@@ -1,5 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup , useMap} from 'react-leaflet';
 import React, { useEffect, useState } from "react";
+import AddRatingComponent from "./AddRatingComponent";
+
 
 
 function LocationMarker() {
@@ -23,6 +25,33 @@ function LocationMarker() {
   );
 }
 const MapComponent = (props) => {
+    const saveToiletToRate = (e) => {
+        e.preventDefault();
+
+        sessionStorage.setItem("toiletToRate", e.target.name)
+        console.log(e.target.name); //will give you the value continue
+    }
+    function showRatingForm(e) {
+        if(sessionStorage.getItem("loggedInUser").startsWith("Bearer")) {
+            saveToiletToRate(e)
+            var x = document.getElementById("rateButton");
+            if (x.style.display === "none") {
+                x.style.display = "flex";
+            } else {
+                x.style.display = "none";
+            }
+            var x = document.getElementById("mySpan");
+            if (x.style.display === "none") {
+                x.style.display = "flex";
+            } else {
+                x.style.display = "none";
+            }
+        } else {
+            prompt("You have to be logged in to rate")
+        }
+
+    }
+
   return (
       <MapContainer center={props.pos} zoom={props.zoom} scrollWheelZoom={props.scrollwheel} id="map">
         <TileLayer
@@ -30,11 +59,16 @@ const MapComponent = (props) => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <LocationMarker />
-        {props.markers?.map( marker => (
 
-            <Marker position={marker} key={props.markers.indexOf(marker)}>
+          {props.markers?.map( marker =>  (
+
+            <Marker position={marker.thispos} key={props.markers.indexOf(marker)}>
               <Popup>
-                  {marker} <br />
+                  {marker.id}<br />
+                  <button id="rateButton" name={marker.id} onClick={showRatingForm}>Rate this toilet</button>
+                  <span id={"mySpan"}  style={{display: "none"}}>
+                    <AddRatingComponent />
+                  </span>
               </Popup>
             </Marker>
         ))
