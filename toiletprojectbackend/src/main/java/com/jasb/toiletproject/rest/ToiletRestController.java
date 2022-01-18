@@ -141,7 +141,7 @@ public class ToiletRestController {
         } catch (Exception e) {
             log.error("unexpected error adding rating: ");
             e.printStackTrace();
-            return new ResponseEntity("error adding rating", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("error adding rating", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
