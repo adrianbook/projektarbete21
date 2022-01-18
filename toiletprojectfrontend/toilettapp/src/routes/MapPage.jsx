@@ -17,7 +17,6 @@ function MapPage(props) {
   useEffect(() => {
     getAllToiletsCall()
         .then(obj => {
-          console.log(typeof obj)
           setMarkers(obj)
         })
   }, [setMarkers])
@@ -41,7 +40,7 @@ function MapPage(props) {
   return (
   <div>
   <h1>Toilett..</h1>
-  <MapComponent pos={[57.703, 11.964]} zoom={13} scrollwheel={false} markers={markers}/>
+  <MapComponent pos={[57.703, 11.964]} zoom={13} markers={markers} addMarker={addMarker}/>
   </div>
   );
   /*

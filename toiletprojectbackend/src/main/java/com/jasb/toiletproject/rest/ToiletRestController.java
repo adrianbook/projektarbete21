@@ -126,6 +126,11 @@ public class ToiletRestController {
         } catch (ToiletNotFoundException e) {
             log.error(e.getLocalizedMessage());
             return new ResponseEntity("server error. could not find toilet", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            log.error("unexpected error adding rating: ");
+            e.printStackTrace();
+            return new ResponseEntity("error adding rating", HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 }

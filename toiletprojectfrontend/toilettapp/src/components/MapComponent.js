@@ -1,14 +1,36 @@
-import { MapContainer, TileLayer, Marker, Popup , useMap} from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup , useMap, useMapEvents} from 'react-leaflet';
 import React, { useEffect, useState } from "react";
 import AddRatingComponent from "./AddRatingComponent";
+import { sendNewToiletToServer } from '../servercalls/Calls';
 
 
+function ClickEvent(props) {
+    const [position, setPosition] = useState(null);
+    const map = useMapEvents({
+        click: (e) => {
+          setPosition(e.latlng);
+          map.flyTo(e.latlng)
+        }
+      })
+    return position === null ? null : (
+    <Marker position={position}>
+        <Popup >
+        Latitude : {position.lat.toFixed(3)} <br />
+        Longitude : {position.lng.toFixed(3)}<br />
+        <button  onClick={ () => 
+            sendNewToiletToServer({latitude: position.lat, longitude: position.lng})
+                .then(r => props.addMarker({thispos:[r.latitude, r.longitude], id: r.id}))}>
+        Add loo 
+        </button>
+        </Popup>
+    </Marker>
+    );
+}
 
 function LocationMarker() {
   const [position, setPosition] = useState(null);
   const mymap = useMap();
-
-
+ 
   useEffect(() => {
     mymap.locate().on("locationfound", function (e) {
       setPosition(e.latlng);
@@ -24,6 +46,7 @@ function LocationMarker() {
       </Marker>
   );
 }
+
 const MapComponent = (props) => {
     const saveToiletToRate = (e) => {
         e.preventDefault();
@@ -53,12 +76,12 @@ const MapComponent = (props) => {
     }
 
   return (
-      <MapContainer center={props.pos} zoom={props.zoom} scrollWheelZoom={props.scrollwheel} id="map">
+      <MapContainer center={props.pos} zoom={props.zoom} id="map">
         <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
         <LocationMarker />
+        <ClickEvent addMarker={props.addMarker}/>
 
           {props.markers?.map( marker =>  (
 
@@ -69,10 +92,13 @@ const MapComponent = (props) => {
                   <span id={"mySpan"}  style={{display: "none"}}>
                     <AddRatingComponent />
                   </span>
+
+
               </Popup>
             </Marker>
         ))
         }
+
       </MapContainer>
   )}
 
