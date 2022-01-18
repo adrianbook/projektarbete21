@@ -5,5 +5,5 @@ import com.jasb.entities.Toilet;
 import com.jasb.entities.ToiletUser;
 
 public interface RatingService {
-    public Rating addRating(Toilet toilet, int rating, String notes);
+    public Rating addRating(int toiletId, int rating, String notes);
 }

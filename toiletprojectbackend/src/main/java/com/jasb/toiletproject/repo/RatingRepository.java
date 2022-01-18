@@ -13,8 +13,5 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     Rating upsertRating(Rating rating);
     Rating findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet);
 
-    @Query()
-
-
 }
 

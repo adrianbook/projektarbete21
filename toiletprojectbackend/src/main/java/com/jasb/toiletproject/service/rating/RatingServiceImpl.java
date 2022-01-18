@@ -34,8 +34,8 @@ public class RatingServiceImpl implements RatingService {
 
 
     @Override
-    public Rating addRating(Toilet toilet, int ratingVal, String notes) {
-        Optional<Toilet> fetchedToilet = toiletService.getToiletById(toilet.getId());
+    public Rating addRating(int toiletId, int ratingVal, String notes) {
+        Optional<Toilet> fetchedToilet = toiletService.getToiletById(toiletId);
         UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
                 SecurityContextHolder.getContext().getAuthentication();
         String username = (String) authentication.getPrincipal();

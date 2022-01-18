@@ -38,12 +38,8 @@ import java.util.*;
 @Slf4j
 public class ToiletRestController {
     /**
-     * Dependencyinjection of JPArepostitory
+     * Dependencyinjection of Services
      */
-   /* @Autowired
-    ToiletRepository data;
-    @Autowired
-    RatingRepository ratingData;*/
 
     private final ToiletService toiletService;
     private final RatingService ratingService;
@@ -80,16 +76,6 @@ public class ToiletRestController {
         return new ResponseEntity<>(t, HttpStatus.CREATED);
     }
 
-/*    @PostMapping("/createrating/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public ResponseEntity addRating(@PathVariable ("id") long id,
-                                    @RequestBody Rating r) {
-        ratingService.addRating(id, r);
-        // Todo: returnerar alltid created just nu...
-        return new ResponseEntity<>(r, HttpStatus.CREATED);
-    }*/
-
-
     /**
      * GET endpont for getting a toilet by its assigned id Open to anyone with
      * the ROLE_APPUSER credentiols.
@@ -106,7 +92,7 @@ public class ToiletRestController {
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity setRatingForToilet(@RequestBody RatingRestObject ratingRestObject) {
         try {
-            Rating addedRating = ratingService.addRating(ratingRestObject.toilet, ratingRestObject.rating, ratingRestObject.notes);
+            Rating addedRating = ratingService.addRating(ratingRestObject.toiletId, ratingRestObject.rating, ratingRestObject.notes);
             log.info("added rating: "+addedRating);
             return new ResponseEntity<Rating>(addedRating, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -118,12 +104,12 @@ public class ToiletRestController {
 }
 
 class RatingRestObject {
-    Toilet toilet;
+    int toiletId;
     int rating;
     String notes;
 
-    public RatingRestObject(Toilet toilet, int rating, String notes) {
-        this.toilet = toilet;
+    public RatingRestObject(int toiletId, int rating, String notes) {
+        this.toiletId = toiletId;
         this.rating = rating;
         this.notes = notes;
     }
