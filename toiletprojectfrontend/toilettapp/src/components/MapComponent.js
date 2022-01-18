@@ -34,7 +34,7 @@ const MapComponent = (props) => {
 
             <Marker position={marker} key={props.markers.indexOf(marker)}>
               <Popup>
-                A pretty CSS3 popup. <br /> Easily customizable.
+                  {marker} <br />
               </Popup>
             </Marker>
         ))
