@@ -11,4 +11,5 @@ public interface ToiletUserService {
     void addRoleToUser(String username, String roleName);
     ToiletUser getToiletUser(String username);
     List<ToiletUser> getToiletUsers();
+    ToiletUser blockToiletUser(ToiletUser toiletUser);
 }

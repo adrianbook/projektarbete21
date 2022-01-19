@@ -21,7 +21,6 @@ import java.util.Optional;
 public class ToiletServiceImpl implements ToiletService {
 
     private final ToiletRepository toiletDao;
-
     private final RatingService ratingService;
 
 /*    @Override

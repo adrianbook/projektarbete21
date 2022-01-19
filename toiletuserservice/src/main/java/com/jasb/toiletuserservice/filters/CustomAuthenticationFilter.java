@@ -3,9 +3,11 @@ package com.jasb.toiletuserservice.filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jasb.toiletuserservice.service.ToiletUserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -37,6 +39,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private JwtConfig jwtConfig;
+    private ToiletUserService userService;
 
     /**
      * A simple password and username authentication
@@ -50,8 +53,14 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+
         log.info("Username is {}", username);
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+        if(userService.getToiletUser(username).isBlocked()) {
+            log.info("{} tried to log in but is blocked", username );
+            throw new BadCredentialsException("User is blocked");
+
+        }
         return authenticationManager.authenticate(authenticationToken);
     }
 
@@ -69,6 +78,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
         User user = (User) authentication.getPrincipal();
+
         Algorithm algorithm = Algorithm.HMAC256(jwtConfig.getSecretKey().getBytes());
         String access_token = JWT.create()
                 .withSubject(user.getUsername())

@@ -105,6 +105,12 @@ public class ToiletUserResource {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/user/block")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
+    public ResponseEntity<ToiletUser> blockUser(@RequestBody Username username){
+        System.out.println("-----in rest ----- " + username.getUsername());
+        return ResponseEntity.ok().body(userService.blockToiletUser(userService.getToiletUser(username.getUsername())));
+    }
 }
 
 /**
@@ -114,4 +120,8 @@ public class ToiletUserResource {
 class RoleToUserForm {
     private String username;
     private String rolename;
+}
+@Data
+class Username {
+    private String username;
 }

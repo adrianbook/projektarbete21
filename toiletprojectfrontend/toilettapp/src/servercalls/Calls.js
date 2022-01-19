@@ -8,7 +8,7 @@ const getAllToiletsCall = () => {
         console.log(obj)
         const positions = []
             obj.toilets.forEach(pos => {
-            positions.push({thispos: [pos.latitude, pos.longitude], id: pos.id })
+            positions.push({thispos: [pos.latitude, pos.longitude], id: pos.id, avgRat: pos.avgRating })
         });
         return positions
     })
@@ -40,12 +40,12 @@ const sendNewToiletToServer = (toiletData) => {
             'Content-Type': 'application/json'
         }
     } )
-    .then(r => {
-        if (r.status === 400) throw new Error("toilet allready exists")
-        if (r.status === 403) throw new Error("toilet rejected. Is the account valid and assigned a role?")
-        if (r.status !== 201) throw new Error("unexpected error occured adding toilet")
-        return r.json()
-    })
+        .then(r => {
+            if (r.status === 403) throw new Error("Toilet rejected. Is the account valid and assigned a role?")
+            if (r.status === 400) throw new Error("Toilet already exists")
+            if (r.status !== 201) throw new Error("unexpected error occured adding toilet")
+            return r.json()
+        })
 
 }
 
@@ -96,6 +96,15 @@ const addRating = (ratingData) => {
             return r.json()
     })
 }
+const getAllUsers = () => {
+    return fetch("http://localhost:8080/api/users", {
+        method: "GET",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        }
+    })
+}
 
-export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating}
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers }
 

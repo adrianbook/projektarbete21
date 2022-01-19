@@ -55,7 +55,10 @@ const MapComponent = (props) => {
         console.log(e.target.name); //will give you the value continue
     }
     function showRatingForm(e) {
-        if(sessionStorage.getItem("loggedInUser").startsWith("Bearer")) {
+        let loggedIn = sessionStorage.getItem("loggedInUser")
+        if(loggedIn === null || !loggedIn.startsWith("Bearer") ) {
+            prompt("You have to be logged in to rate")
+        } else {
             saveToiletToRate(e)
             var x = document.getElementById("rateButton");
             if (x.style.display === "none") {
@@ -69,8 +72,6 @@ const MapComponent = (props) => {
             } else {
                 x.style.display = "none";
             }
-        } else {
-            prompt("You have to be logged in to rate")
         }
 
     }
@@ -87,7 +88,9 @@ const MapComponent = (props) => {
 
             <Marker position={marker.thispos} key={props.markers.indexOf(marker)}>
               <Popup>
-                  {marker.id}<br />
+                  ID: {marker.id}<br />
+                  Avarege rating {marker.avgRat}
+                  <br/>
                   <button id="rateButton" name={marker.id} onClick={showRatingForm}>Rate this toilet</button>
                   <span id={"mySpan"}  style={{display: "none"}}>
                     <AddRatingComponent />

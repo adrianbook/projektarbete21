@@ -3,6 +3,7 @@ package com.jasb.toiletuserservice.security;
 import com.jasb.toiletuserservice.filters.CustomAuthenticationFilter;
 import com.jasb.toiletuserservice.filters.JwtConfig;
 import com.jasb.toiletuserservice.filters.JwtTokenVerifier;
+import com.jasb.toiletuserservice.service.ToiletUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final PasswordConfiguration passwordConfiguration;
     private final JwtConfig jwtConfig;
+    private final ToiletUserService userService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -49,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), jwtConfig))
+                .addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), jwtConfig, userService))
                 .addFilterBefore(new JwtTokenVerifier(jwtConfig), CustomAuthenticationFilter.class);
     }
 

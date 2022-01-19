@@ -27,6 +27,7 @@ public class ToiletUser {
     private String password;
     @Column(unique=true)
     private String email;
+    private boolean isBlocked = false;
     @ManyToMany(fetch = FetchType.EAGER )
     private Collection<Role> roles = new ArrayList<>();
 
