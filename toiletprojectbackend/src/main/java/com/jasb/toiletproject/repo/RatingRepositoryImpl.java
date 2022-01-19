@@ -24,19 +24,10 @@ public class RatingRepositoryImpl {
                 .getResultList()
                 .stream()
                 .findFirst();
-
         return rating;
     }
 
     public Rating upsertRating(Rating rating) {
-        /*
-
-        System.out.println("!!!!!!!!!!!!!!RATINGID!!!!!!!!!!!!!!!!!!!   "+rating.getId());
-        Rating oldRating = findByToiletUserAndToilet(rating.getToiletUser(), rating.getToilet());
-        if (oldRating != null) {
-            rating.setId(oldRating.getId());
-        }
-         */
         rating = em.merge(rating);
         em.flush();
         em.detach(rating);

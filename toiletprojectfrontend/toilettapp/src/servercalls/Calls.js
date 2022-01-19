@@ -5,10 +5,10 @@ const getAllToiletsCall = () => {
             return  res.json()
         })
         .then(obj => {
-
+        console.log(obj)
         const positions = []
-        obj.toilets.forEach(pos => {
-            positions.push([pos.latitude, pos.longitude])
+            obj.toilets.forEach(pos => {
+            positions.push({thispos: [pos.latitude, pos.longitude], id: pos.id })
         });
         return positions
     })
@@ -70,7 +70,6 @@ const sendNewToiletToServer = (toiletData) => {
 
 
 const verifyUser = (token) => {
-    console.log("INSIDE VERIFYUSER")
     return fetch('http://localhost:8080/api/verifyuser',{
         method: "GET",
         headers: {
@@ -78,7 +77,25 @@ const verifyUser = (token) => {
             'Content-Type': 'application/json'
         }
     }).then(res => res.status === 200)
+
 }
 
-export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall}
+const addRating = (ratingData) => {
+    return fetch("http://localhost:9091/api/v1/toilets/rate", {
+        method: "PUT",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({toiletId: ratingData.toiletId, rating: parseInt(ratingData.rating), notes: ratingData.notes})
+    })
+        .then(r => {
+            if (r.status === 403) throw new Error("rating rejected. Is the account valid and assigned a role?")
+            if (r.status === 500) throw new Error(r.status)
+            if (r.status !== 201 && r.status !== 200) throw new Error("unexpected error occured adding rating")
+            return r.json()
+    })
+}
+
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating}
 

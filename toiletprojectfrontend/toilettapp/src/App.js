@@ -81,10 +81,12 @@ const App = () => {
 
     return (
   <BrowserRouter>
-  <button onClick={logOut} style={display.loggedInVisible}>LOG OUT</button> | {" "}
+  <button onClick={logOut} style={display.loggedInVisible}>LOG OUT </button> | {" "}
   <button style={display.loggedOutVisible}><Link to="/login">Login</Link></button> |{" "}
   <button style={display.loggedOutVisible}><Link to="/createuser">Create User</Link> </button>|{" "}
   <button style={display.loggedInVisible}><Link to="/addtoilet">Add new loo</Link></button>
+
+
 
     <Routes>
       <Route path="/" element={<MapPage loggedIn={loginInfo.loggedIn} />} />
@@ -93,7 +95,7 @@ const App = () => {
                                     handleChange={handleChange}
                                     handleSubmit={handleSubmit}/>}/>
       <Route path="/createuser" element={<CreateUser setLoginInfo={setLoginInfo}/>}/>
-        <Route path="/addToilet" element={<AddToilet/>}/>
+      <Route path="/addToilet" element={<AddToilet/>}/>
     </Routes>
   </BrowserRouter>
         )}

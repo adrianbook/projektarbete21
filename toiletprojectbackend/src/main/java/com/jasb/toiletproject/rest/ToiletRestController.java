@@ -41,12 +41,8 @@ import java.util.*;
 @Slf4j
 public class ToiletRestController {
     /**
-     * Dependencyinjection of JPArepostitory
+     * Dependencyinjection of Services
      */
-   /* @Autowired
-    ToiletRepository data;
-    @Autowired
-    RatingRepository ratingData;*/
 
     private final ToiletService toiletService;
     private final RatingService ratingService;
@@ -54,10 +50,9 @@ public class ToiletRestController {
     private final ReportService reportService;
 
 
-
-
     /**
      * Open GET endpoint that returns all the toilets in the database
+     *
      * @return list of all the toilets in the database
      */
     @GetMapping("/getalltoilets")
@@ -69,6 +64,7 @@ public class ToiletRestController {
     /**
      * POST endpoint for adding a new toilet. Open to anyone with
      * the ROLE_APPUSER credentiols.
+     *
      * @param t a JSON representation of a toilet in the request body
      * @return a JSON representation of the created toilet and a responsecode
      */
@@ -85,19 +81,10 @@ public class ToiletRestController {
         }
     }
 
-/*    @PostMapping("/createrating/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public ResponseEntity addRating(@PathVariable ("id") long id,
-                                    @RequestBody Rating r) {
-        ratingService.addRating(id, r);
-        // Todo: returnerar alltid created just nu...
-        return new ResponseEntity<>(r, HttpStatus.CREATED);
-    }*/
-
-
     /**
      * GET endpont for getting a toilet by its assigned id Open to anyone with
      * the ROLE_APPUSER credentiols.
+     *
      * @param id id from the request URI
      * @return A toilet
      */
@@ -111,9 +98,10 @@ public class ToiletRestController {
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity setRatingForToilet(@RequestBody RatingRestObject ratingRestObject) {
         try {
+
             Rating rating;
-            Optional<Toilet> fetchedToilet = toiletService.getToiletById(ratingRestObject.toilet.getId());
-            if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(ratingRestObject.toilet.getId());
+            Optional<Toilet> fetchedToilet = toiletService.getToiletById(ratingRestObject.toiletId);
+            if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(ratingRestObject.toiletId);
 
             Toilet toilet = fetchedToilet.get();
             ToiletUser user = toiletUserService.fetchToiletUser();
@@ -123,7 +111,7 @@ public class ToiletRestController {
             if (fetchedRating.isEmpty()) {
                 rating = ratingService.addRating(
                         new Rating(toilet, user, ratingRestObject.rating, ratingRestObject.notes));
-                log.info("added rating: "+rating);
+                log.info("added rating: " + rating);
                 return new ResponseEntity<Rating>(rating, HttpStatus.CREATED);
             } else {
                 rating = fetchedRating.get();
@@ -131,11 +119,11 @@ public class ToiletRestController {
                 rating.setNotes(ratingRestObject.notes);
                 rating = ratingService.addRating(rating);
 
-                log.info("added rating: "+rating);
+                log.info("added rating: " + rating);
                 return new ResponseEntity<Rating>(rating, HttpStatus.OK);
             }
         } catch (ToiletUserNotFoundException e) {
-            log.error("could not find toiletuser "+ e.getCause().getMessage());
+            log.error("could not find toiletuser " + e.getCause().getMessage());
             return new ResponseEntity("server error. could not find user", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (ToiletNotFoundException e) {
             log.error(e.getLocalizedMessage());
@@ -144,6 +132,7 @@ public class ToiletRestController {
             log.error("unexpected error adding rating: ");
             e.printStackTrace();
             return new ResponseEntity("error adding rating", HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
     }
 
@@ -180,14 +169,15 @@ public class ToiletRestController {
 }
 
 class RatingRestObject {
-    Toilet toilet;
+    int toiletId;
     int rating;
     String notes;
 
-    public RatingRestObject(Toilet toilet, int rating, String notes) {
-        this.toilet = toilet;
+    public RatingRestObject(int toiletId, int rating, String notes) {
+        this.toiletId = toiletId;
         this.rating = rating;
         this.notes = notes;
     }
 }
+
 

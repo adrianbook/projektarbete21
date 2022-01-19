@@ -8,7 +8,7 @@ import {getAllToiletsCall} from "../servercalls/Calls";
 
 function MapPage(props) {
   const [markers, setMarkers] = useState([
-    ...scraping,
+
   ])
 
   let newToilet = props?.location?.state || false
@@ -16,10 +16,9 @@ function MapPage(props) {
 
   useEffect(() => {
     getAllToiletsCall()
-        .then(res => {
-          setMarkers(res)
+        .then(obj => {
+          setMarkers(obj)
         })
-
   }, [setMarkers])
 
   useEffect(() =>{
@@ -41,7 +40,7 @@ function MapPage(props) {
   return (
   <div>
   <h1>Toilett..</h1>
-  <MapComponent pos={[57.703, 11.964]} zoom={13} scrollwheel={false} markers={markers}/>
+  <MapComponent pos={[57.703, 11.964]} zoom={13} markers={markers} addMarker={addMarker}/>
   </div>
   );
   /*

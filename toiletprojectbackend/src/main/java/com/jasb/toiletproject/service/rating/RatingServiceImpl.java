@@ -40,10 +40,7 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public Rating addRating(Rating rating) {
-        //Optional<Toilet> fetchedToilet = toiletService.getToiletById(toilet.getId());
-       // ToiletUser user = fetchToiletUser();
         Rating upsertedRating = ratingDao.upsertRating(rating);
-
         log.info("Adding rating for {}", upsertedRating.getId());
         return upsertedRating;
     }
