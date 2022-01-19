@@ -50,6 +50,7 @@ public class ToiletRestController {
     private final ReportService reportService;
 
 
+
     /**
      * Open GET endpoint that returns all the toilets in the database
      *
@@ -68,7 +69,6 @@ public class ToiletRestController {
      * @param t a JSON representation of a toilet in the request body
      * @return a JSON representation of the created toilet and a responsecode
      */
-
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
