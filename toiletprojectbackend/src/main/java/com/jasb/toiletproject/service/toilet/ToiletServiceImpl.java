@@ -5,6 +5,7 @@ import com.jasb.entities.Toilet;
 import com.jasb.entities.ToiletUser;
 import com.jasb.toiletproject.repo.RatingRepository;
 import com.jasb.toiletproject.repo.ToiletRepository;
+import com.jasb.toiletproject.service.rating.RatingService;
 import com.jasb.toiletproject.util.Proximity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,10 @@ import java.util.Optional;
 
 @Service @Slf4j @RequiredArgsConstructor
 public class ToiletServiceImpl implements ToiletService {
-    @Autowired
-    ToiletRepository toiletDao;
-    @Autowired
-    RatingRepository ratingDao;
+
+    private final ToiletRepository toiletDao;
+
+    private final RatingService ratingService;
 
 /*    @Override
     public Optional<Toilet> getAvgRating(long id) {
@@ -36,7 +37,9 @@ public class ToiletServiceImpl implements ToiletService {
     public Optional<Toilet> getToiletById(long id) {
         log.info("Finding toilet with id {}", id);
         Optional<Toilet> optionalToilet = toiletDao.findById(id);
-        optionalToilet.ifPresent(toilet -> toilet.setAvgRating(ratingDao.getAvgRating(toilet.getId())));
+        //optionalToilet.ifPresent(toilet -> toilet.setAvgRating(ratingDao
+        // .findAvgRating(toilet.getId())));
+        optionalToilet.ifPresent(toilet -> toilet.setAvgRating(ratingService.getUpdatedAvgRating(toilet.getId())));
         return optionalToilet;
     }
 
@@ -47,8 +50,9 @@ public class ToiletServiceImpl implements ToiletService {
         double avgRating;
         for (Toilet t :
                 toiletList) {
-                avgRating = ratingDao.getAvgRating(t.getId());
-                t.setAvgRating(avgRating);
+            //avgRating = ratingDao.findAvgRating(t.getId());
+            avgRating = ratingService.getUpdatedAvgRating(t.getId());
+            t.setAvgRating(avgRating);
         }
         return toiletList;
     }

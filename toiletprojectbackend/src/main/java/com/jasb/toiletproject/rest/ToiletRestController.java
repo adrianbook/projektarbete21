@@ -61,6 +61,18 @@ public class ToiletRestController {
         return new ToiletList(toiletService.getAllToilets());
     }
 
+    /**
+     * GET endpont for getting a toilet by its assigned id Open to anyone with
+     * the ROLE_APPUSER credentiols.
+     *
+     * @param id id from the request URI
+     * @return A toilet
+     */
+    @GetMapping(path = "{id}")
+    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
+        return toiletService.getToiletById(id);
+    }
 
     /**
      * POST endpoint for adding a new toilet. Open to anyone with
@@ -81,17 +93,34 @@ public class ToiletRestController {
         }
     }
 
-    /**
-     * GET endpont for getting a toilet by its assigned id Open to anyone with
-     * the ROLE_APPUSER credentiols.
-     *
-     * @param id id from the request URI
-     * @return A toilet
-     */
-    @GetMapping(path = "{id}")
+    /*
+report a toilet. takes a json object containing fields:
+    int toiletId
+    boolean notAToilet
+    string issue
+ */
+    @PostMapping("/reports/report")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
-        return toiletService.getToiletById(id);
+    public ResponseEntity reportToilet(@RequestBody Report report) {
+        try {
+            Optional<Toilet> toiletOptional = toiletService.getToiletById(report.getToiletId());
+            if (toiletOptional.isEmpty()) throw new ToiletNotFoundException(report.getToiletId());
+            Toilet toilet = toiletOptional.get();
+            ToiletUser toiletUser = toiletUserService.fetchToiletUser();
+
+            report.setToilet(toilet);
+            report.setOwningUser(toiletUser);
+
+            report = reportService.report(report);
+
+            return new ResponseEntity<Report>(report, HttpStatus.CREATED);
+        } catch (ToiletUserNotFoundException e) {
+            log.error("could not find toiletuser "+ e.getCause().getMessage());
+            return new ResponseEntity("server error. could not find user", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ToiletNotFoundException e) {
+            log.error(e.getLocalizedMessage());
+            return new ResponseEntity("server error. could not find toilet", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PutMapping("/rate")
@@ -112,13 +141,14 @@ public class ToiletRestController {
                 rating.setToiletUser(user);
                 rating = ratingService.addRating(rating);
                 log.info("added rating: " + rating);
+                toilet.setAvgRating(ratingService.getUpdatedAvgRating(toilet.getId()));
                 return new ResponseEntity<Rating>(rating, HttpStatus.CREATED);
             } else {
                 Rating oldRating = fetchedRating.get();
                 oldRating.setRating(rating.getRating());
                 oldRating.setNotes(rating.getNotes());
                 rating = ratingService.addRating(oldRating);
-
+                toilet.setAvgRating(ratingService.getUpdatedAvgRating(toilet.getId()));
                 log.info("added rating: " + rating);
                 return new ResponseEntity<Rating>(rating, HttpStatus.OK);
             }
@@ -135,37 +165,6 @@ public class ToiletRestController {
 
         }
     }
-
-    /*
-    report a toilet. takes a json object containing fields:
-        int toiletId
-        boolean notAToilet
-        string issue
-     */
-    @PostMapping("/reports/report")
-    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public ResponseEntity reportToilet(@RequestBody Report report) {
-        try {
-        Optional<Toilet> toiletOptional = toiletService.getToiletById(report.getToiletId());
-        if (toiletOptional.isEmpty()) throw new ToiletNotFoundException(report.getToiletId());
-        Toilet toilet = toiletOptional.get();
-        ToiletUser toiletUser = toiletUserService.fetchToiletUser();
-
-        report.setToilet(toilet);
-        report.setOwningUser(toiletUser);
-
-        report = reportService.report(report);
-
-        return new ResponseEntity<Report>(report, HttpStatus.CREATED);
-        } catch (ToiletUserNotFoundException e) {
-            log.error("could not find toiletuser "+ e.getCause().getMessage());
-            return new ResponseEntity("server error. could not find user", HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (ToiletNotFoundException e) {
-            log.error(e.getLocalizedMessage());
-            return new ResponseEntity("server error. could not find toilet", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }
 
 
