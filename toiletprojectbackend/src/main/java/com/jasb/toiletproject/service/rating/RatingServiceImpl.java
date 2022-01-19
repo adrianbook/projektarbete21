@@ -26,5 +26,4 @@ public class RatingServiceImpl implements RatingService {
         log.info("Adding rating for {}", upsertedRating.getId());
         return upsertedRating;
     }
-
 }

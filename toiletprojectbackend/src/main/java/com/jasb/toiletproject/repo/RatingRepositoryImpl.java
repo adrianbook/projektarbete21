@@ -1,3 +1,4 @@
+
 package com.jasb.toiletproject.repo;
 
 import com.jasb.entities.Rating;
@@ -29,6 +30,21 @@ public class RatingRepositoryImpl {
 
     public Rating upsertRating(Rating rating) {
         rating = em.merge(rating);
+        em.flush();
+        em.detach(rating);
+        rating.getToiletUser().setPassword(null);
+        rating.getToiletUser().setRoles(null);
         return rating;
     }
+    public double getAvgRating(long id) {
+        Object avgRating = em.createQuery("select avg (r.rating) from Rating r where r.toilet.Id=:id")
+                .setParameter("id", id)
+                .getSingleResult();
+        if (avgRating == null) {
+            return 0.0;
+        } else {
+            return (double) avgRating;
+        }
+    }
 }
+
