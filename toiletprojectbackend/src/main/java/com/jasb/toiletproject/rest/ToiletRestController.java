@@ -96,12 +96,11 @@ public class ToiletRestController {
 
     @PutMapping("/rate")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public ResponseEntity setRatingForToilet(@RequestBody RatingRestObject ratingRestObject) {
+    public ResponseEntity setRatingForToilet(@RequestBody Rating rating) {
         try {
 
-            Rating rating;
-            Optional<Toilet> fetchedToilet = toiletService.getToiletById(ratingRestObject.toiletId);
-            if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(ratingRestObject.toiletId);
+            Optional<Toilet> fetchedToilet = toiletService.getToiletById(rating.getToiletId());
+            if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(rating.getToiletId());
 
             Toilet toilet = fetchedToilet.get();
             ToiletUser user = toiletUserService.fetchToiletUser();
@@ -109,15 +108,16 @@ public class ToiletRestController {
             Optional<Rating> fetchedRating = ratingService.checkIfRatingExistForUserAndToilet(user, toilet);
 
             if (fetchedRating.isEmpty()) {
-                rating = ratingService.addRating(
-                        new Rating(toilet, user, ratingRestObject.rating, ratingRestObject.notes));
+                rating.setToilet(toilet);
+                rating.setToiletUser(user);
+                rating = ratingService.addRating(rating);
                 log.info("added rating: " + rating);
                 return new ResponseEntity<Rating>(rating, HttpStatus.CREATED);
             } else {
-                rating = fetchedRating.get();
-                rating.setRating(ratingRestObject.rating);
-                rating.setNotes(ratingRestObject.notes);
-                rating = ratingService.addRating(rating);
+                Rating oldRating = fetchedRating.get();
+                oldRating.setRating(rating.getRating());
+                oldRating.setNotes(rating.getNotes());
+                rating = ratingService.addRating(oldRating);
 
                 log.info("added rating: " + rating);
                 return new ResponseEntity<Rating>(rating, HttpStatus.OK);
@@ -168,16 +168,6 @@ public class ToiletRestController {
 
 }
 
-class RatingRestObject {
-    int toiletId;
-    int rating;
-    String notes;
 
-    public RatingRestObject(int toiletId, int rating, String notes) {
-        this.toiletId = toiletId;
-        this.rating = rating;
-        this.notes = notes;
-    }
-}
 
 

@@ -24,6 +24,14 @@ public class Rating {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "toilet_id")
     private Toilet toilet;
+    @Transient
+    private long toiletId;
+
+    public Rating(long toiletId, int rating, String notes) {
+        this.toiletId = toiletId;
+        this.rating = rating;
+        this.notes = notes;
+    }
 
     public Rating(Toilet toilet, ToiletUser toiletUser, int rating, String notes) {
         this.toilet = toilet;
