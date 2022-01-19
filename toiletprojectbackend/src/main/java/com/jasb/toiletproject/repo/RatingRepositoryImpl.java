@@ -38,6 +38,8 @@ public class RatingRepositoryImpl {
         }
          */
         rating = em.merge(rating);
+        em.flush();
+        em.detach(rating);
         rating.getToiletUser().setPassword(null);
         rating.getToiletUser().setRoles(null);
         return rating;

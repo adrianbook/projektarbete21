@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ToiletService {
     public List<Toilet> getAllToilets();
-    public void addToilet(Toilet toilet) throws ToCloseToAnotherToiletException;
+    public Toilet addToilet(Toilet toilet) throws ToCloseToAnotherToiletException;
     public Optional<Toilet> getToiletById(long id);
     /*public void addRating(Long toiletId, Rating rating*//*, String username*//*);*/
 }

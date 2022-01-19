@@ -15,13 +15,13 @@ import javax.persistence.*;
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long Id;
+    private long id;
     private int rating;
     private String notes;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "toilet_user_id")
     private ToiletUser toiletUser;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "toilet_id")
     private Toilet toilet;
 
@@ -35,6 +35,6 @@ public class Rating {
     @Override
     public String toString() {
         return String.format("rating_id: %d, toilet_id: %d, user_id: %d, rating: %d",
-                this.Id, this.toilet.getId(), this.toiletUser.getId(), this.rating);
+                this.id, this.toilet.getId(), this.toiletUser.getId(), this.rating);
     }
 }

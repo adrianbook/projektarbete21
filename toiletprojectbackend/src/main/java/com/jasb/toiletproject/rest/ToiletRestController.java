@@ -1,13 +1,13 @@
 package com.jasb.toiletproject.rest;
 
-import com.jasb.entities.Rating;
-import com.jasb.entities.Toilet;
-import com.jasb.entities.ToiletUser;
+import com.jasb.entities.*;
 import com.jasb.toiletproject.exceptions.ToiletNotFoundException;
 import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
 import com.jasb.toiletproject.service.rating.RatingService;
+import com.jasb.toiletproject.service.report.ReportService;
 import com.jasb.toiletproject.service.toilet.ToCloseToAnotherToiletException;
 import com.jasb.toiletproject.service.toilet.ToiletService;
+import com.jasb.toiletproject.service.toiletuser.ToiletUserService;
 import lombok.RequiredArgsConstructor;
 import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.entities.Toilet;
@@ -50,6 +50,8 @@ public class ToiletRestController {
 
     private final ToiletService toiletService;
     private final RatingService ratingService;
+    private final ToiletUserService toiletUserService;
+    private final ReportService reportService;
 
 
 
@@ -75,12 +77,12 @@ public class ToiletRestController {
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
         try {
-            toiletService.addToilet(t);
+            Toilet addedToilet = toiletService.addToilet(t);
+            return new ResponseEntity<>(addedToilet, HttpStatus.CREATED);
         } catch (ToCloseToAnotherToiletException e) {
             return new ResponseEntity<>("Toilet to close to another " +
                     "toilet", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(t, HttpStatus.CREATED);
     }
 
 /*    @PostMapping("/createrating/{id}")
@@ -114,7 +116,7 @@ public class ToiletRestController {
             if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(ratingRestObject.toilet.getId());
 
             Toilet toilet = fetchedToilet.get();
-            ToiletUser user = ratingService.fetchToiletUser();
+            ToiletUser user = toiletUserService.fetchToiletUser();
 
             Optional<Rating> fetchedRating = ratingService.checkIfRatingExistForUserAndToilet(user, toilet);
 
@@ -144,6 +146,44 @@ public class ToiletRestController {
             return new ResponseEntity("error adding rating", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    /*
+    report a toilet. takes a json object containing fields:
+        int toiletId
+        boolean notAToilet
+        string issue
+     */
+    @PostMapping("/reports/report")
+    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    public ResponseEntity reportToilet(@RequestBody Report report) {
+        try {
+        Optional<Toilet> toiletOptional = toiletService.getToiletById(report.getToiletId());
+        if (toiletOptional.isEmpty()) throw new ToiletNotFoundException(report.getToiletId());
+        Toilet toilet = toiletOptional.get();
+        ToiletUser toiletUser = toiletUserService.fetchToiletUser();
+
+        report.setToilet(toilet);
+        report.setOwningUser(toiletUser);
+
+        report = reportService.report(report);
+
+        return new ResponseEntity<Report>(report, HttpStatus.CREATED);
+        } catch (ToiletUserNotFoundException e) {
+            log.error("could not find toiletuser "+ e.getCause().getMessage());
+            return new ResponseEntity("server error. could not find user", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (ToiletNotFoundException e) {
+            log.error(e.getLocalizedMessage());
+            return new ResponseEntity("server error. could not find toilet", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /*
+
+    @GetMapping("reports/getall")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public List<Report>
+     */
+
 }
 
 class RatingRestObject {
