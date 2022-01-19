@@ -26,6 +26,9 @@ public class Toilet implements Serializable {
     private double longitude;
     private double latitude;
 
+    @Transient
+    private double avgRating;
+
     public String toString() {
         return String.format("Toilet nr %d at lat %f long %f", Id, latitude,
                 longitude);

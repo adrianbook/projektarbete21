@@ -42,4 +42,21 @@ public class RatingRepositoryImpl {
         rating.getToiletUser().setRoles(null);
         return rating;
     }
+    //returnera istället en optional och plocka ut eventuellt vädre i
+    // servicelagret ....
+    public double getAvgRating(/*long id*/ Toilet t) {
+        double avgRating = (double) em.createQuery
+                /*("select avg (rating) from Rating as rating where " +
+                        "rating.toilet =: id")*/
+                        ("select avg (r.rating) from Rating r where r.toilet=:id")
+                .setParameter("id", /*id*/t)
+                .getSingleResult();
+                /*.getResultList()
+                .stream()
+                .findFirst();*/
+        /*double avg = (double) avgRating.get();
+        return avg;*/
+        /*Optional<Double> d = Optional.of(0.0);*/
+        return avgRating;
+    }
 }

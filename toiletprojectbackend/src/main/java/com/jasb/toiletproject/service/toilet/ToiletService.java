@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ToiletService {
-    public List<Toilet> getAllToilets();
-    public void addToilet(Toilet toilet) throws ToCloseToAnotherToiletException;
-    public Optional<Toilet> getToiletById(long id);
+    /*Optional<Toilet> getAvgRating(long id);*/
+
+    List<Toilet> getAllToilets();
+    void addToilet(Toilet toilet) throws ToCloseToAnotherToiletException;
+    Optional<Toilet> getToiletById(long id);
     /*public void addRating(Long toiletId, Rating rating*//*, String username*//*);*/
 }

@@ -105,6 +105,12 @@ public class ToiletRestController {
         return toiletService.getToiletById(id);
     }
 
+/*    @GetMapping(path = "/getRating/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    public Optional<Toilet> getToiletAvgRatingById(@PathVariable("id") long id) {
+        return toiletService.getAvgRating(id);
+    }*/
+
     @PutMapping("/rate")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity setRatingForToilet(@RequestBody RatingRestObject ratingRestObject) {
