@@ -177,13 +177,6 @@ public class ToiletRestController {
         }
     }
 
-    /*
-
-    @GetMapping("reports/getall")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public List<Report>
-     */
-
 }
 
 class RatingRestObject {
