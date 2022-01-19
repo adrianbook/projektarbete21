@@ -29,34 +29,26 @@ public class RatingRepositoryImpl {
     }
 
     public Rating upsertRating(Rating rating) {
-        /*
-
-        System.out.println("!!!!!!!!!!!!!!RATINGID!!!!!!!!!!!!!!!!!!!   "+rating.getId());
+        /* System.out.println("!!!!!!!!!!!!!!RATINGID!!!!!!!!!!!!!!!!!!!
+        "+rating.getId());
         Rating oldRating = findByToiletUserAndToilet(rating.getToiletUser(), rating.getToilet());
         if (oldRating != null) {
             rating.setId(oldRating.getId());
-        }
-         */
+        } */
         rating = em.merge(rating);
         rating.getToiletUser().setPassword(null);
         rating.getToiletUser().setRoles(null);
         return rating;
     }
-    //returnera istället en optional och plocka ut eventuellt vädre i
-    // servicelagret ....
-    public double getAvgRating(/*long id*/ Toilet t) {
-        double avgRating = (double) em.createQuery
-                /*("select avg (rating) from Rating as rating where " +
-                        "rating.toilet =: id")*/
-                        ("select avg (r.rating) from Rating r where r.toilet=:id")
-                .setParameter("id", /*id*/t)
+
+    public double getAvgRating(long id) {
+        Object avgRating = em.createQuery("select avg (r.rating) from Rating r where r.toilet.Id=:id")
+                .setParameter("id", id)
                 .getSingleResult();
-                /*.getResultList()
-                .stream()
-                .findFirst();*/
-        /*double avg = (double) avgRating.get();
-        return avg;*/
-        /*Optional<Double> d = Optional.of(0.0);*/
-        return avgRating;
+        if (avgRating == null) {
+            return 0.0;
+        } else {
+            return (double) avgRating;
+        }
     }
 }

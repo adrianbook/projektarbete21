@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.Collection;
 import java.util.List;
@@ -35,22 +36,8 @@ public class ToiletServiceImpl implements ToiletService {
     public Optional<Toilet> getToiletById(long id) {
         log.info("Finding toilet with id {}", id);
         Optional<Toilet> optionalToilet = toiletDao.findById(id);
-        try {
-            /*double avgRating = ratingDao.avgRating(optionalToilet.get().getId());
-            optionalToilet.get().setAvgRating(avgRating);*/
-            /**//*optionalToilet.get().setAvgRating(ratingDao.getAvgRating(optionalToilet.get().getId()));*/
-            Toilet toilet = optionalToilet.get();
-            toilet.setAvgRating(ratingDao.getAvgRating(optionalToilet.get()/*.getId()*/));
-            log.info("Trying to get avg {}", ratingDao.getAvgRating(toilet/*.getId()*/));
-            log.info("Toilet avg rating is {}", toilet.getAvgRating());
-            /*log.info("Setting rating {} for toilet {]", avgRating, id);*/
-            Optional<Toilet> t = Optional.of(toilet);
-            return t;
-        } catch (NullPointerException e) {
-            System.out.println("Här är felet igen!");
-        }
-        /* return optionalToilet*/;
-       return optionalToilet;
+        optionalToilet.ifPresent(toilet -> toilet.setAvgRating(ratingDao.getAvgRating(toilet.getId())));
+        return optionalToilet;
     }
 
     @Override
@@ -60,13 +47,8 @@ public class ToiletServiceImpl implements ToiletService {
         double avgRating;
         for (Toilet t :
                 toiletList) {
-            try {
-                avgRating = ratingDao.getAvgRating(t/*.getId()*/);
+                avgRating = ratingDao.getAvgRating(t.getId());
                 t.setAvgRating(avgRating);
-
-            } catch (NullPointerException e) {
-                System.out.println("Detta är felet");
-            }
         }
         return toiletList;
     }

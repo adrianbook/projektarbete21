@@ -8,7 +8,7 @@ import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
 import java.util.Optional;
 
 public interface RatingService {
-    public Optional<Rating> checkIfRatingExistForUserAndToilet(ToiletUser user, Toilet toilet);
-    public Rating addRating(Rating rating);
-    public ToiletUser fetchToiletUser() throws ToiletUserNotFoundException;
+    Optional<Rating> checkIfRatingExistForUserAndToilet(ToiletUser user, Toilet toilet);
+    Rating addRating(Rating rating);
+    ToiletUser fetchToiletUser() throws ToiletUserNotFoundException;
 }

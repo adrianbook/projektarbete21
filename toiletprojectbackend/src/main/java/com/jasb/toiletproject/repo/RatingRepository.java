@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     Rating upsertRating(Rating rating);
     Optional<Rating> findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet);
-    double getAvgRating(/*long id*/Toilet t);
+    double getAvgRating(long id);
 }
 

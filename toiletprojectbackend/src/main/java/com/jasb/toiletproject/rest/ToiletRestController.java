@@ -52,8 +52,6 @@ public class ToiletRestController {
     private final RatingService ratingService;
 
 
-
-
     /**
      * Open GET endpoint that returns all the toilets in the database
      * @return list of all the toilets in the database
@@ -70,7 +68,6 @@ public class ToiletRestController {
      * @param t a JSON representation of a toilet in the request body
      * @return a JSON representation of the created toilet and a responsecode
      */
-
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity addToilet(@RequestBody Toilet t) {
@@ -83,16 +80,6 @@ public class ToiletRestController {
         return new ResponseEntity<>(t, HttpStatus.CREATED);
     }
 
-/*    @PostMapping("/createrating/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public ResponseEntity addRating(@PathVariable ("id") long id,
-                                    @RequestBody Rating r) {
-        ratingService.addRating(id, r);
-        // Todo: returnerar alltid created just nu...
-        return new ResponseEntity<>(r, HttpStatus.CREATED);
-    }*/
-
-
     /**
      * GET endpont for getting a toilet by its assigned id Open to anyone with
      * the ROLE_APPUSER credentiols.
@@ -104,12 +91,6 @@ public class ToiletRestController {
     public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
         return toiletService.getToiletById(id);
     }
-
-/*    @GetMapping(path = "/getRating/{id}")
-    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public Optional<Toilet> getToiletAvgRatingById(@PathVariable("id") long id) {
-        return toiletService.getAvgRating(id);
-    }*/
 
     @PutMapping("/rate")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
@@ -150,6 +131,20 @@ public class ToiletRestController {
             return new ResponseEntity("error adding rating", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+      /*    @PostMapping("/createrating/{id}")
+     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+     public ResponseEntity addRating(@PathVariable ("id") long id,
+     @RequestBody Rating r) {
+     ratingService.addRating(id, r);
+     // Todo: returnerar alltid created just nu...
+     return new ResponseEntity<>(r, HttpStatus.CREATED);
+     }*/
+
+    /*    @GetMapping(path = "/getRating/{id}")
+        @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+        public Optional<Toilet> getToiletAvgRatingById(@PathVariable("id") long id) {
+            return toiletService.getAvgRating(id);
+        }*/
 }
 
 class RatingRestObject {
