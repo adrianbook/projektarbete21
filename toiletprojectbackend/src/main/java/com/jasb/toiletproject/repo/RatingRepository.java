@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     Rating upsertRating(Rating rating);
     Optional<Rating> findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet);
-    double getAvgRating(long id);
+    double findAvgRating(long id);
 }
 
 

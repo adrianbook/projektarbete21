@@ -36,7 +36,8 @@ public class RatingRepositoryImpl {
         rating.getToiletUser().setRoles(null);
         return rating;
     }
-    public double getAvgRating(long id) {
+
+    public double findAvgRating(long id) {
         Object avgRating = em.createQuery("select avg (r.rating) from Rating r where r.toilet.Id=:id")
                 .setParameter("id", id)
                 .getSingleResult();
