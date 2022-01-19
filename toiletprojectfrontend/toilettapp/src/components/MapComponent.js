@@ -88,7 +88,9 @@ const MapComponent = (props) => {
 
             <Marker position={marker.thispos} key={props.markers.indexOf(marker)}>
               <Popup>
-                  {marker.id}<br />
+                  ID: {marker.id}<br />
+                  Avarege rating {marker.avgRat}
+                  <br/>
                   <button id="rateButton" name={marker.id} onClick={showRatingForm}>Rate this toilet</button>
                   <span id={"mySpan"}  style={{display: "none"}}>
                     <AddRatingComponent />

@@ -8,7 +8,7 @@ const getAllToiletsCall = () => {
         console.log(obj)
         const positions = []
             obj.toilets.forEach(pos => {
-            positions.push({thispos: [pos.latitude, pos.longitude], id: pos.id })
+            positions.push({thispos: [pos.latitude, pos.longitude], id: pos.id, avgRat: pos.avgRating })
         });
         return positions
     })

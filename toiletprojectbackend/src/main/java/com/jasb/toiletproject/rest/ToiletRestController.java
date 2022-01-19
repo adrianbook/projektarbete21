@@ -98,8 +98,8 @@ public class ToiletRestController {
     public ResponseEntity setRatingForToilet(@RequestBody Rating rating) {
         try {
 
-            Optional<Toilet> fetchedToilet = toiletService.getToiletById(rating.getToilet().getId());
-            if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(rating.getToilet().getId());
+            Optional<Toilet> fetchedToilet = toiletService.getToiletById(rating.getToiletId());
+            if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(rating.getToiletId());
 
             Toilet toilet = fetchedToilet.get();
 
