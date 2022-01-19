@@ -1,4 +1,4 @@
-package com.jasb.toiletproject.rest;
+package com.jasb.toiletproject.util;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

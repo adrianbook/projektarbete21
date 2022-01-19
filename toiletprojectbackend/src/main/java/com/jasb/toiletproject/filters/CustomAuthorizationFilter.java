@@ -5,8 +5,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.base.Strings;
+import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
+import com.jasb.toiletproject.util.ToiletUserFetcher;
 import com.jasb.toiletproject.util.TokenHolder;
-import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,7 +57,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
      * @param request
      * @return a token containing the roles given by the JWT
      */
-    private UsernamePasswordAuthenticationToken parseToken(HttpServletRequest request) {
+    private UsernamePasswordAuthenticationToken parseToken(HttpServletRequest request) throws ToiletUserNotFoundException, IllegalAccessException {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
         TokenHolder.TOKEN = authorizationHeader;
         String token = authorizationHeader.substring(jwtConfig.getTokenPrefix().length());
@@ -63,6 +65,10 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getSubject();
+        if(ToiletUserFetcher.fetchToiletUserByUsername(username).isBlocked()) {
+            log.info("blocked user {} tried to acces service", username );
+            return null;
+        }
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
         if(roles.length == 0) {
             roles[0] = "NO_ROLE";
@@ -86,6 +92,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
      * @throws ServletException
      * @throws IOException
      */
+    @SneakyThrows
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
@@ -96,6 +103,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
             return;
         }
         UsernamePasswordAuthenticationToken authentication = parseToken(request);
+
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } else {

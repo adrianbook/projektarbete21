@@ -117,4 +117,16 @@ public class ToiletUserServiceImpl implements ToiletUserService, UserDetailsServ
         return userRepo.findAll();
     }
 
+    @Override
+    public ToiletUser blockToiletUser(ToiletUser toiletUser) {
+        System.out.println("-----in service----" + toiletUser.getUsername());
+        System.out.println(toiletUser);
+        toiletUser.setBlocked(true);
+        Collection<Role> roles = toiletUser.getRoles();
+        roles.clear();
+        roles.add(roleRepo.findByName("BLOCKED"));
+        toiletUser.setRoles(roles);
+        return userRepo.save(toiletUser);
+    }
+
 }

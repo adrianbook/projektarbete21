@@ -1,0 +1,61 @@
+package com.jasb.toiletproject.util;
+
+import com.jasb.entities.ToiletUser;
+import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
+import com.jasb.toiletproject.util.TokenHolder;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+@Slf4j
+public class ToiletUserFetcher {
+    private static String USER_URL ="http://userservice-dev:8080/api/user/{username}";
+
+    private static RestTemplate restTemplate = new RestTemplate();
+
+
+    public static ToiletUser fetchToiletUserByContext() throws ToiletUserNotFoundException {
+        try {
+            UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
+                    SecurityContextHolder.getContext().getAuthentication();
+            String username = (String) authentication.getPrincipal();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, TokenHolder.TOKEN);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            ResponseEntity<ToiletUser> response = restTemplate.exchange(USER_URL,
+                    HttpMethod.GET,entity, ToiletUser.class,username);
+            ToiletUser user = response.getBody();
+
+            return user;
+        } catch (RestClientException e) {
+            throw new ToiletUserNotFoundException(e.getCause());
+        }
+    }
+
+    public static ToiletUser fetchToiletUserByUsername(String username) throws ToiletUserNotFoundException {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, TokenHolder.TOKEN);
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> entity = new HttpEntity<>(headers);
+            ResponseEntity<ToiletUser> response = restTemplate.exchange(USER_URL,
+                    HttpMethod.GET,entity, ToiletUser.class,username);
+            ToiletUser user = response.getBody();
+
+            return user;
+        } catch (RestClientException e) {
+            throw new ToiletUserNotFoundException(e.getCause());
+        }
+    }
+
+
+}

@@ -29,6 +29,8 @@ export default function AddToilet() {
                 })
             })
             .catch(error => {
+                sessionStorage.setItem("loggedInUser", "")
+                window.location.reload(false)
                 console.log(error)
                 prompt(error.message)
             })

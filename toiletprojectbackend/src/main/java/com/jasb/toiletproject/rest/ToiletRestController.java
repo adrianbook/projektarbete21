@@ -8,11 +8,9 @@ import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
 import com.jasb.toiletproject.service.rating.RatingService;
 import com.jasb.toiletproject.service.toilet.ToCloseToAnotherToiletException;
 import com.jasb.toiletproject.service.toilet.ToiletService;
+import com.jasb.toiletproject.util.ToiletUserFetcher;
 import lombok.RequiredArgsConstructor;
-import com.jasb.toiletproject.repo.ToiletRepository;
-import com.jasb.entities.Toilet;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +20,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-import java.util.*;
 
 
 /**
@@ -102,7 +99,7 @@ public class ToiletRestController {
             if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(ratingRestObject.toiletId);
 
             Toilet toilet = fetchedToilet.get();
-            ToiletUser user = ratingService.fetchToiletUser();
+            ToiletUser user = ToiletUserFetcher.fetchToiletUserByContext();
 
             Optional<Rating> fetchedRating = ratingService.checkIfRatingExistForUserAndToilet(user, toilet);
 
