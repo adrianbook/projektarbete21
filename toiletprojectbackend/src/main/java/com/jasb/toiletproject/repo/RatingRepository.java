@@ -1,4 +1,3 @@
-
 package com.jasb.toiletproject.repo;
 
 import com.jasb.entities.Rating;
@@ -15,4 +14,5 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     Optional<Rating> findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet);
     double getAvgRating(long id);
 }
+
 

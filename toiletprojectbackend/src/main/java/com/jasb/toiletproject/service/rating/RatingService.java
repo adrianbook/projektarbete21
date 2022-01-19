@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface RatingService {
     Optional<Rating> checkIfRatingExistForUserAndToilet(ToiletUser user, Toilet toilet);
     Rating addRating(Rating rating);
-    ToiletUser fetchToiletUser() throws ToiletUserNotFoundException;
 }

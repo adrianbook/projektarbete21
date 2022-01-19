@@ -10,7 +10,7 @@ public interface ToiletService {
     /*Optional<Toilet> getAvgRating(long id);*/
 
     List<Toilet> getAllToilets();
-    void addToilet(Toilet toilet) throws ToCloseToAnotherToiletException;
+    Toilet addToilet(Toilet toilet) throws ToCloseToAnotherToiletException;
     Optional<Toilet> getToiletById(long id);
     /*public void addRating(Long toiletId, Rating rating*//*, String username*//*);*/
 }

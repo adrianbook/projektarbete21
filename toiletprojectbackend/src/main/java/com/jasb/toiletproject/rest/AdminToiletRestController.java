@@ -1,7 +1,9 @@
 package com.jasb.toiletproject.rest;
 
+import com.jasb.entities.Report;
 import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.entities.Toilet;
+import com.jasb.toiletproject.service.report.ReportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -28,6 +31,8 @@ public class AdminToiletRestController {
      */
     @Autowired
     ToiletRepository data;
+    @Autowired
+    ReportService reportService;
 
     /**
      * GET endpoint for getting all the toilets from the admin api
@@ -93,5 +98,23 @@ public class AdminToiletRestController {
                     toilet.setLatitude(newToilet.getLatitude());
                     return data.save(toilet);
                 });
+    }
+
+    @GetMapping("reports/getall")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public List<Report> getAllReports() {
+        return reportService.getAllReports();
+    }
+
+    @GetMapping("reports/getallnonexistingtoilets")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public List<Report> getAllReportsForNonExistingToilets() {
+        return reportService.getAllReportsForNonExistentToilet();
+    }
+
+    @GetMapping("reports/getalluserdefinedreports")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public List<Report> getAllUserDefinedReports() {
+        return reportService.getAllReportsWithUserDefinedIssue();
     }
 }

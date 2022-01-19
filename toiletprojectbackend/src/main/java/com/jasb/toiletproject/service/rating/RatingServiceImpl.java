@@ -40,33 +40,10 @@ public class RatingServiceImpl implements RatingService {
 
     @Override
     public Rating addRating(Rating rating) {
-        //Optional<Toilet> fetchedToilet = toiletService.getToiletById(toilet.getId());
-       // ToiletUser user = fetchToiletUser();
         Rating upsertedRating = ratingDao.upsertRating(rating);
-
         log.info("Adding rating for {}", upsertedRating.getId());
         return upsertedRating;
     }
 
-    @Nullable
-    public ToiletUser fetchToiletUser() throws ToiletUserNotFoundException {
-        try {
-        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
-                SecurityContextHolder.getContext().getAuthentication();
-        String username = (String) authentication.getPrincipal();
-        String url = "http://userservice-dev:8080/api/user/{username}";
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.AUTHORIZATION, TokenHolder.TOKEN);
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        ResponseEntity<ToiletUser> response = restTemplate.exchange(url,
-                HttpMethod.GET,entity, ToiletUser.class,username);
-        ToiletUser user = response.getBody();
-
-        return user;
-        } catch (RestClientException e) {
-            throw new ToiletUserNotFoundException(e.getCause());
-        }
-    }
 
 }
