@@ -1,8 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup , useMap, useMapEvents} from 'react-leaflet';
 import React, { useEffect, useState } from "react";
-import AddRatingPopup from "./popups/AddRatingPopup";
+import AddRatingComponent from "./AddRatingComponent";
 import { sendNewToiletToServer } from '../servercalls/Calls';
-import PopupContainer from "./popups/PopupContainer"
 
 
 function ClickEvent(props) {
@@ -93,12 +92,10 @@ const MapComponent = (props) => {
                   Avarege rating {marker.avgRat}
                   <br/>
                   <button id="rateButton" name={marker.id} onClick={showRatingForm}>Rate this toilet</button>
-              {/*
                   <span id={"mySpan"}  style={{display: "none"}}>
                     <AddRatingComponent />
                   </span>
-                */}
-              <PopupContainer marker={marker} type="" />
+
 
               </Popup>
             </Marker>
