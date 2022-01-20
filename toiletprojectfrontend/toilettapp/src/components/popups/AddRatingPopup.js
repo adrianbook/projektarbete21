@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { addRating } from "../../servercalls/Calls";
 
 const AddRatingPopup = (props) => {
-    const navigate = useNavigate();
+
     const [ratingData, setRatingData] = useState({
         toiletId: props.marker.id,
         rating: "",
@@ -24,14 +24,11 @@ const AddRatingPopup = (props) => {
         e.preventDefault()
        
         addRating(ratingData)
-            .then(addedRating => {
-                console.log("rating return object")
-                console.log(addedRating)
+            .then(newMarker => {
+                props.updateMarker(newMarker)
                 props.changeView()
             })
             .catch(error => {
-                sessionStorage.setItem("loggedInUser", "")
-                window.location.reload(false)
                 console.log(error)
                 prompt(error.message)
             })

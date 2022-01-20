@@ -35,7 +35,7 @@ const PopupContainer = (props) => {
         })
     }
 
-    const addMarker = marker => {
+    const updateMarker = marker => {
         props.addMarker(marker)
         setMarker(marker)
     }
@@ -47,6 +47,7 @@ const PopupContainer = (props) => {
                 displayMe={view.rating}
                 changeView={changeView}
                 marker={marker}
+                updateMarker={updateMarker}
             />
             <DefaultPopup
                 displayMe={view.default}
@@ -62,7 +63,7 @@ const PopupContainer = (props) => {
                 displayMe={view.toilet}
                 changeView={changeView}
                 marker={marker}
-                addMarker={addMarker}
+                updateMarker={updateMarker}
             />
         </>
     )

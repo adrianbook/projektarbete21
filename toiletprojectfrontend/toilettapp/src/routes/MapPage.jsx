@@ -18,8 +18,10 @@ function MapPage(props) {
     getAllToiletsCall()
         .then(obj => {
           setMarkers(obj)
+          console.log(obj[0])
         })
-  }, [setMarkers])
+        
+  }, [])
 
   useEffect(() =>{
     if (newToilet) {

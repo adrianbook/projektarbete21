@@ -3,8 +3,8 @@ import { sendNewToiletToServer } from "../../servercalls/Calls"
 const AddToiletPopup = (props) => {
     const addToilet = () => {
         sendNewToiletToServer(props.marker)
-        .then(toilet => {
-            props.addMarker({thispos:[toilet.latitude, toilet.longitude], id: toilet.id})
+        .then(marker => {
+            props.updateMarker(marker)
             props.changeView()
         })
         .catch(e => {
@@ -15,7 +15,6 @@ const AddToiletPopup = (props) => {
     return(
         <>
         <div style={{display: props.displayMe}}>
-            hej
             <button onClick={addToilet}>
                 Add Toilet here
             </button>
