@@ -58,7 +58,10 @@ const MapComponent = (props) => {
             <Marker position={marker.thispos} key={props.markers.indexOf(marker)}>
               <Popup>
                  
-              <PopupContainer marker={marker} />
+              <PopupContainer
+              marker={marker}
+              addMarker={props.addMarker}
+              />
 
               </Popup>
             </Marker>
