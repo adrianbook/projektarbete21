@@ -5,8 +5,10 @@ const DefaultPopup = (props) => {
     return (
         <>
         <div style={{display: props.displayMe}}>
-        ID: {props.marker.id}<br />
-            Average rating {props.marker.avgRat}
+        ID: {props.marker.id}
+        <br />
+        Average rating: {props.marker.avgRat}
+        <br/>
         <button name="rating" onClick={handleChange}>
             Rate toilet
         </button>

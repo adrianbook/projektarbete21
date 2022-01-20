@@ -25,7 +25,9 @@ const AddRatingPopup = (props) => {
        
         addRating(ratingData)
             .then(addedRating => {
-                props.changeView("default")
+                console.log("rating return object")
+                console.log(addedRating)
+                props.changeView()
             })
             .catch(error => {
                 sessionStorage.setItem("loggedInUser", "")

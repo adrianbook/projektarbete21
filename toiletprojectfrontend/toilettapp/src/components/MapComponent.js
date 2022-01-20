@@ -1,7 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup , useMap, useMapEvents} from 'react-leaflet';
 import React, { useEffect, useState } from "react";
-import AddRatingPopup from "./popups/AddRatingPopup";
-import { sendNewToiletToServer } from '../servercalls/Calls';
 import PopupContainer from "./popups/PopupContainer"
 
 
@@ -13,19 +11,16 @@ function ClickEvent(props) {
           map.flyTo(e.latlng)
         }
       })
-    return position === null ? null : (
+    return position ? (
     <Marker position={position}>
         <Popup >
-        Latitude : {position.lat.toFixed(3)} <br />
-        Longitude : {position.lng.toFixed(3)}<br />
-        <button  onClick={ () => 
-            sendNewToiletToServer({latitude: position.lat, longitude: position.lng})
-                .then(r => props.addMarker({thispos:[r.latitude, r.longitude], id: r.id}))}>
-        Add loo 
-        </button>
+          <PopupContainer
+          marker={{latitude: position.lat.toFixed(3), longitude: position.lng.toFixed(3)}}
+          addMarker={props.addMarker}
+          type="toilet"/>
         </Popup>
     </Marker>
-    );
+    ) : null;
 }
 
 function LocationMarker() {
@@ -49,33 +44,6 @@ function LocationMarker() {
 }
 
 const MapComponent = (props) => {
-    const saveToiletToRate = (e) => {
-        e.preventDefault();
-
-        sessionStorage.setItem("toiletToRate", e.target.name)
-        console.log(e.target.name); //will give you the value continue
-    }
-    function showRatingForm(e) {
-        let loggedIn = sessionStorage.getItem("loggedInUser")
-        if(loggedIn === null || !loggedIn.startsWith("Bearer") ) {
-            prompt("You have to be logged in to rate")
-        } else {
-            saveToiletToRate(e)
-            var x = document.getElementById("rateButton");
-            if (x.style.display === "none") {
-                x.style.display = "flex";
-            } else {
-                x.style.display = "none";
-            }
-            var x = document.getElementById("mySpan");
-            if (x.style.display === "none") {
-                x.style.display = "flex";
-            } else {
-                x.style.display = "none";
-            }
-        }
-
-    }
 
   return (
       <MapContainer center={props.pos} zoom={props.zoom} id="map">
@@ -89,16 +57,8 @@ const MapComponent = (props) => {
 
             <Marker position={marker.thispos} key={props.markers.indexOf(marker)}>
               <Popup>
-                  ID: {marker.id}<br />
-                  Avarege rating {marker.avgRat}
-                  <br/>
-                  <button id="rateButton" name={marker.id} onClick={showRatingForm}>Rate this toilet</button>
-              {/*
-                  <span id={"mySpan"}  style={{display: "none"}}>
-                    <AddRatingComponent />
-                  </span>
-                */}
-              <PopupContainer marker={marker} type="" />
+                 
+              <PopupContainer marker={marker} />
 
               </Popup>
             </Marker>
