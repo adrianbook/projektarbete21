@@ -21,6 +21,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -75,8 +76,17 @@ public class ToiletRestController {
 
     @GetMapping(path = "{id}/rating")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public RatingList allRatings(@PathVariable("id") long id) {
-        return new RatingList(ratingService.getAllRatingsForSpecificToilet(id));
+    public ResponseEntity getAllRatingsForToilet(@PathVariable(
+            "id") long id) {
+        List<Rating> ratings  =
+                ratingService.getAllRatingsForSpecificToilet(id);
+        // Returnerar detta även om toaletten inte finns. Ändra?
+        // Kasta exception istället? Vi gör lite olika på olika ställen...
+        if (ratings.isEmpty()) {
+            return new ResponseEntity("No ratings for this toilet yet" ,
+                    HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity(ratings, HttpStatus.ACCEPTED);
     }
 
     /**

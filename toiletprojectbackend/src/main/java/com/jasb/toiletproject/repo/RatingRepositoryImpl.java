@@ -35,6 +35,7 @@ public class RatingRepositoryImpl {
         em.detach(rating);
         rating.getToiletUser().setPassword(null);
         rating.getToiletUser().setRoles(null);
+        rating.getToiletUser().setEmail(null);
         return rating;
     }
 
@@ -50,10 +51,16 @@ public class RatingRepositoryImpl {
     }
 
     public List<Rating> findAllRatingsForToilet(long id) {
-        List ratings = em.createQuery("select r from Rating as r " +
+        List<Rating> ratings = em.createQuery("select r from Rating as r " +
                 "where r.toilet.Id=:id")
                 .setParameter("id", id)
                 .getResultList();
+        for (Rating r :
+                ratings) {
+            r.getToiletUser().setPassword(null);
+            r.getToiletUser().setRoles(null);
+            r.getToiletUser().setEmail(null);
+        }
        return ratings;
     }
 }
