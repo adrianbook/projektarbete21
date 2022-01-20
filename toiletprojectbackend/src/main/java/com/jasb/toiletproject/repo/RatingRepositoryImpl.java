@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -46,6 +47,14 @@ public class RatingRepositoryImpl {
         } else {
             return (double) avgRating;
         }
+    }
+
+    public List<Rating> findAllRatingsForToilet(long id) {
+        List ratings = em.createQuery("select r from Rating as r " +
+                "where r.toilet.Id=:id")
+                .setParameter("id", id)
+                .getResultList();
+       return ratings;
     }
 }
 

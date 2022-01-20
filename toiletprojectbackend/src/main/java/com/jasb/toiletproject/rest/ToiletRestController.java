@@ -73,6 +73,12 @@ public class ToiletRestController {
         return toiletService.getToiletById(id);
     }
 
+    @GetMapping(path = "{id}/rating")
+    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    public RatingList allRatings(@PathVariable("id") long id) {
+        return new RatingList(ratingService.getAllRatingsForSpecificToilet(id));
+    }
+
     /**
      * POST endpoint for adding a new toilet. Open to anyone with
      * the ROLE_APPUSER credentiols.
