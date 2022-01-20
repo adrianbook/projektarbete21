@@ -96,6 +96,10 @@ const addRating = (ratingData) => {
             return r.json()
     })
 }
+
+const getAvgRatingForToiet = (toiletId) => {
+    return fetch("http://localhost:9091/api/v1/toilets/getRating")
+}
 const getAllUsers = () => {
     return fetch("http://localhost:8080/api/users", {
         method: "GET",

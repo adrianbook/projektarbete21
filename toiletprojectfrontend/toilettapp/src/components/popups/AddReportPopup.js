@@ -11,7 +11,7 @@ const AddReportPopup = (props) => {
         e.preventDefault()
 
         console.log(`send report to server:\nnotAtoil: ${formData.notAToilet}\nid: ${formData.toiletId}\nissue: ${formData.issue}`)
-        props.changeView("default")
+        props.changeView()
     }
 
     const handleChange = e => {

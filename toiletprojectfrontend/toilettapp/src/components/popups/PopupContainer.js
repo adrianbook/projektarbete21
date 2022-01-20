@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react"
 import AddRatingPopup from "./AddRatingPopup"
 import AddReportPopup from "./AddReportPopup"
+import AddToiletPopup from "./AddToiletPopup"
 import DefaultPopup from "./DefaultPopup"
 
 const PopupContainer = (props) => {
-    const marker = props.marker
+    const [marker, setMarker] = useState(props.marker)
+
     const noView = {
         default: "none",
         rating: "none",
         report: "none",
-        create: "none"
+        toilet: "none"
         }
     const [view, setView] = useState({
         ...noView,
@@ -26,10 +28,16 @@ const PopupContainer = (props) => {
     },[])
 
     const changeView = (newView) => {
+        const viewToSet = newView || "default"
         setView({
             ...noView,
-            [newView]: ""
+            [viewToSet]: ""
         })
+    }
+
+    const addMarker = marker => {
+        props.addMarker(marker)
+        setMarker(marker)
     }
 
 
@@ -38,17 +46,23 @@ const PopupContainer = (props) => {
             <AddRatingPopup
                 displayMe={view.rating}
                 changeView={changeView}
-                marker={props.marker}
+                marker={marker}
             />
             <DefaultPopup
                 displayMe={view.default}
                 changeView={changeView}
-                marker={props.marker}
+                marker={marker}
             />
             <AddReportPopup
                 displayMe={view.report}
                 changeView={changeView}
-                marker={props.marker}
+                marker={marker}
+            />
+            <AddToiletPopup
+                displayMe={view.toilet}
+                changeView={changeView}
+                marker={marker}
+                addMarker={addMarker}
             />
         </>
     )
