@@ -90,11 +90,12 @@ public class ToiletUserServiceImpl implements ToiletUserService, UserDetailsServ
      * @param rolename
      */
     @Override
-    public void addRoleToUser(String username, String rolename) {
+    public ToiletUser addRoleToUser(String username, String rolename) {
         log.info("Adding role {} to user {}",rolename, username );
         ToiletUser toiletUser = userRepo.findToiletUserByUsername(username);
         Role role = roleRepo.findByName(rolename);
         toiletUser.getRoles().add(role);
+        return toiletUser;
     }
 
     /**

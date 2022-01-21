@@ -56,7 +56,11 @@ public class ToiletUserResource {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_APPUSER')")
     public ResponseEntity<ToiletUser> getToiletUserByUserName(@PathVariable(
             "username")String username) {
-        return ResponseEntity.ok(userService.getToiletUser(username));
+        ToiletUser foundUser = userService.getToiletUser(username);
+        if (foundUser != null) {
+            return ResponseEntity.ok(foundUser);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 
@@ -101,8 +105,7 @@ public class ToiletUserResource {
     @PostMapping("/role/addtouser")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
-        userService.addRoleToUser(form.getUsername(), form.getRolename());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(userService.addRoleToUser(form.getUsername(), form.getRolename()));
     }
 
     @PutMapping("/user/block")

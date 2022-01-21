@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * Class containing user information
@@ -29,6 +30,6 @@ public class ToiletUser {
     private String email;
     private boolean isBlocked = false;
     @ManyToMany(fetch = FetchType.EAGER )
-    private Collection<Role> roles = new ArrayList<>();
+    private Collection<Role> roles = new HashSet<>();
 
 }

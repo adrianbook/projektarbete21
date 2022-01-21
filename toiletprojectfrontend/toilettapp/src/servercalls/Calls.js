@@ -123,6 +123,13 @@ const blockUser = (username) => {
             username: username
         })
     })
+        .then(res => {
+            if (res.status === 403) throw new Error("You can not fetch users")
+            if (res.status === 404) throw new Error("User not found")
+            if (res.status === 500) throw new Error("Error fetching users")
+            if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+            return res.json()
+        })
 }
 const unBlockUser = (username) => {
     return fetch("http://localhost:8080/api/user/unblock", {
@@ -135,6 +142,13 @@ const unBlockUser = (username) => {
             username: username
         })
     })
+        .then(res => {
+            if (res.status === 403) throw new Error("You can not fetch users")
+            if (res.status === 404) throw new Error("User not found")
+            if (res.status === 500) throw new Error("Error fetching users")
+            if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+            return res.json()
+        })
 }
 const fetchUserByUsername = (username) => {
     return fetch("http://localhost:8080/api/user/" + username, {
@@ -170,26 +184,25 @@ const addRole = (data) => {
             if (res.status === 404) throw new Error("Not Found")
             if (res.status === 500) throw new Error("Serverside error")
             if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
-            return res.status
+            return res.json()
         })
 }
 const getAllReports = () => {
-    fetch("http://localhost:9091/admin/api/v1/toilets/reports/getall", {
+     return fetch("http://localhost:9091/admin/api/v1/toilets/reports/getall", {
         method: "GET",
         headers: {
             'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
             'Content-Type': 'application/json'
-        },
-    }).then(res => {
+        }
+    })
+         .then(res => {
         if (res.status === 403) throw new Error("Action not allowed")
         if (res.status === 404) throw new Error("Not Found")
         if (res.status === 500) throw new Error("Serverside error")
         if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
-        console.log("!" +res.json())
-        return res
+        return res.json()
     })
 }
-
 
 const sendReportToServer = reportData => {
     return fetch("http://localhost:9091/api/v1/toilets/reports/report", {
