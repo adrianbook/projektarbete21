@@ -44,16 +44,10 @@ public class RatingRepositoryImpl {
     }
 
     public double findAvgRating(long id) {
-       /* Object avgRating = em.createQuery("select avg (r.rating) from Rating r where r.toilet.Id=:id")
-        Toilet toilet = (Toilet) em.createQuery("select toilet from Toilet as toilet where toilet.id=:id")
+        Object avgRating = em.createQuery("select avg (r.rating) from Rating r where r.toilet.Id=:id")
                 .setParameter("id", id)
                 .getSingleResult();
-        log.info("!!!!FOUND TOILETTTTT {}",toilet);
-                .setParameter("id", id)*/
-        Optional avgRating = em.createQuery("select avg(r.rating) from Rating as r group by r.toilet having r.toilet.Id=:id")
-                .setParameter("id", id)
-                .getResultStream()
-                .findAny();
+
 
         if (avgRating.isEmpty()) {
             return 0.0;
