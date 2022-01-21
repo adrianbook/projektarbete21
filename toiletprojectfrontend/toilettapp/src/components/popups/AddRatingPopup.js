@@ -12,7 +12,7 @@ const AddRatingPopup = (props) => {
 
 
     useEffect(()=>{
-        console.log(props.displayMe)
+
     },[])
     const handleChange = e =>  {
         setRatingData({

@@ -12,16 +12,15 @@ function ClickEvent(props) {
         }
       })
     return position ? (
-    <Marker position={position}>
-        <Popup >
 
-          <PopupContainer
-          marker={{latitude: position.lat.toFixed(3), longitude: position.lng.toFixed(3)}}
-          addMarker={props.addMarker}
-          type="toilet"/>
-
-        </Popup>
-    </Marker>
+        <Marker position={position}>
+            <Popup >
+            <PopupContainer
+            marker={{thispos : [position.lat, position.lng]}}
+            addMarker={props.addMarker}
+            type="toilet"/>
+            </Popup>
+        </Marker>
     ) : null;
 }
 
@@ -55,22 +54,18 @@ const MapComponent = (props) => {
         <LocationMarker />
         <ClickEvent addMarker={props.addMarker}/>
 
-          {props.markers?.map( marker =>  (
-
+            {props.markers?.map( marker =>  (
             <Marker position={marker.thispos} key={props.markers.indexOf(marker)}>
               <Popup>
-                 
-              <PopupContainer
-              marker={marker}
-              addMarker={props.addMarker}
-              />
-
+                <PopupContainer
+                marker={marker}
+                addMarker={props.addMarker}
+                />
               </Popup>
-            </Marker>
-        ))
-        }
+            </Marker>))}
 
       </MapContainer>
-  )}
+  )
+}
 
 export default MapComponent

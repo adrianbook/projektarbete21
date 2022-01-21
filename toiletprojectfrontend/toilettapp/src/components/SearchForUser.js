@@ -45,7 +45,8 @@ const SearchForUser = () => {
                     <br/>
                     <button>submit</button>
                 </form>
-                <span id={"singleUserContainer"}></span>
+        <span id={"singleUserContainer"}></span>
+
             </span>
 }
 export default SearchForUser

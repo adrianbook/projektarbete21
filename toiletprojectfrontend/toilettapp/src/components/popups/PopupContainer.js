@@ -3,6 +3,7 @@ import AddRatingPopup from "./AddRatingPopup"
 import AddReportPopup from "./AddReportPopup"
 import AddToiletPopup from "./AddToiletPopup"
 import DefaultPopup from "./DefaultPopup"
+import SetAddressPopup from "./SetAddressPopup"
 
 const PopupContainer = (props) => {
     const [marker, setMarker] = useState(props.marker)
@@ -43,6 +44,10 @@ const PopupContainer = (props) => {
 
     return (
         <>
+            <SetAddressPopup 
+                marker={marker}
+
+            />
             <AddRatingPopup
                 displayMe={view.rating}
                 changeView={changeView}

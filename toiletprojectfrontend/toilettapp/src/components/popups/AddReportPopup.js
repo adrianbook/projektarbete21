@@ -19,7 +19,6 @@ const AddReportPopup = (props) => {
     }
 
     const handleChange = e => {
-        console.log(e.target.type)
         if (e.target.type === "checkbox") {
             setFormData(prevState => ({
                 ...prevState,
