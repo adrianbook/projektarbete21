@@ -1,17 +1,14 @@
+/* 
+Refaktorerat lite här och lagt till en privat metod för att göra markers av toaletter 
+*/
+
 const getAllToiletsCall = () => {
     return fetch("http://localhost:9091/api/v1/toilets/getalltoilets",
         {method: "GET"})
         .then(res => {
             return  res.json()
         })
-        .then(obj => {
-        console.log(obj)
-        const positions = []
-            obj.toilets.forEach(pos => {
-            positions.push({thispos: [pos.latitude, pos.longitude], id: pos.id, avgRat: pos.avgRating })
-        });
-        return positions
-    })
+        .then(obj => obj.toilets.map(toilet => turnToiletIntoMarker(toilet)))
     .catch(error => {
         console.log("Error: "+error)
     })
@@ -46,6 +43,7 @@ const sendNewToiletToServer = (toiletData) => {
             if (r.status !== 201) throw new Error("unexpected error occured adding toilet")
             return r.json()
         })
+        .then(toilet => turnToiletIntoMarker(toilet))
 
 }
 
@@ -89,13 +87,16 @@ const addRating = (ratingData) => {
         },
         body: JSON.stringify({toiletId: ratingData.toiletId, rating: parseInt(ratingData.rating), notes: ratingData.notes})
     })
-        .then(r => {
-            if (r.status === 403) throw new Error("rating rejected. Is the account valid and assigned a role?")
-            if (r.status === 500) throw new Error(r.status)
-            if (r.status !== 201 && r.status !== 200) throw new Error("unexpected error occured adding rating")
-            return r.json()
+    .then(r => {
+        if (r.status === 403) throw new Error("rating rejected. Is the account valid and assigned a role?")
+        if (r.status === 500) throw new Error(r.json)
+        if (r.status !== 201 && r.status !== 200) throw new Error("unexpected error occured adding rating")
+        return r.json()
     })
+    .then(ratingObj => turnToiletIntoMarker(ratingObj.toilet))
 }
+
+
 const getAllUsers = () => {
     return fetch("http://localhost:8080/api/users", {
         method: "GET",
@@ -173,7 +174,7 @@ const addRole = (data) => {
         })
 }
 const getAllReports = () => {
-    fetch("http://localhost:9091/admin/api/v1/toilets/reports/getallnonexistingtoilets", {
+    fetch("http://localhost:9091/admin/api/v1/toilets/reports/getall", {
         method: "GET",
         headers: {
             'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
@@ -189,5 +190,31 @@ const getAllReports = () => {
     })
 }
 
-export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser, unBlockUser , fetchUserByUsername, addRole , getAllReports }
+
+const sendReportToServer = reportData => {
+    return fetch("http://localhost:9091/api/v1/toilets/reports/report", {
+        method: "POST",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reportData)
+    })
+    .then(response => {
+        if (response.status === 500) throw new Error(response.json())
+        if (response.status !== 201) throw new Error("Unknown problem occured connecting to server")
+        return response.json()
+    })
+    .then(respObj => {
+        respObj.toilet = turnToiletIntoMarker(respObj.toilet)
+        return respObj
+    })
+}
+
+const turnToiletIntoMarker = (toilet) => {
+    console.log(toilet)
+    return {thispos: [toilet.latitude, toilet.longitude], id: toilet.id, avgRat: toilet.avgRating }
+}
+
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser,unBlockUser, fetchUserByUsername, addRole, sendReportToServer ,getAllReports}
 
