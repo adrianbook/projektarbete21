@@ -1,3 +1,7 @@
+/* 
+Refaktorerat lite här och lagt till en privat metod för att göra markers av toaletter 
+*/
+
 const getAllToiletsCall = () => {
     return fetch("http://localhost:9091/api/v1/toilets/getalltoilets",
         {method: "GET"})
@@ -103,10 +107,31 @@ const getAllUsers = () => {
     })
 }
 
+
+const sendReportToServer = reportData => {
+    return fetch("http://localhost:9091/api/v1/toilets/reports/report", {
+        method: "POST",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reportData)
+    })
+    .then(response => {
+        if (response.status === 500) throw new Error(response.json())
+        if (response.status !== 201) throw new Error("Unknown problem occured connecting to server")
+        return response.json()
+    })
+    .then(respObj => {
+        respObj.toilet = turnToiletIntoMarker(respObj.toilet)
+        return respObj
+    })
+}
+
 const turnToiletIntoMarker = (toilet) => {
     console.log(toilet)
     return {thispos: [toilet.latitude, toilet.longitude], id: toilet.id, avgRat: toilet.avgRating }
 }
 
-export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers }
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, sendReportToServer}
 

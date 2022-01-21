@@ -47,12 +47,10 @@ public class RatingRepositoryImpl {
         Object avgRating = em.createQuery("select avg (r.rating) from Rating r where r.toilet.Id=:id")
                 .setParameter("id", id)
                 .getSingleResult();
-
-
-        if (avgRating.isEmpty()) {
+        if (avgRating == null) {
             return 0.0;
         } else {
-            return (double) avgRating.get();
+            return (double) avgRating;
         }
     }
 

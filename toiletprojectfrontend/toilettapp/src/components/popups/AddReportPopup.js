@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { sendReportToServer } from "../../servercalls/Calls";
 
 const AddReportPopup = (props) => {
     const [formData, setFormData] = useState({
@@ -9,9 +10,12 @@ const AddReportPopup = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault()
-
-        console.log(`send report to server:\nnotAtoil: ${formData.notAToilet}\nid: ${formData.toiletId}\nissue: ${formData.issue}`)
-        props.changeView()
+        sendReportToServer(formData)
+            .then(response => {
+                prompt(`report received on toilet number ${response.toilet.id}`)
+                props.changeView()
+            })
+            .catch(e => console.log(e))
     }
 
     const handleChange = e => {
