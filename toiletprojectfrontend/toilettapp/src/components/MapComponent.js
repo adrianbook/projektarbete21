@@ -19,7 +19,13 @@ function ClickEvent(props) {
         Longitude : {position.lng.toFixed(3)}<br />
         <button  onClick={ () => 
             sendNewToiletToServer({latitude: position.lat, longitude: position.lng})
-                .then(r => props.addMarker({thispos:[r.latitude, r.longitude], id: r.id}))}>
+                .then(r => props.addMarker({thispos:[r.latitude, r.longitude], id: r.id}))
+                .catch((error) =>{
+                    sessionStorage.setItem("loggedInUser", "")
+                    window.location.reload(false)
+                    console.log(error)
+                    prompt(error.message)
+                })}>
         Add loo 
         </button>
         </Popup>

@@ -4,6 +4,7 @@ import MapPage from "./routes/MapPage";
 import Login from "./routes/Login";
 import CreateUser from "./routes/CreateUser";
 import AddToilet from "./routes/AddToilet";
+import Admin from "./routes/Admin";
 import { loginCall, verifyUser } from "./servercalls/Calls";
 
 
@@ -96,6 +97,7 @@ const App = () => {
                                     handleSubmit={handleSubmit}/>}/>
       <Route path="/createuser" element={<CreateUser setLoginInfo={setLoginInfo}/>}/>
       <Route path="/addToilet" element={<AddToilet/>}/>
+      <Route path="/admin" element={<Admin/>}/>
     </Routes>
   </BrowserRouter>
         )}

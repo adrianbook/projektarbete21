@@ -108,8 +108,13 @@ public class ToiletUserResource {
     @PutMapping("/user/block")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<ToiletUser> blockUser(@RequestBody Username username){
-        System.out.println("-----in rest ----- " + username.getUsername());
         return ResponseEntity.ok().body(userService.blockToiletUser(userService.getToiletUser(username.getUsername())));
+    }
+
+    @PutMapping("/user/unblock")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
+    public ResponseEntity<ToiletUser> unBlockUser(@RequestBody Username username){
+        return ResponseEntity.ok().body(userService.unBlockToiletUser(userService.getToiletUser(username.getUsername())));
     }
 }
 

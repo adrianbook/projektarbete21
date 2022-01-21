@@ -7,9 +7,7 @@ import {getAllToiletsCall} from "../servercalls/Calls";
 
 
 function MapPage(props) {
-  const [markers, setMarkers] = useState([
-
-  ])
+  const [markers, setMarkers] = useState([])
 
   let newToilet = props?.location?.state || false
 
@@ -18,6 +16,7 @@ function MapPage(props) {
     getAllToiletsCall()
         .then(obj => {
           setMarkers(obj)
+          console.log(markers)
         })
   }, [setMarkers])
 

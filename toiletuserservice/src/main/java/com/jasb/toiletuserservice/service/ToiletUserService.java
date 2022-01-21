@@ -12,4 +12,5 @@ public interface ToiletUserService {
     ToiletUser getToiletUser(String username);
     List<ToiletUser> getToiletUsers();
     ToiletUser blockToiletUser(ToiletUser toiletUser);
+    ToiletUser unBlockToiletUser(ToiletUser toiletUser);
 }

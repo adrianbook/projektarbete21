@@ -104,7 +104,90 @@ const getAllUsers = () => {
             'Content-Type': 'application/json'
         }
     })
+        .then(res =>{
+            if (res.status === 403) throw new Error("You can not fetch users")
+            if (res.status === 500) throw new Error("Error fetching users")
+            if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+            return res.json()
+        })
+}
+const blockUser = (username) => {
+    return fetch("http://localhost:8080/api/user/block", {
+        method: "PUT",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username
+        })
+    })
+}
+const unBlockUser = (username) => {
+    return fetch("http://localhost:8080/api/user/unblock", {
+        method: "PUT",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: username
+        })
+    })
+}
+const fetchUserByUsername = (username) => {
+    return fetch("http://localhost:8080/api/user/" + username, {
+        method: "GET",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        },
+    } )
+        .then(res => {
+            if (res.status === 403) throw new Error("You can not fetch users")
+            if (res.status === 404) throw new Error("User not found")
+            if (res.status === 500) throw new Error("Error fetching users")
+            if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+            return res.json()
+        })
+
+}
+const addRole = (data) => {
+    return fetch("http://localhost:8080/api/role/addtouser", {
+        method: "POST",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            username: data.username,
+            rolename: data.rolename
+        })
+    })
+        .then(res => {
+            if (res.status === 403) throw new Error("Action not allowed")
+            if (res.status === 404) throw new Error("Not Found")
+            if (res.status === 500) throw new Error("Serverside error")
+            if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+            return res.status
+        })
+}
+const getAllReports = () => {
+    fetch("http://localhost:9091/admin/api/v1/toilets/reports/getallnonexistingtoilets", {
+        method: "GET",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        },
+    }).then(res => {
+        if (res.status === 403) throw new Error("Action not allowed")
+        if (res.status === 404) throw new Error("Not Found")
+        if (res.status === 500) throw new Error("Serverside error")
+        if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+        console.log("!" +res.json())
+        return res
+    })
 }
 
-export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers }
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser, unBlockUser , fetchUserByUsername, addRole , getAllReports }
 
