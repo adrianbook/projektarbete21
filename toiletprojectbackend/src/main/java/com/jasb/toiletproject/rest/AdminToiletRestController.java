@@ -81,7 +81,7 @@ public class AdminToiletRestController {
     @DeleteMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void deleteToilet(@PathVariable("id") long id) {
-        log.info("Deleting toilet with {}", id);
+        log.info("Deleting toilet with id {}", id);
         reportService.deleteByToiletId(id);
         ratingService.deleteRatingByToiletId(id);
         data.deleteById(id);

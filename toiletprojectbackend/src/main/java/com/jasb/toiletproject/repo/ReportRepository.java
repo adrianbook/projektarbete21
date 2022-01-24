@@ -10,6 +10,5 @@ import java.util.List;
 public interface ReportRepository extends JpaRepository<Report, Long> {
     List<Report> findAllToiletNonExistentReports();
     Report report(Report report);
-    /*List<Report> findAllUserDefinedIssueReports();*/
     void deleteAllByToiletId(long toiletId);
 }

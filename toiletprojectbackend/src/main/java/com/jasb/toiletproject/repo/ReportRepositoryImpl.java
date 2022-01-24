@@ -29,13 +29,6 @@ public class ReportRepositoryImpl {
         return em.createQuery("select report from Report as report where report.notAToilet = true")
                 .getResultList();
     }
-/*
-
-    public List<Report> findAllUserDefinedIssueReports() {
-
-        return e
-    }
-*/
 
     public void deleteAllByToiletId(long toiletId) {
         em.createQuery("delete from Report as report where report.toilet.Id=:toiletId")
