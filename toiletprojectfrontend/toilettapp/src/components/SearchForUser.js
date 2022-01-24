@@ -5,6 +5,7 @@ import ShowUsersComponent from "./ShowUsersComponent";
 
 const SearchForUser = () => {
     const [usernameToSearch, setUsernameToSearch] = useState("")
+    const [displaySingleUser, setDisplaySingleUser] = useState("none")
 
     function searchForUser(e) {
         e.preventDefault()
@@ -23,6 +24,7 @@ const SearchForUser = () => {
     };
 
     const showSingleUser = (user) => {
+        setDisplaySingleUser("block")
         render( <ShowUsersComponent user={user}/>,
             document.getElementById("singleUserContainer")
         )
@@ -45,8 +47,12 @@ const SearchForUser = () => {
                     <br/>
                     <button>submit</button>
                 </form>
-        <span id={"singleUserContainer"}></span>
+        <div style={{display: displaySingleUser}}>
+            <span  id={"singleUserContainer"}>
 
+            </span>
+            <button onClick={() => setDisplaySingleUser("none")}>Hide</button>
+        </div>
             </span>
 }
 export default SearchForUser

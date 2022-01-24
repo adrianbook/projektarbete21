@@ -6,17 +6,17 @@ import com.jasb.entities.Toilet;
 import com.jasb.entities.ToiletUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Optional;
 
 @Component
-@Transactional
 @Slf4j
+@Transactional
 public class RatingRepositoryImpl {
 
     @PersistenceContext
@@ -66,6 +66,13 @@ public class RatingRepositoryImpl {
             r.getToiletUser().setEmail(null);
         }
        return ratings;
+    }
+
+    public void deleteRatingByToiletId(long id){
+        em.createQuery("delete from  Rating as rating where rating.toilet.Id=:toiletId")
+                .setParameter("toiletId", id)
+                .executeUpdate();
+
     }
 }
 

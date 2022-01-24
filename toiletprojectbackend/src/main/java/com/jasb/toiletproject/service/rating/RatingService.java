@@ -11,6 +11,7 @@ public interface RatingService {
     Optional<Rating> checkIfRatingExistForUserAndToilet(ToiletUser user, Toilet toilet);
     Rating addRating(Rating rating);
     double getUpdatedAvgRating(long toiletId);
+    void deleteRatingByToiletId(long id);
 
     List<Rating> getAllRatingsForSpecificToilet(long toiletId);
 }

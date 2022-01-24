@@ -204,6 +204,40 @@ const getAllReports = () => {
     })
 }
 
+const getAllUserdefinedReports = () => {
+    return fetch("http://localhost:9091/admin/api/v1/toilets/reports/getalluserdefinedreports", {
+        method: "GET",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => {
+            if (res.status === 403) throw new Error("Action not allowed")
+            if (res.status === 404) throw new Error("Not Found")
+            if (res.status === 500) throw new Error("Serverside error")
+            if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+            return res.json()
+        })
+}
+
+const getAllNonExistingToiletsReports = () => {
+    return fetch("http://localhost:9091/admin/api/v1/toilets/reports/getallnonexistingtoilets", {
+        method: "GET",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => {
+            if (res.status === 403) throw new Error("Action not allowed")
+            if (res.status === 404) throw new Error("Not Found")
+            if (res.status === 500) throw new Error("Serverside error")
+            if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+            return res.json()
+        })
+}
+
 const sendReportToServer = reportData => {
     return fetch("http://localhost:9091/api/v1/toilets/reports/report", {
         method: "POST",
@@ -224,9 +258,26 @@ const sendReportToServer = reportData => {
     })
 }
 
+const deleteToilet = toiletID => {
+    return fetch("http://localhost:9091/admin/api/v1/toilets/" + toiletID, {
+        method: "DELETE",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        }
+    }).then(res => {
+            if (res.status === 403) throw new Error("Action not allowed")
+            if (res.status === 404) throw new Error("Not Found")
+            if (res.status === 500) throw new Error("Serverside error")
+            if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+            return res.status
+        }
+    )
+}
 const turnToiletIntoMarker = (toilet) => {
     return {thispos: [toilet.latitude, toilet.longitude], id: toilet.id, avgRat: toilet.avgRating }
 }
 
-export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser,unBlockUser, fetchUserByUsername, addRole, sendReportToServer ,getAllReports}
+
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser,unBlockUser, fetchUserByUsername, addRole, sendReportToServer ,getAllReports, getAllUserdefinedReports, getAllNonExistingToiletsReports, deleteToilet}
 

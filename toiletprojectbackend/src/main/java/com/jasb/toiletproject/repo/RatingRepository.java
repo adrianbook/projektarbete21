@@ -15,6 +15,7 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     Optional<Rating> findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet);
     double findAvgRating(long id);
     List<Rating> findAllRatingsForToilet(long id);
+    void deleteRatingByToiletId(long id);
 }
 
 

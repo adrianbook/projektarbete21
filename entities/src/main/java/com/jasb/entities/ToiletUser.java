@@ -25,6 +25,7 @@ public class ToiletUser {
     private String name;
     @Column(unique=true)
     private String username;
+
     private String password;
     @Column(unique=true)
     private String email;

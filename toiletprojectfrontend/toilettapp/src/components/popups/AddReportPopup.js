@@ -3,7 +3,7 @@ import { sendReportToServer } from "../../servercalls/Calls";
 
 const AddReportPopup = (props) => {
     const [formData, setFormData] = useState({
-        issue: "",
+        issue: null,
         notAToilet: false,
         toiletId: props.marker.id
     })

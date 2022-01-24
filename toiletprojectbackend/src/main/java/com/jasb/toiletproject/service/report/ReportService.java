@@ -9,4 +9,5 @@ public interface ReportService {
     List<Report> getAllReports();
     List<Report> getAllReportsForNonExistentToilet();
     List<Report> getAllReportsWithUserDefinedIssue();
+    void deleteByToiletId(long toiletId);
 }

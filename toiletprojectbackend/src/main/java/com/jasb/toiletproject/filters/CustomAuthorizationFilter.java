@@ -66,7 +66,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getSubject();
         if(ToiletUserFetcher.fetchToiletUserByUsername(username).isBlocked()) {
-            log.info("blocked user {} tried to acces service", username );
+            log.info("blocked user {} tried to access service", username );
             return null;
         }
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);

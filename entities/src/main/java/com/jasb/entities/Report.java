@@ -13,7 +13,7 @@ public class Report {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Toilet toilet;
     @ManyToOne(cascade = CascadeType.DETACH)
     private ToiletUser owningUser;

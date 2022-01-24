@@ -36,6 +36,11 @@ public class RatingServiceImpl implements RatingService {
     }
 
     @Override
+    public void deleteRatingByToiletId(long id) {
+        ratingDao.deleteRatingByToiletId(id);
+    }
+
+    @Override
     public List<Rating> getAllRatingsForSpecificToilet(long toiletId) {
         return ratingDao.findAllRatingsForToilet(toiletId);
     }
