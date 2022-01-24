@@ -93,7 +93,7 @@ public class ToiletRestController {
      * POST endpoint for adding a new toilet. Open to anyone with
      * the ROLE_APPUSER credentiols.
      *
-     * @param t a JSON representation of a toilet in the request body
+     * @param t a JSON representation of a toilet in the request boduy
      * @return a JSON representation of the created toilet and a responsecode
      */
     @PostMapping("/create")
@@ -143,7 +143,8 @@ report a toilet. takes a json object containing fields:
     public ResponseEntity setRatingForToilet(@RequestBody Rating rating) {
         try {
 
-            Optional<Toilet> fetchedToilet = toiletService.getToiletById(rating.getToiletId());
+            Optional<Toilet> fetchedToilet =
+                    toiletService.getToiletById(rating.getToilet().getId());
             if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(rating.getToiletId());
 
             Toilet toilet = fetchedToilet.get();

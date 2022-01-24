@@ -24,7 +24,7 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public Rating addRating(Rating rating) {
         Rating upsertedRating = ratingDao.upsertRating(rating);
-        log.info("Adding rating for {}", upsertedRating.getId());
+//        log.info("Adding rating for {}", upsertedRating.getId());
         return upsertedRating;
     }
 
