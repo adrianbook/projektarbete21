@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {getAllReports , getAllUserdefinedReports, getAllNonExistingToiletsReports , deleteToilet} from "../servercalls/Calls";
+import {getAllReports , getAllUserdefinedReports, getAllNonExistingToiletsReports , deleteToilet} from "../../servercalls/Calls";
 
 const ShowReportsComponent = () => {
     const [reports, setReports] = useState([])

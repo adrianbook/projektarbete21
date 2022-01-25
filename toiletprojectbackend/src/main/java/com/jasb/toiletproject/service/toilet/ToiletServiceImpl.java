@@ -23,21 +23,11 @@ public class ToiletServiceImpl implements ToiletService {
     private final ToiletRepository toiletDao;
     private final RatingService ratingService;
 
-/*    @Override
-    public Optional<Toilet> getAvgRating(long id) {
-        log.info("Fining toilet with id {}", id);
-        Optional<Toilet> t = toiletDao.findById(id);
-        double avgRating = ratingDao.avgRating(t.get().getId());
-        t.get().setAvgRating(avgRating);
-        return t;
-    }*/
 
     @Override
     public Optional<Toilet> getToiletById(long id) {
         log.info("Finding toilet with id {}", id);
         Optional<Toilet> optionalToilet = toiletDao.findById(id);
-        //optionalToilet.ifPresent(toilet -> toilet.setAvgRating(ratingDao
-        // .findAvgRating(toilet.getId())));
         optionalToilet.ifPresent(toilet -> toilet.setAvgRating(ratingService.getUpdatedAvgRating(toilet.getId())));
         return optionalToilet;
     }
@@ -70,15 +60,5 @@ public class ToiletServiceImpl implements ToiletService {
         return toiletDao.save(newToilet);
     }
 
-/*    @Override
-    public  Rating addRating(Long toiletId, Rating rating*//*, ToiletUser toiletUser*//*) {
-        *//*toiletDao.addRating(toiletId, rating);*//*
-        Optional<Toilet> t = toiletDao.findById(toiletId);
-        Toilet toilet = t.get();
-        *//*toilet.setRatings(Collections.singleton(rating));*//*
-        Collection<Rating> ratings = toilet.getRatings();
-        ratings.add(rating);
-        toilet.setRatings(ratings);
-        toiletDao.save(toilet);
-    }*/
+
 }

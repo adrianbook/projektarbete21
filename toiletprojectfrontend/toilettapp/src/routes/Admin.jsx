@@ -1,9 +1,9 @@
 import {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import {getAllUsers } from "../servercalls/Calls";
-import ShowUsersComponent from "../components/ShowUsersComponent";
-import SearchForUser from "../components/SearchForUser";
-import ShowReportsComponent from "../components/ShowReportsComponent";
+import ShowUsersComponent from "../components/admin/ShowUsersComponent";
+import SearchForUser from "../components/admin/SearchForUser";
+import ShowReportsComponent from "../components/admin/ShowReportsComponent";
 
 
 

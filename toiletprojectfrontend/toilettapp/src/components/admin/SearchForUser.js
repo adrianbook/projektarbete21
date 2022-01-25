@@ -1,11 +1,14 @@
 import {useState} from "react";
-import {fetchUserByUsername} from "../servercalls/Calls";
+import {fetchUserByUsername} from "../../servercalls/Calls";
 import {render} from "react-dom";
 import ShowUsersComponent from "./ShowUsersComponent";
 
 const SearchForUser = () => {
     const [usernameToSearch, setUsernameToSearch] = useState("")
     const [displaySingleUser, setDisplaySingleUser] = useState("none")
+    const [userToShow, setUserToShow] = useState()
+
+
 
     function searchForUser(e) {
         e.preventDefault()
@@ -25,6 +28,7 @@ const SearchForUser = () => {
 
     const showSingleUser = (user) => {
         setDisplaySingleUser("block")
+
         render( <ShowUsersComponent user={user}/>,
             document.getElementById("singleUserContainer")
         )

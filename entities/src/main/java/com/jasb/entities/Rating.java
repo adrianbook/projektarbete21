@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"toilet_user_id", "toilet_id"})})
+//  @Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"toilet_user_id", "toilet_id"})})
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
