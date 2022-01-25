@@ -9,8 +9,6 @@ import com.jasb.toiletproject.service.toilet.ToCloseToAnotherToiletException;
 import com.jasb.toiletproject.service.toilet.ToiletService;
 import com.jasb.toiletproject.util.ToiletUserFetcher;
 
-import com.jasb.toiletproject.service.toiletuser.ToiletUserService;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,7 +44,6 @@ public class ToiletRestController {
 
     private final ToiletService toiletService;
     private final RatingService ratingService;
-    private final ToiletUserService toiletUserService;
     private final ReportService reportService;
 
 
@@ -70,8 +67,14 @@ public class ToiletRestController {
      */
     @GetMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
-    public Optional<Toilet> getToiletById(@PathVariable("id") long id) {
-        return toiletService.getToiletById(id);
+    public ResponseEntity<Toilet> getToiletById(@PathVariable("id") long id) throws ToiletNotFoundException {
+        try {
+            Toilet toilet = toiletService.getToiletById(id);
+            return ResponseEntity.ok().body(toilet);
+        } catch (ToiletNotFoundException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping(path = "{id}/rating")
@@ -118,11 +121,8 @@ report a toilet. takes a json object containing fields:
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity reportToilet(@RequestBody Report report) {
         try {
-            Optional<Toilet> toiletOptional = toiletService.getToiletById(report.getToiletId());
-            if (toiletOptional.isEmpty()) throw new ToiletNotFoundException(report.getToiletId());
-            Toilet toilet = toiletOptional.get();
-            ToiletUser toiletUser = toiletUserService.fetchToiletUser();
-
+            Toilet toilet = toiletService.getToiletById(report.getToiletId());
+            ToiletUser toiletUser = ToiletUserFetcher.fetchToiletUserByContext();
             report.setToilet(toilet);
             report.setOwningUser(toiletUser);
 
@@ -143,10 +143,7 @@ report a toilet. takes a json object containing fields:
     public ResponseEntity setRatingForToilet(@RequestBody Rating rating) {
         try {
 
-            Optional<Toilet> fetchedToilet = toiletService.getToiletById(rating.getToiletId());
-            if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(rating.getToiletId());
-
-            Toilet toilet = fetchedToilet.get();
+            Toilet toilet = toiletService.getToiletById(rating.getToiletId());
 
             ToiletUser user = ToiletUserFetcher.fetchToiletUserByContext();
 

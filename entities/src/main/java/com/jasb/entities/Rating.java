@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//  @Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"toilet_user_id", "toilet_id"})})
+@Table(uniqueConstraints = { @UniqueConstraint(columnNames = {"toilet_user_id", "toilet_id"})})
 public class Rating {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +21,7 @@ public class Rating {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "toilet_user_id")
     private ToiletUser toiletUser;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "toilet_id")
     private Toilet toilet;
     @Transient

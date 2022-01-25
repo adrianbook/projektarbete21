@@ -3,6 +3,7 @@ package com.jasb.toiletproject.service.toilet;
 import com.jasb.entities.Rating;
 import com.jasb.entities.Toilet;
 import com.jasb.entities.ToiletUser;
+import com.jasb.toiletproject.exceptions.ToiletNotFoundException;
 import com.jasb.toiletproject.repo.RatingRepository;
 import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.toiletproject.service.rating.RatingService;
@@ -25,23 +26,23 @@ public class ToiletServiceImpl implements ToiletService {
 
 
     @Override
-    public Optional<Toilet> getToiletById(long id) {
+    public Toilet getToiletById(long id) throws ToiletNotFoundException {
         log.info("Finding toilet with id {}", id);
         Optional<Toilet> optionalToilet = toiletDao.findById(id);
+        if (optionalToilet.isEmpty()) {
+            throw new ToiletNotFoundException(id);
+        }
         optionalToilet.ifPresent(toilet -> toilet.setAvgRating(ratingService.getUpdatedAvgRating(toilet.getId())));
-        return optionalToilet;
+        return optionalToilet.get();
     }
 
     @Override
     public List<Toilet> getAllToilets() {
         log.info("Returning all toilets");
         List<Toilet> toiletList = toiletDao.findAll();
-        double avgRating;
         for (Toilet t :
                 toiletList) {
-            //avgRating = ratingDao.findAvgRating(t.getId());
-            avgRating = ratingService.getUpdatedAvgRating(t.getId());
-            t.setAvgRating(avgRating);
+            t.setAvgRating(ratingService.getUpdatedAvgRating(t.getId()));
         }
         return toiletList;
     }

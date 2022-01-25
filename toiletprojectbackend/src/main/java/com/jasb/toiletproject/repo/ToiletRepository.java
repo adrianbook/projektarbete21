@@ -12,7 +12,5 @@ import javax.persistence.PersistenceContext;
 
 @Repository
 public interface ToiletRepository extends JpaRepository<Toilet, Long> {
-/*@PersistenceContext()
-private EntityManager entity;
-    public void addRatingBy(String toiletId, Rating rating);*/
+
 }

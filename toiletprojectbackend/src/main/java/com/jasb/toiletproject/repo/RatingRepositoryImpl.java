@@ -72,7 +72,6 @@ public class RatingRepositoryImpl {
         em.createQuery("delete from  Rating as rating where rating.toilet.Id=:toiletId")
                 .setParameter("toiletId", id)
                 .executeUpdate();
-
     }
 }
 

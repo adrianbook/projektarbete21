@@ -13,8 +13,6 @@ const SetAddressPopup = (props) => {
             setLocation(responseJson);
         };
         getAddress(props)
-        console.log(props)
-        console.log("NOW ---")
     }, []);
 
     return (

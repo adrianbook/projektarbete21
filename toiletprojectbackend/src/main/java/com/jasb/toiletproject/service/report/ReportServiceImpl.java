@@ -36,7 +36,9 @@ public class ReportServiceImpl implements ReportService{
     @Override
     public List<Report> getAllReportsWithUserDefinedIssue() {
         return reportRepo.findAll().stream()
-                .filter(report -> report.getIssue().length() != 0).collect(Collectors.toList());
+                .filter(report -> report.getIssue().length() != 0)
+                .map(report -> removePassWordAndRoles(report))
+                .collect(Collectors.toList());
     }
 
     @Override

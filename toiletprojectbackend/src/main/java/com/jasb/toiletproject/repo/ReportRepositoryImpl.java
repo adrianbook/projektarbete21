@@ -34,6 +34,5 @@ public class ReportRepositoryImpl {
         em.createQuery("delete from Report as report where report.toilet.Id=:toiletId")
                 .setParameter("toiletId", toiletId)
                 .executeUpdate();
-
     }
 }

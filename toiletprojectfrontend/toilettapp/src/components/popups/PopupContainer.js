@@ -34,8 +34,6 @@ const PopupContainer = (props) => {
             setLocation(responseJson);
         };
         getAddress(marker)
-        console.log("marker")   
-        console.log(marker)
     },[marker, setLocation])
 
     useEffect(() => {

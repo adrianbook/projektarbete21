@@ -64,7 +64,7 @@ const ShowReportsComponent = () => {
                     alert(err.message)
                 })
             let filtered = reports.filter(report => {
-                return report.toiletId != e.target.value
+                return report.toiletId !== e.target.value
             })
             console.log(filtered)
             setReports(filtered)
