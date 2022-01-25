@@ -9,10 +9,11 @@ function ClickEvent(props) {
         click: (e) => {
           setPosition(e.latlng);
           map.flyTo(e.latlng)
+          console.log(position)
         }
       })
     return position ? (
-
+        <>
         <Marker position={position}>
             <Popup >
             <PopupContainer
@@ -21,6 +22,7 @@ function ClickEvent(props) {
             type="toilet"/>
             </Popup>
         </Marker>
+        </>
     ) : null;
 }
 
