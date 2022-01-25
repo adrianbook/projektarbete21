@@ -30,7 +30,6 @@ const ShowReportsComponent = () => {
     function getAllUserdefinedReportsClick() {
         getAllUserdefinedReports()
             .then(res => {
-                console.log(res)
                 res.map( report => {
                     reports.push(mapReport(report))
                 })
@@ -42,7 +41,6 @@ const ShowReportsComponent = () => {
     function getAllNonExistingToiletsClick() {
         getAllNonExistingToiletsReports()
             .then(res => {
-                console.log(res)
                 res.map( report => {
                     reports.push(mapReport(report))
                 })
