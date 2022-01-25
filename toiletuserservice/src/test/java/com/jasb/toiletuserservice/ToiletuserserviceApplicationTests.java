@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,18 +49,16 @@ class ToiletuserserviceApplicationTests {
 
 	private final static String TOILET_USER_1 = "{\"email\":\"john.doe@mail.com\",\"name\":\"John Doe\",\"password\":\"secret\",\"username\":\"jd\"}";
 	private final static String TOILET_USER_2 = "{\"email\":\"joanna.doe@mail.com\",\"name\":\"Joanna Doe\",\"password\":\"secret\",\"username\":\"jo\"}";
-	/*private final static String TOILET_USERS = "{\"toilet_users\": [" +
-			"{\"email\":\"john.doe@mail.com\",\"name\":\"John Doe\",\"password\":\"secret\",\"username\":\"jd\"}," +
-			"{\"email\":\"joanna.doe@mail.com\",\"name\":\"Joanna Doe\",\"password\":\"secret\",\"username\":\"jo\"}" +
-			"]\"}";
-	private final static String FUCK = "{\"toilet_user\": [{\"email\": \"john" +
-			".doe@mail.com\",\"name\": \"John Doe\",\"password\": \"secret\"," +
-			"\"username\":\"jd\"},{\"email\": \"joanna.doe@mail.com\",\"name\": \"Joanna Doe\",\"password\": \"secret\",\"username\": \"jo\"}}";*/
+	private final static String ROLE = "{\"name\":\"ROLE_APPUSER\"}";
 
 	@Test
 	void saveToiletUserTest() throws Exception {
-		Role role = new Role(1, "ROLE_APPUSER");
-		roleRepo.save(role);
+		mockMvc.perform(post("/api/role/save")
+						.with(user("superduperadmin").roles("SUPER_ADMIN"))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(ROLE))
+				.andExpect(status().isCreated());
+
 		mockMvc.perform(post("/api/user/save")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(TOILET_USER_1))
@@ -92,12 +91,22 @@ class ToiletuserserviceApplicationTests {
 						.contentType(MediaType.APPLICATION_JSON))
 						.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				/*.andExpect(content().json(FUCK))*/;
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0].username").value("jd"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$[1].username").value("jo"));
+	}
 
-		mockMvc.perform(get("/api/user/joanna")
+	@Test
+	void getToiletUserTest() throws Exception {
+		mockMvc.perform(post("/api/user/save")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(TOILET_USER_1))
+				.andExpect(status().isCreated());
+
+		mockMvc.perform(get("/api/user/jd")
 						.with(user("user").roles("SUPER_ADMIN"))
-				.contentType(MediaType.APPLICATION_JSON))
+						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				/*.andExpect(content().json(TOILET_USER_2))*/;
+				.andExpect(MockMvcResultMatchers.jsonPath("$.email").value(
+						"john.doe@mail.com"));
 	}
 }
