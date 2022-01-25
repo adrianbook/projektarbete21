@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { sendReportToServer } from "../../servercalls/Calls";
 
 const AddReportPopup = (props) => {
@@ -8,8 +8,10 @@ const AddReportPopup = (props) => {
         toiletId: props.marker.id
     })
 
+
     const handleSubmit = e => {
         e.preventDefault()
+        console.log(formData)
         sendReportToServer(formData)
             .then(response => {
                 prompt(`report received on toilet number ${response.toilet.id}`)

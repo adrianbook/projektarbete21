@@ -31,7 +31,14 @@ const getAllToiletsCall = () => {
 const sendNewToiletToServer = (toiletData) => {
     return fetch('http://localhost:9091/api/v1/toilets/create', {
         method: 'POST',
-        body: JSON.stringify({latitude: parseFloat(toiletData.latitude), longitude: parseFloat(toiletData.longitude)}),
+        body: JSON.stringify({latitude: parseFloat(toiletData.latitude),
+                                    longitude: parseFloat(toiletData.longitude),
+                                    urinal: toiletData.urinal,
+                                    separateGenders: toiletData.separateGenders,
+                                    changingTable: toiletData.changingTable,
+                                    shower: toiletData.shower,
+                                    handicapFriendly: toiletData.handicapFriendly
+        }),
         headers: {
             'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
             'Content-Type': 'application/json'
@@ -276,7 +283,14 @@ const deleteToilet = toiletID => {
 }
 
 const turnToiletIntoMarker = (toilet) => {
-    return {thispos: [toilet.latitude, toilet.longitude], id: toilet.id, avgRat: toilet.avgRating }
+    return {thispos: [toilet.latitude, toilet.longitude],
+            id: toilet.id,
+            avgRat: toilet.avgRating,
+            urinal: toilet.urinal,
+            separateGenders: toilet.separateGenders,
+            changingTable: toilet.changingTable,
+            shower: toilet.shower,
+            handicapFriendly: toilet.handicapFriendly}
 }
 
 

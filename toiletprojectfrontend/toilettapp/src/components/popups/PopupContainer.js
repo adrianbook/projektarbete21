@@ -52,6 +52,14 @@ const PopupContainer = (props) => {
             [viewToSet]: ""
         })
     }
+    const changeMarker = (marker) => {
+        console.log("_____" + marker.id)
+        setMarker(marker)
+        setView({
+            ...noView,
+            default: ""
+        })
+    }
 
     const updateMarker = marker => {
         props.addMarker(marker)
@@ -84,7 +92,7 @@ const PopupContainer = (props) => {
             />
             <AddToiletPopup
                 displayMe={view.toilet}
-                changeView={changeView}
+                changeView={changeMarker}
                 marker={marker}
                 updateMarker={updateMarker}
             />
