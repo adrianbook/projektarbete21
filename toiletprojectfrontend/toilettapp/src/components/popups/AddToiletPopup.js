@@ -2,7 +2,7 @@ import { sendNewToiletToServer } from "../../servercalls/Calls"
 
 const AddToiletPopup = (props) => {
     const addToilet = () => {
-        sendNewToiletToServer({latitude: props.marker.thispos[0],longitude:  props.marker.thispos[1]})
+        sendNewToiletToServer({latitude: props.marker.thispos[0], longitude:  props.marker.thispos[1]})
         .then(marker => {
             props.updateMarker(marker)
             props.changeView()

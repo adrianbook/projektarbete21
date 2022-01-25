@@ -274,6 +274,7 @@ const deleteToilet = toiletID => {
         }
     )
 }
+
 const turnToiletIntoMarker = (toilet) => {
     return {thispos: [toilet.latitude, toilet.longitude], id: toilet.id, avgRat: toilet.avgRating }
 }

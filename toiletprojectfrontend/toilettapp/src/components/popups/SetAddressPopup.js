@@ -18,7 +18,7 @@ const SetAddressPopup = (props) => {
     return (
         <>
             <div>
-               {location?.address?.Match_addr}
+               {props.loc?.address?.Match_addr}
             </div>
         </>
     )   
