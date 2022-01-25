@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -29,8 +30,7 @@ import java.util.Locale;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,12 +39,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase
 @Transactional
 class ToiletuserserviceApplicationTests {
-
-	/*@Autowired
-	private ObjectMapper objectMapper;*/
-	/*@Autowired
-	private RoleRepo roleRepo;*/
-
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
@@ -55,6 +49,7 @@ class ToiletuserserviceApplicationTests {
 	private final static String TOILET_USER_3 = "{\"email\":\"johnny.doe@mail.com\",\"name\":\"Johnny Doe\",\"password\":\"secret\",\"username\":\"jy\"}";
 	private final static String ROLE = "{\"name\":\"ROLE_APPUSER\"}";
 	private final static String ROLE_TO_USER_FORM = "{\"username\":\"jd\",\"rolename\":\"ROLE_APPUSER\"}";
+	private final static String USERNAME = "{\"username\":\"jd\"}";
 
 	@Test
 	void saveRoleTest() throws Exception {
@@ -68,13 +63,6 @@ class ToiletuserserviceApplicationTests {
 
 	@Test
 	void saveToiletUserTest() throws Exception {
-		/*mockMvc.perform(post("/api/role/save")
-						.with(user("superduperadmin").roles("SUPER_ADMIN"))
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(ROLE))
-				.andExpect(status().isCreated())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value("ROLE_APPUSER"));*/
-
 		mockMvc.perform(post("/api/user/save")
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(TOILET_USER_1))
@@ -118,8 +106,6 @@ class ToiletuserserviceApplicationTests {
 				.andExpect(status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.email").value(
 						"joanna.doe@mail.com"));
-
-
 	}
 
 	@Test
@@ -140,7 +126,6 @@ class ToiletuserserviceApplicationTests {
 						.content(TOILET_USER_3))
 				.andExpect(status().isCreated());
 
-
 		mockMvc.perform(get("/api/users")
 						.with(user("user").roles("SUPER_ADMIN"))
 						.contentType(MediaType.APPLICATION_JSON))
@@ -149,8 +134,6 @@ class ToiletuserserviceApplicationTests {
 				.andExpect(MockMvcResultMatchers.jsonPath("$[0].username").value("jd"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$[1].username").value("jo"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$[2].username").value("jy"));
-		/*.andExpect(MockMvcResultMatchers.jsonPath("$[0].username").value("jy"))*/
-		;
 	}
 
 	@Test
@@ -169,12 +152,52 @@ class ToiletuserserviceApplicationTests {
 	}
 
 	@Test
-	void getTokenVerification() throws Exception {
-		// TODO: 2022-01-25
+	void getTokenVerificationTest() throws Exception {
+		// TODO: 2022-01-25  
+		/*mockMvc.perform(post("/api/role/save")
+						.with(user("superduperadmin").roles("SUPER_ADMIN"))
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(ROLE))
+				.andExpect(status().isCreated())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value("ROLE_APPUSER"));
+		mockMvc.perform(post("/api/user/save")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(TOILET_USER_1))
+				.andExpect(status().isCreated())
+				.andExpect(content().string("User created"));
+
+		*//*User usr = new
+				org.springframework.security.core.userdetails.User(userService.loadUserByUsername("jd").getUsername(),
+																	userService.loadUserByUsername("jd").getPassword(),
+																	userService.loadUserByUsername("jd").getAuthorities());*//*
+		*//*User usr = new User(userService.loadUserByUsername("jd").getUsername(),
+				userService.loadUserByUsername("jd").getPassword(),
+				userService.loadUserByUsername("jd").getAuthorities());
+
+		mockMvc.perform(get("/api/verifyuser")
+				.with(user(usr))
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());*//*
+
+		mockMvc.perform(get("/api/verifyuser")
+						.with(user("jd").roles("SUPER_ADMIN"))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk());*/
 	}
 
 	@Test
 	void blockUserTest() throws Exception {
-		// TODO: 2022-01-25
+		mockMvc.perform(post("/api/user/save")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(TOILET_USER_1))
+				.andExpect(status().isCreated())
+				.andExpect(content().string("User created"));
+		mockMvc.perform(put("/api/user/block")
+				.with(user("superduperadmin").roles("SUPER_ADMIN"))
+				.contentType(MediaType.APPLICATION_JSON)
+				.content("{\"username\":\"jd\"}"))
+				.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.username").value("jd"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.blocked").value(true));
 	}
 }

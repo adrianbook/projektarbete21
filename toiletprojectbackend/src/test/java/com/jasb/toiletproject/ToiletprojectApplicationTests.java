@@ -103,10 +103,6 @@ class ToiletprojectApplicationTests {
 						.content(LAT_LONG_JSON))
 				.andExpect(status().isCreated())
 				.andExpect(content().string("{\"longitude\":11.937,\"latitude\":57.706,\"avgRating\":0.0,\"id\":2}"));
-		/*Optional<Toilet> toilet = toiletRepository.findById(1L);
-		Assertions.assertTrue(toilet.isPresent());
-		Assertions.assertEquals(1, toilet.get().getId());
-		Assertions.assertEquals(LONGITUDE, toilet.get().getLongitude());*/
 	}
 
 	@Test
