@@ -82,7 +82,7 @@ const ShowReportsComponent = () => {
                 <div>
                 <p>Report</p>
                 <ul>
-                    <li>id: {report.id}</li>
+                    <li key={report.id}>id: {report.id}</li>
                     <li>notes: {report.notes}</li>
                     <li>no toilet: {report.notAToilet}</li>
                     <li>owning userID: {report.owningUserID}</li>

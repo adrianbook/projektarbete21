@@ -1,12 +1,16 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {blockUser, unBlockUser , addRole} from "../../servercalls/Calls";
-import {render} from "react-dom";
+
 
 const ShowUsersComponent = (props) => {
     const [userData, setUserData] = useState(
         mapUserdata(props.user)
     )
     const [roleToAdd, setRoleToAdd] = useState("")
+
+    useEffect(() => {
+        setUserData(mapUserdata(props.user))
+    },[props.user, setUserData])
 
     function mapUserdata(userDataToMap) {
             return {

@@ -1,6 +1,5 @@
 import {useState} from "react";
 import {fetchUserByUsername} from "../../servercalls/Calls";
-import {render} from "react-dom";
 import ShowUsersComponent from "./ShowUsersComponent";
 
 const SearchForUser = () => {
@@ -8,17 +7,15 @@ const SearchForUser = () => {
     const [displaySingleUser, setDisplaySingleUser] = useState("none")
     const [userToShow, setUserToShow] = useState()
 
-
-
     function searchForUser(e) {
         e.preventDefault()
         fetchUserByUsername(usernameToSearch)
             .then(res => {
-                showSingleUser(res)
+                setUserToShow(res)
+                setDisplaySingleUser("block")
             }).catch(e => {
                 prompt(e.message)
             }
-
         )
     }
 
@@ -26,13 +23,7 @@ const SearchForUser = () => {
         setUsernameToSearch(e.target.value)
     };
 
-    const showSingleUser = (user) => {
-        setDisplaySingleUser("block")
 
-        render( <ShowUsersComponent user={user}/>,
-            document.getElementById("singleUserContainer")
-        )
-    }
 
     return <span>
                 <p>Search for user:</p>
@@ -53,7 +44,9 @@ const SearchForUser = () => {
                 </form>
         <div style={{display: displaySingleUser}}>
             <span  id={"singleUserContainer"}>
-
+                {userToShow?
+                <ShowUsersComponent user={userToShow}/>
+                    : null}
             </span>
             <button onClick={() => setDisplaySingleUser("none")}>Hide</button>
         </div>
