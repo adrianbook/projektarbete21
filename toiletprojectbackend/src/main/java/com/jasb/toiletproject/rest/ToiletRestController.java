@@ -144,7 +144,7 @@ report a toilet. takes a json object containing fields:
         try {
 
             Optional<Toilet> fetchedToilet =
-                    toiletService.getToiletById(rating.getToilet().getId());
+                    toiletService.getToiletById(rating.getToiletId());
             if (fetchedToilet.isEmpty()) throw new ToiletNotFoundException(rating.getToiletId());
 
             Toilet toilet = fetchedToilet.get();
