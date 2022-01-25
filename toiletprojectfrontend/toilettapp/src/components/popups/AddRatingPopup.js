@@ -12,8 +12,11 @@ const AddRatingPopup = (props) => {
 
 
     useEffect(()=>{
-
-    },[])
+        setRatingData({
+            ...ratingData,
+            toiletId: props.marker.id
+        })
+    },[props.marker])
     const handleChange = e =>  {
         setRatingData({
             ...ratingData,
@@ -26,7 +29,7 @@ const AddRatingPopup = (props) => {
         addRating(ratingData)
             .then(newMarker => {
                 props.updateMarker(newMarker)
-                props.changeView()
+                props.changeView(newMarker)
             })
             .catch(error => {
                 console.log(error)

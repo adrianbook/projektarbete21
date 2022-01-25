@@ -8,6 +8,12 @@ const AddReportPopup = (props) => {
         toiletId: props.marker.id
     })
 
+    useEffect(()=>{
+        setFormData({
+            ...formData,
+            toiletId: props.marker.id
+        })
+    },[props.marker])
 
     const handleSubmit = e => {
         e.preventDefault()

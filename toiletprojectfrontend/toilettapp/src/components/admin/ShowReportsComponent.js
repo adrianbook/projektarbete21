@@ -64,7 +64,6 @@ const ShowReportsComponent = () => {
             let filtered = reports.filter(report => {
                 return report.toiletId !== e.target.value
             })
-            console.log(filtered)
             setReports(filtered)
         } else {
             alert("Toilet not deleted")

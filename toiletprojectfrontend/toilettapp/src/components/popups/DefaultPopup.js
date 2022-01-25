@@ -25,7 +25,6 @@ const DefaultPopup = (props) => {
                 <p>Has:</p>
             {Object.getOwnPropertyNames(props.marker).map(o => {
                 if(props.marker[o] && descriptions[o]) {
-                    console.log(o)
                     return <li>{descriptions[o]}</li>
                 }
             })}

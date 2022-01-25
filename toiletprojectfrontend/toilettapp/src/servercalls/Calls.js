@@ -255,7 +255,7 @@ const sendReportToServer = reportData => {
         body: JSON.stringify(reportData)
     })
     .then(response => {
-        if (response.status === 500) throw new Error(response.json())
+        if (response.status === 500) throw new Error("Serverside error")
         if (response.status !== 201) throw new Error("Unknown problem occured connecting to server")
         return response.json()
     })

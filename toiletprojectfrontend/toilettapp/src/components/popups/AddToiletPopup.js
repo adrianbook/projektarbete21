@@ -1,5 +1,5 @@
 import { sendNewToiletToServer } from "../../servercalls/Calls"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const AddToiletPopup = (props) => {
     const [formData, setFormData] = useState({
@@ -18,14 +18,14 @@ const AddToiletPopup = (props) => {
         handicapFriendly: "Handicap Friendly"
     }
 
+
     const addToilet = () => {
         sendNewToiletToServer({latitude: props.marker.thispos[0],
                                         longitude:  props.marker.thispos[1],
                                             ...formData})
         .then(marker => {
-            console.log(marker)
             props.updateMarker(marker)
-            props.changeView(marker)
+            props.changeMarker(marker)
         })
         .catch(e => {
             prompt(e.message)
@@ -37,6 +37,9 @@ const AddToiletPopup = (props) => {
                 [e.target.name]: !prevState[e.target.name]
             }))
         }
+
+
+
 
     return(
         <>

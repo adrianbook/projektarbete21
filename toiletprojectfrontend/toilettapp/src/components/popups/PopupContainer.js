@@ -76,7 +76,7 @@ const PopupContainer = (props) => {
             />
             <AddRatingPopup
                 displayMe={view.rating}
-                changeView={changeView}
+                changeView={changeMarker}
                 marker={marker}
                 updateMarker={updateMarker}
             />
@@ -92,7 +92,8 @@ const PopupContainer = (props) => {
             />
             <AddToiletPopup
                 displayMe={view.toilet}
-                changeView={changeMarker}
+                changeView={changeView}
+                changeMarker={changeMarker}
                 marker={marker}
                 updateMarker={updateMarker}
             />
