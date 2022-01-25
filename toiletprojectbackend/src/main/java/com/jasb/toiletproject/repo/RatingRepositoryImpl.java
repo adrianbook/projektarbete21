@@ -4,20 +4,24 @@ package com.jasb.toiletproject.repo;
 import com.jasb.entities.Rating;
 import com.jasb.entities.Toilet;
 import com.jasb.entities.ToiletUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
+import java.lang.reflect.Array;
 import java.util.List;
 import java.util.Optional;
 
 @Component
+@Slf4j
 @Transactional
 public class RatingRepositoryImpl {
 
     @PersistenceContext
     private EntityManager em;
+
 
     public Optional<Rating> findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet) {
         Optional rating = (Optional) em.createQuery("select rating from Rating as rating where rating.toiletUser=:toiletUser and rating.toilet=:toilet")
@@ -52,7 +56,7 @@ public class RatingRepositoryImpl {
 
     public List<Rating> findAllRatingsForToilet(long id) {
         List<Rating> ratings = em.createQuery("select r from Rating as r " +
-                "where r.toilet.Id=:id")
+                        "where r.toilet.Id=:id")
                 .setParameter("id", id)
                 .getResultList();
         for (Rating r :
@@ -61,7 +65,12 @@ public class RatingRepositoryImpl {
             r.getToiletUser().setRoles(null);
             r.getToiletUser().setEmail(null);
         }
-       return ratings;
+        return ratings;
+    }
+
+    public void deleteRatingByToiletId(long id){
+        em.createQuery("delete from  Rating as rating where rating.toilet.Id=:toiletId")
+                .setParameter("toiletId", id)
+                .executeUpdate();
     }
 }
-

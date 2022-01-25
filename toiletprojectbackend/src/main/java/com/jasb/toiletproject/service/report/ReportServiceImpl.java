@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -24,16 +25,29 @@ public class ReportServiceImpl implements ReportService{
 
     @Override
     public List<Report> getAllReports() {
-        return reportRepo.findAll();
+        return reportRepo.findAll().stream().map(r -> removePassWordAndRoles(r)).collect(Collectors.toList());
     }
 
     @Override
     public List<Report> getAllReportsForNonExistentToilet() {
-        return reportRepo.findAllToiletNonExistentReports();
+        return reportRepo.findAllToiletNonExistentReports().stream().map(r -> removePassWordAndRoles(r)).collect(Collectors.toList());
     }
 
     @Override
     public List<Report> getAllReportsWithUserDefinedIssue() {
-        return reportRepo.findAllUserDefinedIssueReports();
+        return reportRepo.findAll().stream()
+                .filter(report -> report.getIssue().length() != 0)
+                .map(report -> removePassWordAndRoles(report))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteByToiletId(long toiletId) {
+        reportRepo.deleteAllByToiletId(toiletId);
+    }
+    private Report removePassWordAndRoles(Report report) {
+        report.getOwningUser().setRoles(null);
+        report.getOwningUser().setPassword(null);
+        return report;
     }
 }

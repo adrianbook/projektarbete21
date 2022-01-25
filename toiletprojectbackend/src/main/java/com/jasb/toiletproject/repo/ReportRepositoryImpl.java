@@ -2,10 +2,11 @@ package com.jasb.toiletproject.repo;
 
 import com.jasb.entities.Report;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Component
@@ -29,8 +30,9 @@ public class ReportRepositoryImpl {
                 .getResultList();
     }
 
-    public List<Report> findAllUserDefinedIssueReports() {
-        return em.createQuery("select report from Report as report where report.issue is not null")
-                .getResultList();
+    public void deleteAllByToiletId(long toiletId) {
+        em.createQuery("delete from Report as report where report.toilet.Id=:toiletId")
+                .setParameter("toiletId", toiletId)
+                .executeUpdate();
     }
 }

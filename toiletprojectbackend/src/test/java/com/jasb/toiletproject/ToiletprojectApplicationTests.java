@@ -9,6 +9,7 @@ import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
 import com.jasb.toiletproject.repo.RatingRepository;
 import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.toiletproject.service.rating.RatingService;
+import com.jasb.toiletproject.service.report.ReportService;
 import com.jasb.toiletproject.service.toiletuser.ToiletUserService;
 import com.jasb.toiletproject.util.ToiletUserFetcher;
 import org.checkerframework.checker.units.qual.A;
@@ -22,6 +23,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -36,6 +38,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContext;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -50,8 +53,7 @@ import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mockStatic;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -72,6 +74,8 @@ class ToiletprojectApplicationTests {
 	private final static String LAT_LONG_JSON = "{\"latitude\":57.706,\"longitude\":11.937}";
 	private final static Toilet TOILET = new Toilet(1L, LONGITUDE, LATITUDE, AVG_RATING_PLACEHOLDER);
 	private final static Toilet TOILET_1 = new Toilet(2L, 57.000, 11.900, AVG_RATING_PLACEHOLDER);
+	private final static String RATING_JSON = "{\"rating\":3,\"notes\":\"clean\",\"toiletId\":1}";
+	private static final String ROLE_APPUSER = "ROLE_APPUSER";
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -93,6 +97,9 @@ class ToiletprojectApplicationTests {
 
 	@Autowired
 	private RatingRepository ratingRepository;
+
+	@Autowired
+	private ReportService reportService;
 
 
 	@Test
@@ -128,17 +135,44 @@ class ToiletprojectApplicationTests {
 				.andExpect(content().string
 						("{\"toilets\":[{\"longitude\":11.937,\"latitude\":57.706,\"avgRating\":0.0,\"id\":3},{\"longitude\":57.0,\"latitude\":11.9,\"avgRating\":0.0,\"id\":4}]}"));
 	}
-	
-	@Test
-	void getAllRatingsForToiletTest() throws Exception{
-		// TODO: 2022-01-25 try it! 
-	}
 
 	@Test
 	void setRatingForToiletTest() throws Exception{
-		// TODO: 2022-01-25 userdetails...
+		/*mockMvc.perform(post("/api/v1/toilets/create")
+						*//*.with(user("usr").roles("SUPER_ADMIN"))*//*
+						.contentType("application/json")
+						.content(LAT_LONG_JSON))
+				.andExpect(status().isCreated());
+
+		try(MockedStatic<ToiletUserFetcher> theMock =
+					Mockito.mockStatic(ToiletUserFetcher.class)) {
+
+			String toiletUserJSON = "{\"email\":\"john.doe@mail.com\"," +
+					"\"name\":\"John Doe\",\"password\":\"secret\",\"username\":\"jd\"}";
+
+			Role role = new Role(1L, "ROLE_APPUSER");
+			Collection<Role> roles = new ArrayList<>();
+			roles.add(role);
+			ToiletUser toiletUser = new ToiletUser(1L, "John Doe", "jd",
+					"secret", "john.doe@mail.com", false, roles);
+
+			theMock.when(ToiletUserFetcher::fetchToiletUserByContext).thenReturn(toiletUser);
+			theMock.when(() -> ToiletUserFetcher.fetchToiletUserByUsername("jd")).thenReturn(toiletUser);
+
+			mockMvc.perform(put("/api/v1/toilets/rate")
+							.with(SecurityMockMvcRequestPostProcessors.user("jd").roles("APPUSER"))
+							.with(jwt())
+							.contentType(MediaType.APPLICATION_JSON)
+							.content(RATING_JSON))
+					.andExpect(status().isOk());
+		}*/
 	}
-	
+
+	@Test
+	void getAllRatingsForToiletTest() throws Exception{
+		// TODO: 2022-01-25 try it!
+	}
+
 	@Test
 	void reportToiletTest() throws Exception{
 		// TODO: 2022-01-25 userdetails... 

@@ -24,7 +24,7 @@ public class RatingServiceImpl implements RatingService {
     @Override
     public Rating addRating(Rating rating) {
         Rating upsertedRating = ratingDao.upsertRating(rating);
-//        log.info("Adding rating for {}", upsertedRating.getId());
+        log.info("Adding rating for {}", upsertedRating.getId());
         return upsertedRating;
     }
 
@@ -33,6 +33,11 @@ public class RatingServiceImpl implements RatingService {
         log.info("Getting rating for toilet with id: {}", toiletId);
         log.info("The average rating is {}", ratingDao.findAvgRating(toiletId));
         return ratingDao.findAvgRating(toiletId);
+    }
+
+    @Override
+    public void deleteRatingByToiletId(long id) {
+        ratingDao.deleteRatingByToiletId(id);
     }
 
     @Override

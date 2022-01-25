@@ -3,6 +3,7 @@ package com.jasb.toiletproject.rest;
 import com.jasb.entities.Report;
 import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.entities.Toilet;
+import com.jasb.toiletproject.service.rating.RatingService;
 import com.jasb.toiletproject.service.report.ReportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ public class AdminToiletRestController {
     ToiletRepository data;
     @Autowired
     ReportService reportService;
+    @Autowired
+    RatingService ratingService;
 
     /**
      * GET endpoint for getting all the toilets from the admin api
@@ -78,7 +81,9 @@ public class AdminToiletRestController {
     @DeleteMapping(path = "{id}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void deleteToilet(@PathVariable("id") long id) {
-        log.info("Deleting toilet with {}", id);
+        log.info("Deleting toilet with id {}", id);
+        reportService.deleteByToiletId(id);
+        ratingService.deleteRatingByToiletId(id);
         data.deleteById(id);
     }
 
