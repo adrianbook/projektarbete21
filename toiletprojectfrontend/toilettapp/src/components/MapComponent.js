@@ -60,6 +60,8 @@ function LocationMarker() {
 
 const MapComponent = (props) => {
 
+  const [popupOpen, setPopupOpen] = useState(true)
+
   return (
       <MapContainer center={props.pos} zoom={props.zoom} id="map">
         <TileLayer
@@ -69,11 +71,20 @@ const MapComponent = (props) => {
         <ClickEvent addMarker={props.addMarker}/>
 
             {props.markers?.map( marker =>  (
-            <Marker position={marker.thispos} key={props.markers.indexOf(marker)} icon={icon}>
+            <Marker
+              position={marker.thispos}
+              key={props.markers.indexOf(marker)}
+              icon={icon}
+              eventHandlers={{
+                popupclose: (e) => {setPopupOpen(false)},
+                popupopen: (e) => {setPopupOpen(true)}
+              }}
+              >
               <Popup>
                 <PopupContainer
                 marker={marker}
                 addMarker={props.addMarker}
+                open={popupOpen}
                 />
               </Popup>
             </Marker>))}

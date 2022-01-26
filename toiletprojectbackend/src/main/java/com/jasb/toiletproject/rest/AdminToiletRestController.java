@@ -105,18 +105,31 @@ public class AdminToiletRestController {
                 });
     }
 
+    /**
+     * GET endpoint for all reports
+     * @return list of reports
+     */
     @GetMapping("reports/getall")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<Report> getAllReports() {
         return reportService.getAllReports();
     }
 
+
+    /**
+     * GET endpoint for all reports of non-existing toilets
+     * @return list of reports
+     */
     @GetMapping("reports/getallnonexistingtoilets")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<Report> getAllReportsForNonExistingToilets() {
         return reportService.getAllReportsForNonExistentToilet();
     }
 
+    /**
+     * GET endpoint for all user defined reports
+     * @return list of reports
+     */
     @GetMapping("reports/getalluserdefinedreports")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public List<Report> getAllUserDefinedReports() {

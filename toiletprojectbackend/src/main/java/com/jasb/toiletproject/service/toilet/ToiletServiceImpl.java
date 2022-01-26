@@ -1,29 +1,34 @@
 package com.jasb.toiletproject.service.toilet;
 
-import com.jasb.entities.Rating;
 import com.jasb.entities.Toilet;
-import com.jasb.entities.ToiletUser;
+import com.jasb.toiletproject.exceptions.ToCloseToAnotherToiletException;
 import com.jasb.toiletproject.exceptions.ToiletNotFoundException;
-import com.jasb.toiletproject.repo.RatingRepository;
 import com.jasb.toiletproject.repo.ToiletRepository;
 import com.jasb.toiletproject.service.rating.RatingService;
 import com.jasb.toiletproject.util.Proximity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for ToiletRepository
+ * Written by JASB
+ */
 @Service @Slf4j @RequiredArgsConstructor
 public class ToiletServiceImpl implements ToiletService {
 
     private final ToiletRepository toiletDao;
     private final RatingService ratingService;
 
+    /**
+     * Method to get a toilet by id. Throws exception if toilet is not found
+     * @param id toiletID
+     * @return toilet if found
+     * @throws ToiletNotFoundException
+     */
     @Override
     public Toilet getToiletById(long id) throws ToiletNotFoundException {
         log.info("Finding toilet with id {}", id);
@@ -35,6 +40,10 @@ public class ToiletServiceImpl implements ToiletService {
         return optionalToilet.get();
     }
 
+    /**
+     * Method to get all toilets
+     * @return a list of all Toilets
+     */
     @Override
     public List<Toilet> getAllToilets() {
         log.info("Returning all toilets");
@@ -46,6 +55,13 @@ public class ToiletServiceImpl implements ToiletService {
         return toiletList;
     }
 
+    /**
+     * Method to add a toilet. Uses util Proximity to check if the toilet
+     * is to close to another toilet, if it is it throws an Exception
+     * @param newToilet
+     * @return the added toilet
+     * @throws ToCloseToAnotherToiletException
+     */
     @Override
     public Toilet addToilet(Toilet newToilet) throws ToCloseToAnotherToiletException {
         List<Toilet> toilets = this.getAllToilets();

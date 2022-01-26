@@ -2,7 +2,9 @@ import { sendNewToiletToServer } from "../../servercalls/Calls"
 import {useEffect, useState} from "react";
 
 const AddToiletPopup = (props) => {
+
     const emptyForm = {
+        cost: false,
         urinal: false,
         separateGenders: false,
         changingTable: false,
@@ -18,6 +20,7 @@ const AddToiletPopup = (props) => {
         if (!Object.getOwnPropertyNames(position).includes("id")) {
             position.id = 0
             setFormData({
+                cost: false,
                 urinal: false,
                 separateGenders: false,
                 changingTable: false,
@@ -30,6 +33,7 @@ const AddToiletPopup = (props) => {
     
 
     let descriptions = {
+        cost: "Not free",
         urinal: "Urinal",
         separateGenders: "Separate Genders",
         changingTable: "Changing Table",

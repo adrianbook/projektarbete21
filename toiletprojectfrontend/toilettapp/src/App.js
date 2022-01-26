@@ -1,11 +1,16 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import MapPage from "./routes/MapPage";
-import Login from "./routes/Login";
 import CreateUser from "./routes/CreateUser";
 import Admin from "./routes/Admin";
 import { loginCall, verifyUser } from "./servercalls/Calls";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from 'react-bootstrap/Navbar'
+import Container from "react-bootstrap/Container";
+import toiletIcon from "./static/icons/toilet3.png";
+import LoginComponent from "./components/LoginComponent";
+import Button from "react-bootstrap/Button";
+import {Collapse} from "react-bootstrap";
 
 const App = () => {
   const [loginInfo, setLoginInfo] = useState({
@@ -18,6 +23,7 @@ const App = () => {
     loggedInVisible: loginInfo.loggedIn ? {} : {display: "none"},
     loggedOutVisible: loginInfo.loggedIn ? {display: "none"} : {}
   })
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("loggedInUser")
@@ -81,18 +87,48 @@ const App = () => {
 
     return (
   <BrowserRouter>
-  <button onClick={logOut} style={display.loggedInVisible}>LOG OUT </button>
-  <button style={display.loggedOutVisible}><Link to="/login">Login</Link></button>
-  <button style={display.loggedOutVisible}><Link to="/createuser">Create User</Link> </button>
+      <Navbar expand="lg" variant="dark" bg="dark">
+        <Container>
+          <Navbar.Brand href="/">
+            <img
+                src={toiletIcon}
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+                alt="Toilet-logo"
+            />{' '}
+            LooCation
+          </Navbar.Brand>
+        </Container>
+        <div style={display.loggedOutVisible}>
+        <button
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}
+        >
+          Login
+        </button>
+        <Collapse in={open}>
+        <Container>
+          Login:
+            <LoginComponent
+                loginInfo={loginInfo}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+            />
+          <button style={display.loggedOutVisible}><Link to="/createuser">Create User</Link> </button>
+          </Container>
+        </Collapse>
+        </div>
+        <button onClick={logOut} style={display.loggedInVisible}>LOG OUT </button>
+      </Navbar>
+
+
 
 
 
     <Routes>
       <Route path="/" element={<MapPage loggedIn={loginInfo.loggedIn} />} />
-      <Route path="/login" element={<Login
-                                    loginInfo={loginInfo}
-                                    handleChange={handleChange}
-                                    handleSubmit={handleSubmit}/>}/>
       <Route path="/createuser" element={<CreateUser setLoginInfo={setLoginInfo}/>}/>
       <Route path="/admin" element={<Admin/>}/>
     </Routes>

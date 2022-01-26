@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Helper class for REST-API
+ * Written by JASB
+ */
 @AllArgsConstructor @NoArgsConstructor @Data
 public class RatingList {
    private List<Rating> ratings;

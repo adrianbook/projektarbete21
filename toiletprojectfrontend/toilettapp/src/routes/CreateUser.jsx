@@ -119,7 +119,6 @@ export default function CreateUser(props) {
           <button>submit</button>
         </form>
         <br/>
-        <Link to="/">To toiletmap</Link>
       </main>
     );
   }
