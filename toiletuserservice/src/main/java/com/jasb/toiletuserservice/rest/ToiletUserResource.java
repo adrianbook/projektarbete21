@@ -43,13 +43,21 @@ public class ToiletUserResource {
         return ResponseEntity.ok(result);
     }
 
-
+    /**
+     * GET endpoint that returns all users
+     * @return a list of all users
+     */
     @GetMapping("/users")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<List<ToiletUser>> getToiletUsers() {
         return ResponseEntity.ok(userService.getToiletUsers());
     }
 
+    /**
+     * Get endpoint that returns user by username
+     * @param username
+     * @return toiletUser by username
+     */
     @GetMapping(path ="/user/{username}")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_APPUSER')")
     public ResponseEntity<ToiletUser> getToiletUserByUserName(@PathVariable(
@@ -106,12 +114,21 @@ public class ToiletUserResource {
         return ResponseEntity.ok().body(userService.addRoleToUser(form.getUsername(), form.getRolename()));
     }
 
+    /**
+     * PUT endpoint to block a user
+     * @param username
+     * @return the blocked User
+     */
     @PutMapping("/user/block")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<ToiletUser> blockUser(@RequestBody Username username){
         return ResponseEntity.ok().body(userService.blockToiletUser(userService.getToiletUser(username.getUsername())));
     }
-
+    /**
+     * PUT endpoint to unblock a user
+     * @param username
+     * @return the unblocked User
+     */
     @PutMapping("/user/unblock")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<ToiletUser> unBlockUser(@RequestBody Username username){
@@ -127,6 +144,11 @@ class RoleToUserForm {
     private String username;
     private String rolename;
 }
+
+
+/**
+ * A helper class to get a username
+ */
 @Data
 class Username {
     private String username;

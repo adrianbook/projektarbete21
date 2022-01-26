@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service implementation of the methods from ReportRepository
+ * Written by JASB
+ */
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -33,6 +38,12 @@ public class ReportServiceImpl implements ReportService{
         return reportRepo.findAllToiletNonExistentReports().stream().map(r -> removePassWordAndRoles(r)).collect(Collectors.toList());
     }
 
+    /**
+     * A method that gets all reports and filters out those that have no
+     * user defined issue
+     * @return the filtered list of Reports
+     */
+
     @Override
     public List<Report> getAllReportsWithUserDefinedIssue() {
         return reportRepo.findAll().stream()
@@ -45,6 +56,14 @@ public class ReportServiceImpl implements ReportService{
     public void deleteByToiletId(long toiletId) {
         reportRepo.deleteAllByToiletId(toiletId);
     }
+
+    /**
+     * a helper method to remove roles and password from owning user
+     * before returning the report
+     * @param report
+     * @return the censored report
+     */
+
     private Report removePassWordAndRoles(Report report) {
         report.getOwningUser().setRoles(null);
         report.getOwningUser().setPassword(null);

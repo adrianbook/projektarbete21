@@ -5,7 +5,7 @@ import com.jasb.toiletproject.exceptions.ToiletNotFoundException;
 import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
 import com.jasb.toiletproject.service.rating.RatingService;
 import com.jasb.toiletproject.service.report.ReportService;
-import com.jasb.toiletproject.service.toilet.ToCloseToAnotherToiletException;
+import com.jasb.toiletproject.exceptions.ToCloseToAnotherToiletException;
 import com.jasb.toiletproject.service.toilet.ToiletService;
 import com.jasb.toiletproject.util.ToiletUserFetcher;
 
@@ -77,14 +77,17 @@ public class ToiletRestController {
         }
     }
 
+    /**
+     * GET endpoint for all ratings for specific toilet
+     * @param id toiletId
+     * @return a JSON representation of list of ratings
+     */
     @GetMapping(path = "{id}/rating")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity getAllRatingsForToilet(@PathVariable(
             "id") long id) {
         List<Rating> ratings  =
                 ratingService.getAllRatingsForSpecificToilet(id);
-        // Returnerar detta även om toaletten inte finns. Ändra?
-        // Kasta exception istället? Vi gör lite olika på olika ställen...
         if (ratings.isEmpty()) {
             return new ResponseEntity("No ratings for this toilet yet" ,
                     HttpStatus.BAD_REQUEST);
@@ -117,6 +120,15 @@ report a toilet. takes a json object containing fields:
     boolean notAToilet
     string issue
  */
+
+    /**
+     * POST endpoint to report a toilet. Takes a JSON object containing fields:
+     *     int toiletId
+     *     boolean notAToilet
+     *     string issue
+     * @param report
+     * @return a JSON representation of the report
+     */
     @PostMapping("/reports/report")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity reportToilet(@RequestBody Report report) {
@@ -138,6 +150,12 @@ report a toilet. takes a json object containing fields:
         }
     }
 
+    /**
+     * PUT endpoint for rating a toilet. Updates rating if rating for the same toilet
+     * by the same user exists otherwise creates new rating
+     * @param rating
+     * @return a JSON representation of the rating
+     */
     @PutMapping("/rate")
     @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
     public ResponseEntity setRatingForToilet(@RequestBody Rating rating) {

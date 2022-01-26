@@ -26,6 +26,7 @@ public class Toilet implements Serializable {
     private double longitude;
     private double latitude;
 
+    private boolean cost;
     private boolean urinal;
     private boolean separateGenders;
     private boolean changingTable;

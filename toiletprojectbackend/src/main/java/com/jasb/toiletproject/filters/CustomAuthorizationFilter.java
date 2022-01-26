@@ -8,7 +8,6 @@ import com.google.common.base.Strings;
 import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
 import com.jasb.toiletproject.util.ToiletUserFetcher;
 import com.jasb.toiletproject.util.TokenHolder;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

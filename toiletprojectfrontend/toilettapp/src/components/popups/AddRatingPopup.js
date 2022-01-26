@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { addRating } from "../../servercalls/Calls";
+import Form from 'react-bootstrap/Form'
 
 const AddRatingPopup = (props) => {
 
@@ -25,7 +26,7 @@ const AddRatingPopup = (props) => {
     }
     const handleSubmit = e => {
         e.preventDefault()
-       
+        e.target.reset()
         addRating(ratingData)
             .then(newMarker => {
                 props.updateMarker(newMarker)
@@ -41,19 +42,55 @@ const AddRatingPopup = (props) => {
         <>
         <div style={{display: props.displayMe}}>
             <h2>Add rating to toilet</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
+            <Form onSubmit={handleSubmit}>
                     Rating
-                    <input
-                        type="number"
-                        min="1"
-                        max="5"
-                        value={ratingData.rating}
-                        name="rating"
-                        placeholder=""
+                    <div key={`inline-radio`} className="mb-3">
+                    <Form.Check
                         onChange={handleChange}
-                        />
-                </label>
+                        inline
+                        label="1"
+                        value="1"
+                        name="rating"
+                        type='radio'
+                        id={`inline-radio-1`}
+                    />
+                    <Form.Check
+                        onChange={handleChange}
+                        inline
+                        label="2"
+                        value="2"
+                        name="rating"
+                        type='radio'
+                        id={`inline-radio-2`}
+                    />
+                    <Form.Check
+                        onChange={handleChange}
+                        inline
+                        label="3"
+                        value="3"
+                        name="rating"
+                        type='radio'
+                        id={`inline-radio-3`}
+                    />
+                    <Form.Check
+                        onChange={handleChange}
+                        inline
+                        label="4"
+                        value="4"
+                        name="rating"
+                        type='radio'
+                        id={`inline-radio-4`}
+                    />
+                    <Form.Check
+                        onChange={handleChange}
+                        inline
+                        label="5"
+                        value="5"
+                        name="rating"
+                        type='radio'
+                        id={`inline-radio-5`}
+                    />
+                    </div>
                 <br/>
                 <label>
                     Notes
@@ -67,7 +104,7 @@ const AddRatingPopup = (props) => {
                 </label>
                 <br/>
                 <button >submit</button>
-            </form>
+            </Form>
             </div>
             </>
     )

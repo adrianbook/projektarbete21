@@ -1,4 +1,4 @@
-import {marker} from "leaflet/dist/leaflet-src.esm";
+
 
 const DefaultPopup = (props) => {
     const handleChange = e => {
@@ -12,6 +12,7 @@ const DefaultPopup = (props) => {
          handicapFriendly: "Handicap Friendly"
      }
 
+     let costOrFree = props.marker.cost ? "Pay toilet" : "Free Toilet"
 
     let avgRating = props.marker.avgRat === 0? "Not rated yet" : props.marker.avgRat
     return (
@@ -21,6 +22,7 @@ const DefaultPopup = (props) => {
         <br />
         Average rating: {avgRating}
         <br/>
+        {costOrFree}
             <ul>
                 <p>Has:</p>
             {Object.getOwnPropertyNames(props.marker).map(o => {
