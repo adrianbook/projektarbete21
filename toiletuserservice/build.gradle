@@ -28,6 +28,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation('com.h2database:h2')
 	implementation 'com.auth0:java-jwt:3.18.2'
 	implementation 'com.google.guava:guava:31.0.1-jre'
 	implementation files("../entities/build/libs/entities-1.0.jar")

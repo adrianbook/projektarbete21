@@ -75,6 +75,4 @@ public class ToiletServiceImpl implements ToiletService {
                 newToilet.getLongitude(), newToilet.getLatitude());
         return toiletDao.save(newToilet);
     }
-
-
 }

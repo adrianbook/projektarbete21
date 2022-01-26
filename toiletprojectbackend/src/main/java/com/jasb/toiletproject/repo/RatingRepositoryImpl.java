@@ -1,4 +1,3 @@
-
 package com.jasb.toiletproject.repo;
 
 import com.jasb.entities.Rating;
@@ -83,7 +82,7 @@ public class RatingRepositoryImpl {
      */
     public List<Rating> findAllRatingsForToilet(long id) {
         List<Rating> ratings = em.createQuery("select r from Rating as r " +
-                "where r.toilet.Id=:id")
+                        "where r.toilet.Id=:id")
                 .setParameter("id", id)
                 .getResultList();
         for (Rating r :
@@ -92,7 +91,7 @@ public class RatingRepositoryImpl {
             r.getToiletUser().setRoles(null);
             r.getToiletUser().setEmail(null);
         }
-       return ratings;
+        return ratings;
     }
 
     /**
@@ -105,4 +104,3 @@ public class RatingRepositoryImpl {
                 .executeUpdate();
     }
 }
-

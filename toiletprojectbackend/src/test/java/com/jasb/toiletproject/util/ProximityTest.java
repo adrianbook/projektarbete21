@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ProximityTest {
-    private static final Double longitude = 10.00000;
+/*    private static final Double longitude = 10.00000;
     private static final Double latitude = 12.00000;
     private static final Double minimumDistance = 0.00009;
     private static final List<Toilet> existingToilets = new ArrayList<>();
@@ -39,6 +39,6 @@ public class ProximityTest {
         Toilet toiletLatitudeNotTooClose = new Toilet(4, longitude, latitude+minimumDistance, 1);
         assertFalse(Proximity.toClose(toiletLongitudeNotTooClose, existingToilets));
         assertFalse(Proximity.toClose(toiletLatitudeNotTooClose, existingToilets));
-    }
+    }*/
 
 }

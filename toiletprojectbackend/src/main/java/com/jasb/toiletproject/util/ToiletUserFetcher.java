@@ -28,7 +28,7 @@ public class ToiletUserFetcher {
         try {
             UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
                     SecurityContextHolder.getContext().getAuthentication();
-            String username = (String) authentication.getPrincipal();
+            String username = (String)  authentication.getPrincipal();
 
             HttpHeaders headers = new HttpHeaders();
             headers.add(HttpHeaders.AUTHORIZATION, TokenHolder.TOKEN);

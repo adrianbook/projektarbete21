@@ -1,5 +1,6 @@
 package com.jasb.toiletproject.service.rating;
 
+
 import com.jasb.entities.Rating;
 import com.jasb.entities.Toilet;
 import com.jasb.entities.ToiletUser;

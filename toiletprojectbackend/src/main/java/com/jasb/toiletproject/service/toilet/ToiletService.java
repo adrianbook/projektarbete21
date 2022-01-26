@@ -10,5 +10,4 @@ public interface ToiletService {
     List<Toilet> getAllToilets();
     Toilet addToilet(Toilet toilet) throws ToCloseToAnotherToiletException;
     Toilet getToiletById(long id) throws ToiletNotFoundException;
-
 }
