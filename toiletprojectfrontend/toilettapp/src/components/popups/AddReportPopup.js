@@ -17,6 +17,7 @@ const AddReportPopup = (props) => {
 
     const handleSubmit = e => {
         e.preventDefault()
+        e.target.reset()
         console.log(formData)
         sendReportToServer(formData)
             .then(response => {

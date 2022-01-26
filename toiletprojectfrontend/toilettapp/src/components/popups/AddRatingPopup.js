@@ -26,7 +26,7 @@ const AddRatingPopup = (props) => {
     }
     const handleSubmit = e => {
         e.preventDefault()
-       
+        e.target.reset()
         addRating(ratingData)
             .then(newMarker => {
                 props.updateMarker(newMarker)
