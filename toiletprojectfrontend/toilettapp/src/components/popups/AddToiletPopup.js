@@ -2,13 +2,32 @@ import { sendNewToiletToServer } from "../../servercalls/Calls"
 import {useEffect, useState} from "react";
 
 const AddToiletPopup = (props) => {
-    const [formData, setFormData] = useState({
+    const emptyForm = {
         urinal: false,
         separateGenders: false,
         changingTable: false,
         shower: false,
         handicapFriendly: false
-    })
+    }
+    const [formData, setFormData] = useState(emptyForm)
+
+    const changeView = props.changeView
+    let position = props.marker
+
+    useEffect(() => {
+        if (!Object.getOwnPropertyNames(position).includes("id")) {
+            position.id = 0
+            setFormData({
+                urinal: false,
+                separateGenders: false,
+                changingTable: false,
+                shower: false,
+                handicapFriendly: false
+            })
+            changeView("toilet")
+        }
+    },[position, changeView, setFormData])
+    
 
     let descriptions = {
         urinal: "Urinal",
@@ -18,8 +37,11 @@ const AddToiletPopup = (props) => {
         handicapFriendly: "Handicap Friendly"
     }
 
+  
 
-    const addToilet = () => {
+    const addToilet = (e) => {
+        e.preventDefault()
+        e.target.reset()
         sendNewToiletToServer({latitude: props.marker.thispos[0],
                                         longitude:  props.marker.thispos[1],
                                             ...formData})
@@ -44,10 +66,10 @@ const AddToiletPopup = (props) => {
     return(
         <>
         <div style={{display: props.displayMe}}>
-            <form>
+            <form onSubmit={addToilet}>
                 {Object.getOwnPropertyNames(descriptions).map(des => {
                     return (
-                        <div>
+                        <div key={des}>
                         <label> {descriptions[des]}
                             <input
                                 onChange={handleChange}
@@ -59,10 +81,10 @@ const AddToiletPopup = (props) => {
                         </div>)
                 })}
 
-            </form>
-            <button onClick={addToilet}>
+            <button>
                 Add Toilet here
             </button>
+            </form>
         </div>
         </>
     )
