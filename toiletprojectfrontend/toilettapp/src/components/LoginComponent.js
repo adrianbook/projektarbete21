@@ -1,17 +1,8 @@
 import {useEffect} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const LoginComponent = (props) => {
-    const navigate = useNavigate()
-    let loggedIn = props.loginInfo.loggedIn
 
-    useEffect(() => {
-        if (loggedIn){
-            navigate({
-                pathname: "/"
-            })
-        }
-    }, [loggedIn, navigate])
     return (
         <main>
             <form onSubmit={props.handleSubmit}>

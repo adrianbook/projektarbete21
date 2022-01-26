@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import {BrowserRouter, Route, Routes, Link} from "react-router-dom";
 import MapPage from "./routes/MapPage";
 import CreateUser from "./routes/CreateUser";
 import Admin from "./routes/Admin";
@@ -9,7 +9,6 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from "react-bootstrap/Container";
 import toiletIcon from "./static/icons/toilet3.png";
 import LoginComponent from "./components/LoginComponent";
-import Button from "react-bootstrap/Button";
 import {Collapse} from "react-bootstrap";
 
 const App = () => {
@@ -32,6 +31,7 @@ const App = () => {
         .then(tokenValid => {
           if (tokenValid) {
             setLoginInfo({
+              ...loginInfo,
               loggedIn: true
             })
           }
@@ -55,7 +55,6 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    //login to server
     loginCall(loginInfo)
         .then( token => {
             sessionStorage.setItem("loggedInUser", token) 
@@ -75,10 +74,6 @@ const App = () => {
       ...loginInfo,
       loggedIn: false
     })
-  setLoginInfo({
-    username: "",
-    password: ""
-  })
   }
 
 
@@ -120,7 +115,7 @@ const App = () => {
           </Container>
         </Collapse>
         </div>
-        <button onClick={logOut} style={display.loggedInVisible}>LOG OUT </button>
+        <button onClick={logOut} style={display.loggedInVisible}><Link to={'/'}>LOG OUT</Link> </button>
       </Navbar>
 
 

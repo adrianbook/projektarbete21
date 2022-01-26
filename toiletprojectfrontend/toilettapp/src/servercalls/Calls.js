@@ -1,6 +1,3 @@
-/* 
-Refaktorerat lite här och lagt till en privat metod för att göra markers av toaletter 
-*/
 
 const getAllToiletsCall = () => {
     return fetch("http://localhost:9091/api/v1/toilets/getalltoilets",
@@ -56,8 +53,6 @@ const sendNewToiletToServer = (toiletData) => {
 }
 
  const loginCall = (credentials) => {
-     console.log("inside loginCall")
-     console.log(credentials)
      return fetch('http://localhost:8080/login', {
          method: 'POST',
          body: new URLSearchParams({
@@ -283,6 +278,22 @@ const deleteToilet = toiletID => {
     )
 }
 
+const getRolesForUser = () => {
+    return fetch("http://localhost:8080/api/user/roles", {
+        method: "GET",
+        headers: {
+            'AUTHORIZATION': sessionStorage.getItem('loggedInUser'),
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => {
+        if (res.status === 403) throw new Error("Action not allowed")
+        if (res.status === 500) throw new Error("Serverside error")
+        if (res.status !== 200) throw new Error("Unexpected error occurred fetching users")
+        return res.json()
+    })
+}
+
 const turnToiletIntoMarker = (toilet) => {
     return {thispos: [toilet.latitude, toilet.longitude],
             id: toilet.id,
@@ -295,6 +306,5 @@ const turnToiletIntoMarker = (toilet) => {
             handicapFriendly: toilet.handicapFriendly}
 }
 
-
-export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser,unBlockUser, fetchUserByUsername, addRole, sendReportToServer ,getAllReports, getAllUserdefinedReports, getAllNonExistingToiletsReports, deleteToilet}
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser,unBlockUser, fetchUserByUsername, addRole, sendReportToServer ,getAllReports, getAllUserdefinedReports, getAllNonExistingToiletsReports, deleteToilet, getRolesForUser}
 
