@@ -33,12 +33,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureTestDatabase
 @Transactional
 class ToiletprojectApplicationTests {
-	private final static double LATITUDE = 57.706;
-	private final static double LONGITUDE = 11.937;
-	private final static double AVG_RATING_PLACEHOLDER = 0.0;
-	private final static String LAT_LONG_JSON = "{\"latitude\":57.706,\"longitude\":11.937}";
-	private final static Toilet TOILET = new Toilet(1L, LONGITUDE, LATITUDE, AVG_RATING_PLACEHOLDER);
-	private final static Toilet TOILET_1 = new Toilet(2L, 57.000, 11.900, AVG_RATING_PLACEHOLDER);
+	private static final String LAT_LONG_JSON = "{\"latitude\":57.706,\"longitude\":11.937}";
+	private final static Toilet TOILET_OBJECT_1 = new Toilet(1L, 11.937, 57.706,false,
+			false, false, false, false, 0.0);
+	private final static Toilet TOILET_OBJECT_2 = new Toilet(2L, 57.000, 11.900, false,
+			false, false, false, false, 0.0);
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -52,46 +51,49 @@ class ToiletprojectApplicationTests {
 	private RoleRepo roleRepo;
 
 	@Test
-	void addToiletTest() throws Exception {
-		mockMvc.perform(post("/api/v1/toilets/create")
-						.with(user("usr").roles("SUPER_ADMIN")) //roleId =1 in db
-						.contentType("application/json")
-						.content(LAT_LONG_JSON)) //toiletId = 1 in db
-				.andExpect(status().isCreated())
-				.andExpect(content().string("{\"longitude\":11.937,\"latitude\":57.706,\"avgRating\":0.0,\"id\":2}"));
+	void getToiletByIdTest() throws Exception {
+		toiletRepository.save(TOILET_OBJECT_1); //toiletId = 1 in db
+		mockMvc.perform(get("/api/v1/toilets/1")
+						.with(user("usr").roles("APPUSER"))
+						.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().string("{\"longitude\":11.937,\"latitude\":57.706," +
+						"\"urinal\":false,\"separateGenders\":false,\"changingTable\":false," +
+						"\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":1}"));;
 	}
 
 	@Test
-	void getToiletByIdTest() throws Exception {
-		toiletRepository.save(TOILET); //toiletId = 2 in db
-		mockMvc.perform(get("/api/v1/toilets/1")
-						.with(user("usr"))
-						.contentType("application/json"))
-				.andExpect(status().isOk())
-				.andExpect(content().string(
-						"{\"longitude\":11.937,\"latitude\":57.706,\"avgRating\":0.0,\"id\":1}"));
+	void addToiletTest() throws Exception {
+		mockMvc.perform(post("/api/v1/toilets/create")
+						.with(user("usr").roles("APPUSER")) //roleId=1 in db
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(LAT_LONG_JSON)) //toiletId = 2 in db
+				.andExpect(status().isCreated())
+				.andExpect(content().string("{\"longitude\":11.937,\"latitude\":57.706," +
+						"\"urinal\":false,\"separateGenders\":false,\"changingTable\":false," +
+						"\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":2}"));
 	}
 
 	@Test
 	void getAllToiletsTest() throws Exception {
-		toiletRepository.save(TOILET); //toiletId = 3 in db
-		toiletRepository.save(TOILET_1); //toiletId = 4 in db
+		toiletRepository.save(TOILET_OBJECT_1);
+		toiletRepository.save(TOILET_OBJECT_2);
 		mockMvc.perform(get("/api/v1/toilets/getalltoilets")
-				.with(user("usr").roles("SUPER_ADMIN")) //roleId = 2 in db
+				.with(user("usr"))
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().string
-						("{\"toilets\":[{\"longitude\":11.937,\"latitude\":57" +
-								".706,\"avgRating\":0.0,\"id\":7}," +
-								"{\"longitude\":57.0,\"latitude\":11.9,\"avgRating\":0.0,\"id\":8}]}"));
+				.andExpect(content().string("{\"toilets\":" +
+						"[{\"longitude\":11.937,\"latitude\":57.706,\"urinal\":false,\"separateGenders\":false," +
+						"\"changingTable\":false,\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":7}," +
+						"{\"longitude\":57.0,\"latitude\":11.9,\"urinal\":false,\"separateGenders\":false," +
+						"\"changingTable\":false,\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":8}]}"));
 	}
 
 	@Test
 	void getAllRatingsForToiletTest() throws Exception {
 		Role role = new Role(3L, "ROLE_APPUSER");
-		roleRepo.save(role); //roleId = 3 in db
-		System.out.println(roleRepo.findByName("ROLE_APPUSER"));
+		roleRepo.save(role);
 
 		Collection<Role> roles = new ArrayList<>();
 		roles.add(role);
@@ -100,9 +102,9 @@ class ToiletprojectApplicationTests {
 		toiletUserRepo.save(toiletUser);
 
 		mockMvc.perform(post("/api/v1/toilets/create")
-						.with(user("usr").roles("SUPER_ADMIN"))
+						.with(user("usr").roles("ADMIN"))
 						.contentType("application/json")
-						.content(LAT_LONG_JSON)) //toiletId = 5 in db
+						.content(LAT_LONG_JSON))
 				.andExpect(status().isCreated());
 
 			Rating rating = new Rating(toiletRepository.getById(5L),
@@ -110,7 +112,7 @@ class ToiletprojectApplicationTests {
 			ratingRepository.save(rating);
 
 			mockMvc.perform(get("/api/v1/toilets/5/rating")
-							.with(user("sur").roles("SUPER_ADMIN"))
+							.with(user("usr").roles("ADMIN"))
 							.contentType(MediaType.APPLICATION_JSON))
 					.andExpect(status().isAccepted());
 		Assertions.assertEquals(3.0, ratingRepository.findAvgRating(5L));

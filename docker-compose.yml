@@ -64,4 +64,3 @@ services:
     links:
       - db:db
     entrypoint: ["java","-jar","/usr/toileruserservice-0.0.1-SNAPSHOT.jar"]
-

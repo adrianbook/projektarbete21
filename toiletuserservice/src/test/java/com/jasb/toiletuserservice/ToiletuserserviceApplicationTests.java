@@ -1,34 +1,20 @@
 package com.jasb.toiletuserservice;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jasb.entities.Role;
-import com.jasb.entities.ToiletUser;
-import com.jasb.toiletuserservice.repo.RoleRepo;
-import com.jasb.toiletuserservice.service.ToiletUserService;
 import com.jasb.toiletuserservice.service.ToiletUserServiceImpl;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -152,40 +138,6 @@ class ToiletuserserviceApplicationTests {
 	}
 
 	@Test
-	void getTokenVerificationTest() throws Exception {
-		// TODO: 2022-01-25  
-		/*mockMvc.perform(post("/api/role/save")
-						.with(user("superduperadmin").roles("SUPER_ADMIN"))
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(ROLE))
-				.andExpect(status().isCreated())
-				.andExpect(MockMvcResultMatchers.jsonPath("$.name").value("ROLE_APPUSER"));
-		mockMvc.perform(post("/api/user/save")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(TOILET_USER_1))
-				.andExpect(status().isCreated())
-				.andExpect(content().string("User created"));
-
-		*//*User usr = new
-				org.springframework.security.core.userdetails.User(userService.loadUserByUsername("jd").getUsername(),
-																	userService.loadUserByUsername("jd").getPassword(),
-																	userService.loadUserByUsername("jd").getAuthorities());*//*
-		*//*User usr = new User(userService.loadUserByUsername("jd").getUsername(),
-				userService.loadUserByUsername("jd").getPassword(),
-				userService.loadUserByUsername("jd").getAuthorities());
-
-		mockMvc.perform(get("/api/verifyuser")
-				.with(user(usr))
-				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());*//*
-
-		mockMvc.perform(get("/api/verifyuser")
-						.with(user("jd").roles("SUPER_ADMIN"))
-						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk());*/
-	}
-
-	@Test
 	void blockUserTest() throws Exception {
 		mockMvc.perform(post("/api/user/save")
 						.contentType(MediaType.APPLICATION_JSON)
@@ -195,7 +147,7 @@ class ToiletuserserviceApplicationTests {
 		mockMvc.perform(put("/api/user/block")
 				.with(user("superduperadmin").roles("SUPER_ADMIN"))
 				.contentType(MediaType.APPLICATION_JSON)
-				.content("{\"username\":\"jd\"}"))
+				.content(USERNAME))
 				.andExpect(status().isOk())
 				.andExpect(MockMvcResultMatchers.jsonPath("$.username").value("jd"))
 				.andExpect(MockMvcResultMatchers.jsonPath("$.blocked").value(true));
