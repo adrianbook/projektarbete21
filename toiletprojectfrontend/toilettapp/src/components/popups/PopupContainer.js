@@ -53,7 +53,6 @@ const PopupContainer = (props) => {
         })
     }
     const changeMarker = (marker) => {
-        console.log("_____" + marker.id)
         setMarker(marker)
         setView({
             ...noView,

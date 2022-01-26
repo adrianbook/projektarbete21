@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Helper class for toilet API to return more than one toilet
+ * Written by JASB
  */
 @AllArgsConstructor
 @NoArgsConstructor

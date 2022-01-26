@@ -118,6 +118,11 @@ public class ToiletUserServiceImpl implements ToiletUserService, UserDetailsServ
         return userRepo.findAll();
     }
 
+    /**
+     * adds the blocked role to a user and sets blocked true
+     * @param toiletUser
+     * @return the blocked user
+     */
     @Override
     public ToiletUser blockToiletUser(ToiletUser toiletUser) {
         toiletUser.setBlocked(true);
@@ -128,6 +133,11 @@ public class ToiletUserServiceImpl implements ToiletUserService, UserDetailsServ
         return userRepo.save(toiletUser);
     }
 
+    /**
+     * sets blocked to false and sets role to APPUSER
+     * @param toiletUser
+     * @return
+     */
     @Override
     public ToiletUser unBlockToiletUser(ToiletUser toiletUser) {
         toiletUser.setBlocked(false);
@@ -137,5 +147,4 @@ public class ToiletUserServiceImpl implements ToiletUserService, UserDetailsServ
         toiletUser.setRoles(roles);
         return userRepo.save(toiletUser);
     }
-
 }

@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation of the methods from RatingRepository
+ * Written by JASB
+ */
 @Service @Slf4j @RequiredArgsConstructor
 public class RatingServiceImpl implements RatingService {
 

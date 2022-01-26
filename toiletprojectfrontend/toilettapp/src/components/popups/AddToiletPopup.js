@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 
 const AddToiletPopup = (props) => {
     const [formData, setFormData] = useState({
+        cost: false,
         urinal: false,
         separateGenders: false,
         changingTable: false,
@@ -11,6 +12,7 @@ const AddToiletPopup = (props) => {
     })
 
     let descriptions = {
+        cost: "Not free",
         urinal: "Urinal",
         separateGenders: "Separate Genders",
         changingTable: "Changing Table",

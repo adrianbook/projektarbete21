@@ -2,25 +2,28 @@ package com.jasb.toiletproject.util;
 
 import com.jasb.entities.ToiletUser;
 import com.jasb.toiletproject.exceptions.ToiletUserNotFoundException;
-import com.jasb.toiletproject.util.TokenHolder;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Class for getting ToiletUser from user service REST-api
+ */
 @Slf4j
 public class ToiletUserFetcher {
     private static String USER_URL ="http://userservice-dev:8080/api/user/{username}";
 
     private static RestTemplate restTemplate = new RestTemplate();
 
-
+    /**
+     * Method that uses the security context to get the ToiletUsers
+     * username for the call to the UserService REST-api
+     * @return toiletUser from UserService
+     * @throws ToiletUserNotFoundException
+     */
     public static ToiletUser fetchToiletUserByContext() throws ToiletUserNotFoundException {
         try {
             UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken)
@@ -41,6 +44,13 @@ public class ToiletUserFetcher {
         }
     }
 
+    /**
+     * Method that takes the ToiletUsers username as a parameter
+     * for the call to the UserService REST-api
+     * @param username
+     * @return toiletUser from UserService
+     * @throws ToiletUserNotFoundException
+     */
     public static ToiletUser fetchToiletUserByUsername(String username) throws ToiletUserNotFoundException {
         try {
             HttpHeaders headers = new HttpHeaders();
