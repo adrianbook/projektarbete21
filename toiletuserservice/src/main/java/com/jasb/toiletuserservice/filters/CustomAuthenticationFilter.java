@@ -59,7 +59,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         if(userService.getToiletUser(username).isBlocked()) {
             log.info("{} tried to log in but is blocked", username );
             throw new BadCredentialsException("User is blocked");
-
         }
         return authenticationManager.authenticate(authenticationToken);
     }

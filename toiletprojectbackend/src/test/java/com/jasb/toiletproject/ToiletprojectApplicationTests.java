@@ -7,6 +7,7 @@ import com.jasb.entities.ToiletUser;
 import com.jasb.toiletproject.repo.RatingRepository;
 import com.jasb.toiletproject.repo.RoleRepo;
 import com.jasb.toiletproject.repo.ToiletRepository;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

@@ -66,7 +66,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getSubject();
         if(ToiletUserFetcher.fetchToiletUserByUsername(username).isBlocked()) {
-            log.info("blocked user {} tried to acces service", username );
+            log.info("blocked user {} tried to access toiletservice", username );
             return null;
         }
         String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
@@ -92,7 +92,7 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
      * @throws ServletException
      * @throws IOException
      */
-    @SneakyThrows
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
@@ -102,7 +102,16 @@ public class CustomAuthorizationFilter extends BasicAuthenticationFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        UsernamePasswordAuthenticationToken authentication = parseToken(request);
+        UsernamePasswordAuthenticationToken authentication = null;
+        try {
+            authentication = parseToken(request);
+        } catch (ToiletUserNotFoundException e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+        }
 
         if (authentication != null) {
             SecurityContextHolder.getContext().setAuthentication(authentication);

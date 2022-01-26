@@ -9,6 +9,8 @@ import java.util.List;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long> {
     List<Report> findAllToiletNonExistentReports();
+
     Report report(Report report);
+
     void deleteAllByToiletId(long toiletId);
 }

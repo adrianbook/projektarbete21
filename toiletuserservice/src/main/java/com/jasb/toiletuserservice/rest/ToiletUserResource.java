@@ -4,10 +4,8 @@ package com.jasb.toiletuserservice.rest;
 import com.jasb.entities.Role;
 import com.jasb.entities.ToiletUser;
 import com.jasb.toiletuserservice.service.ToiletUserService;
-import com.sun.istack.Nullable;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -56,7 +54,11 @@ public class ToiletUserResource {
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_APPUSER')")
     public ResponseEntity<ToiletUser> getToiletUserByUserName(@PathVariable(
             "username")String username) {
-        return ResponseEntity.ok(userService.getToiletUser(username));
+        ToiletUser foundUser = userService.getToiletUser(username);
+        if (foundUser != null) {
+            return ResponseEntity.ok(foundUser);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 
@@ -101,15 +103,19 @@ public class ToiletUserResource {
     @PostMapping("/role/addtouser")
     @PreAuthorize("hasAnyRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
-        userService.addRoleToUser(form.getUsername(), form.getRolename());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(userService.addRoleToUser(form.getUsername(), form.getRolename()));
     }
 
     @PutMapping("/user/block")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<ToiletUser> blockUser(@RequestBody Username username){
-        System.out.println("-----in rest ----- " + username.getUsername());
         return ResponseEntity.ok().body(userService.blockToiletUser(userService.getToiletUser(username.getUsername())));
+    }
+
+    @PutMapping("/user/unblock")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
+    public ResponseEntity<ToiletUser> unBlockUser(@RequestBody Username username){
+        return ResponseEntity.ok().body(userService.unBlockToiletUser(userService.getToiletUser(username.getUsername())));
     }
 }
 

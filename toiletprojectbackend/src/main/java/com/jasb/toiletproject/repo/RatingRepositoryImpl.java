@@ -1,4 +1,3 @@
-
 package com.jasb.toiletproject.repo;
 
 import com.jasb.entities.Rating;

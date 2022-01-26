@@ -52,7 +52,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .addFilter(new CustomAuthenticationFilter(authenticationManagerBean(), jwtConfig, userService))
-                .addFilterBefore(new JwtTokenVerifier(jwtConfig), CustomAuthenticationFilter.class);
+                .addFilterBefore(new JwtTokenVerifier(jwtConfig, userService), CustomAuthenticationFilter.class);
     }
 
     @Bean

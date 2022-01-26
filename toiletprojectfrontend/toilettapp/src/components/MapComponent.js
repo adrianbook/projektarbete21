@@ -1,8 +1,20 @@
 import { MapContainer, TileLayer, Marker, Popup , useMap, useMapEvents} from 'react-leaflet';
 import React, { useEffect, useState } from "react";
-import AddRatingComponent from "./AddRatingComponent";
-import { sendNewToiletToServer } from '../servercalls/Calls';
+import PopupContainer from "./popups/PopupContainer";
+import L from "leaflet";
+import toiletIcon from "../static/icons/toilet3.png";
 
+const icon = new L.Icon({
+    iconUrl: toiletIcon,
+    iconRetinaUrl: toiletIcon,
+    iconSize: [60, 45],
+    iconAnchor: [29, 45],
+    className: "toiletIcon"
+    /*shadowSize: [50, 64],
+    ,
+    shadowAnchor: [4, 62],
+    popupAnchor: [-3, -76],*/
+})
 
 function ClickEvent(props) {
     const [position, setPosition] = useState(null);
@@ -12,19 +24,18 @@ function ClickEvent(props) {
           map.flyTo(e.latlng)
         }
       })
-    return position === null ? null : (
-    <Marker position={position}>
-        <Popup >
-        Latitude : {position.lat.toFixed(3)} <br />
-        Longitude : {position.lng.toFixed(3)}<br />
-        <button  onClick={ () => 
-            sendNewToiletToServer({latitude: position.lat, longitude: position.lng})
-                .then(r => props.addMarker({thispos:[r.latitude, r.longitude], id: r.id}))}>
-        Add loo 
-        </button>
-        </Popup>
-    </Marker>
-    );
+    return position ? (
+        <>
+        <Marker position={position}>
+            <Popup >
+            <PopupContainer
+            marker={{thispos : [position.lat, position.lng]}}
+            addMarker={props.addMarker}
+            type="toilet"/>
+            </Popup>
+        </Marker>
+        </>
+    ) : null;
 }
 
 function LocationMarker() {
@@ -48,33 +59,6 @@ function LocationMarker() {
 }
 
 const MapComponent = (props) => {
-    const saveToiletToRate = (e) => {
-        e.preventDefault();
-
-        sessionStorage.setItem("toiletToRate", e.target.name)
-        console.log(e.target.name); //will give you the value continue
-    }
-    function showRatingForm(e) {
-        let loggedIn = sessionStorage.getItem("loggedInUser")
-        if(loggedIn === null || !loggedIn.startsWith("Bearer") ) {
-            prompt("You have to be logged in to rate")
-        } else {
-            saveToiletToRate(e)
-            var x = document.getElementById("rateButton");
-            if (x.style.display === "none") {
-                x.style.display = "flex";
-            } else {
-                x.style.display = "none";
-            }
-            var x = document.getElementById("mySpan");
-            if (x.style.display === "none") {
-                x.style.display = "flex";
-            } else {
-                x.style.display = "none";
-            }
-        }
-
-    }
 
   return (
       <MapContainer center={props.pos} zoom={props.zoom} id="map">
@@ -84,25 +68,18 @@ const MapComponent = (props) => {
         <LocationMarker />
         <ClickEvent addMarker={props.addMarker}/>
 
-          {props.markers?.map( marker =>  (
-
-            <Marker position={marker.thispos} key={props.markers.indexOf(marker)}>
+            {props.markers?.map( marker =>  (
+            <Marker position={marker.thispos} key={props.markers.indexOf(marker)} icon={icon}>
               <Popup>
-                  ID: {marker.id}<br />
-                  Avarege rating {marker.avgRat}
-                  <br/>
-                  <button id="rateButton" name={marker.id} onClick={showRatingForm}>Rate this toilet</button>
-                  <span id={"mySpan"}  style={{display: "none"}}>
-                    <AddRatingComponent />
-                  </span>
-
-
+                <PopupContainer
+                marker={marker}
+                addMarker={props.addMarker}
+                />
               </Popup>
-            </Marker>
-        ))
-        }
+            </Marker>))}
 
       </MapContainer>
-  )}
+  )
+}
 
 export default MapComponent

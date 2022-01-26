@@ -12,8 +12,12 @@ import java.util.Optional;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     Rating upsertRating(Rating rating);
+
     Optional<Rating> findByToiletUserAndToilet(ToiletUser toiletUser, Toilet toilet);
+
     double findAvgRating(long id);
+
     List<Rating> findAllRatingsForToilet(long id);
+
     void deleteRatingByToiletId(long id);
 }
