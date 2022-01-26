@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Restcontoller for userservice using Spring boot
@@ -133,6 +134,12 @@ public class ToiletUserResource {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
     public ResponseEntity<ToiletUser> unBlockUser(@RequestBody Username username){
         return ResponseEntity.ok().body(userService.unBlockToiletUser(userService.getToiletUser(username.getUsername())));
+    }
+
+    @GetMapping("user/roles")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
+    public ResponseEntity<List<Role>> getRolesForUser() {
+        return ResponseEntity.ok().body(userService.getToiletUser((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getRoles().stream().collect(Collectors.toList()));
     }
 }
 

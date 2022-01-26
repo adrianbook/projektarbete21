@@ -5,6 +5,7 @@ const ShowReportsComponent = () => {
     const [reports, setReports] = useState([])
     const [showReports, setShowReports] = useState("none")
     const [showGetReportsButton, setShowGetReportsButton] = useState("block")
+
     function mapReport(report) {
         return {
             id: report.id,
@@ -61,9 +62,7 @@ const ShowReportsComponent = () => {
                 .catch(err => {
                     alert(err.message)
                 })
-            let filtered = reports.filter(report => {
-                return report.toiletId !== e.target.value
-            })
+            let filtered = reports.filter(report =>  report.toiletId.toString() !== e.target.value.toString())
             setReports(filtered)
         } else {
             alert("Toilet not deleted")
