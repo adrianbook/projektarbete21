@@ -5,11 +5,12 @@ import com.jasb.entities.Toilet;
 import java.util.List;
 
 public class Proximity {
-    public static boolean toClose(Toilet toiletToCheck, List<Toilet> allTtoilets) {
-        double startLat = toiletToCheck.getLatitude() - 0.00009;
-        double endLat = toiletToCheck.getLatitude() + 0.00009;
-        double startLong = toiletToCheck.getLongitude() - 0.00009;
-        double endLong = toiletToCheck.getLongitude() + 0.00009;
+    public static boolean tooClose(Toilet toiletToCheck, List<Toilet> allTtoilets) {
+        double minimumDistance = 0.00009;
+        double startLat = toiletToCheck.getLatitude() - minimumDistance;
+        double endLat = toiletToCheck.getLatitude() + minimumDistance;
+        double startLong = toiletToCheck.getLongitude() - minimumDistance;
+        double endLong = toiletToCheck.getLongitude() + minimumDistance;
         for (Toilet t :
                 allTtoilets) {
             if (t.getLatitude() > startLat &&

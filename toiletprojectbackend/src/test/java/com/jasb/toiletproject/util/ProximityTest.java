@@ -24,21 +24,21 @@ public class ProximityTest {
     @Test
     public void testToiletAtSameLatLng() {
         Toilet toiletAtSameCoordinates = new Toilet(2, longitude, latitude, 1);
-        assertTrue(Proximity.toClose(toiletAtSameCoordinates, existingToilets));
+        assertTrue(Proximity.tooClose(toiletAtSameCoordinates, existingToilets));
     }
 
     @Test
     public void testToiletTooClose() {
         Toilet toiletTooClose = new Toilet(3, longitude+0.00001, latitude+0.00001, 1);
-        assertTrue(Proximity.toClose(toiletTooClose, existingToilets));
+        assertTrue(Proximity.tooClose(toiletTooClose, existingToilets));
     }
 
     @Test
     public void testToiletNotTooClose() {
         Toilet toiletLongitudeNotTooClose = new Toilet(4, longitude+minimumDistance, latitude, 1);
         Toilet toiletLatitudeNotTooClose = new Toilet(4, longitude, latitude+minimumDistance, 1);
-        assertFalse(Proximity.toClose(toiletLongitudeNotTooClose, existingToilets));
-        assertFalse(Proximity.toClose(toiletLatitudeNotTooClose, existingToilets));
+        assertFalse(Proximity.tooClose(toiletLongitudeNotTooClose, existingToilets));
+        assertFalse(Proximity.tooClose(toiletLatitudeNotTooClose, existingToilets));
     }
 
 }
