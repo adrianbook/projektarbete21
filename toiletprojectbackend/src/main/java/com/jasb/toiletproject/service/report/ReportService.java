@@ -6,8 +6,12 @@ import java.util.List;
 
 public interface ReportService {
     Report report(Report report);
+
     List<Report> getAllReports();
+
     List<Report> getAllReportsForNonExistentToilet();
+
     List<Report> getAllReportsWithUserDefinedIssue();
+
     void deleteByToiletId(long toiletId);
 }

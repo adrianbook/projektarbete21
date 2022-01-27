@@ -65,7 +65,7 @@ public class ToiletServiceImpl implements ToiletService {
     @Override
     public Toilet addToilet(Toilet newToilet) throws ToCloseToAnotherToiletException {
         List<Toilet> toilets = this.getAllToilets();
-        if (Proximity.toClose(newToilet, toilets)) {
+        if (Proximity.tooClose(newToilet, toilets)) {
             log.info("Did not add toilet at longitude: {} latitude: {}",
                     newToilet.getLongitude(), newToilet.getLatitude() + " it's to " +
                             "close to another toilet");
@@ -75,6 +75,4 @@ public class ToiletServiceImpl implements ToiletService {
                 newToilet.getLongitude(), newToilet.getLatitude());
         return toiletDao.save(newToilet);
     }
-
-
 }
