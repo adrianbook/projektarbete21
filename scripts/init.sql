@@ -1,4 +1,5 @@
 use toiletdb; 
+SELECT * FROM role;
 INSERT IGNORE INTO role
   (name) 
 VALUES 

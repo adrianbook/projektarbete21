@@ -37,6 +37,7 @@ hs_err_pid*
 
 # production
 /build
+entities/build/tmp
 
 # misc
 .DS_Store

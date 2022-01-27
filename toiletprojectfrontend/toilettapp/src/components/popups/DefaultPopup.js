@@ -28,10 +28,12 @@ const DefaultPopup = (props) => {
             <ul>
                 <p>Has:</p>
             {Object.getOwnPropertyNames(props.marker).map(o => {
-                if(props.marker[o] && descriptions[o]) {
+                if(descriptions.hasOwnProperty(o) && props.marker[o]) {
                     return <li>{descriptions[o]}</li>
                 }
-            })}
+                else return
+            }
+            )}
             </ul>
         <button name="rating" onClick={handleChange}>
             Rate toilet

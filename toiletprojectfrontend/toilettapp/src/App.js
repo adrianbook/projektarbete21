@@ -94,8 +94,8 @@ const App = () => {
             />{' '}
             LooCation
           </Navbar.Brand>
-        </Container>
-        <div style={display.loggedOutVisible}>
+        </Container >
+        <div style={display.loggedOutVisible} id="loginButtonDiv">
         <button
             onClick={() => setOpen(!open)}
             aria-controls="example-collapse-text"
@@ -104,7 +104,7 @@ const App = () => {
           Login
         </button>
         <Collapse in={open}>
-        <Container>
+        <Container >
           Login:
             <LoginComponent
                 loginInfo={loginInfo}
