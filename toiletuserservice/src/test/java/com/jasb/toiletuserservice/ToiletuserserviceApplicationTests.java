@@ -20,6 +20,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+/**
+ * A test class for integrations tests by mocking calls to REST-endpoints.
+ * Uses an in-memory embedded H2 database.
+ *
+ * Written by JASB
+ */
+
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
