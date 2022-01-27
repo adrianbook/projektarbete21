@@ -82,8 +82,7 @@ public class ToiletRestController {
      * @param id toiletId
      * @return a JSON representation of list of ratings
      */
-    @GetMapping(path = "{id}/rating")
-    @PreAuthorize("hasAnyRole('ROLE_APPUSER', 'ROLE_ADMIN')")
+    @GetMapping(path = "/ratings/{id}")
     public ResponseEntity getAllRatingsForToilet(@PathVariable(
             "id") long id) {
         List<Rating> ratings  =
@@ -113,13 +112,6 @@ public class ToiletRestController {
                     "toilet", HttpStatus.BAD_REQUEST);
         }
     }
-
-    /*
-report a toilet. takes a json object containing fields:
-    int toiletId
-    boolean notAToilet
-    string issue
- */
 
     /**
      * POST endpoint to report a toilet. Takes a JSON object containing fields:

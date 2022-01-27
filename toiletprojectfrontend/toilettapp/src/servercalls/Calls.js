@@ -293,7 +293,20 @@ const getRolesForUser = () => {
         return res.json()
     })
 }
-
+const getAllRatingsForToilet = (toiletId) => {
+    return fetch("http://localhost:9091/api/v1/toilets/ratings/" + toiletId ,{
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => {
+            if (res.status === 403) throw new Error("Action not allowed")
+            if (res.status === 400) throw new Error("No ratings found")
+            if (res.status === 500) throw new Error("Serverside error")
+            if (res.status !== 202) throw new Error("Unexpected error occurred fetching Ratings")
+            return res.json()
+        })
+}
 const turnToiletIntoMarker = (toilet) => {
     return {thispos: [toilet.latitude, toilet.longitude],
             id: toilet.id,
@@ -306,5 +319,5 @@ const turnToiletIntoMarker = (toilet) => {
             handicapFriendly: toilet.handicapFriendly}
 }
 
-export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser,unBlockUser, fetchUserByUsername, addRole, sendReportToServer ,getAllReports, getAllUserdefinedReports, getAllNonExistingToiletsReports, deleteToilet, getRolesForUser}
+export {sendNewUserToServer, loginCall, sendNewToiletToServer, verifyUser , getAllToiletsCall, addRating, getAllUsers, blockUser,unBlockUser, fetchUserByUsername, addRole, sendReportToServer ,getAllReports, getAllUserdefinedReports, getAllNonExistingToiletsReports, deleteToilet, getRolesForUser, getAllRatingsForToilet}
 

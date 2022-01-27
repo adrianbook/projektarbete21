@@ -1,4 +1,4 @@
-
+import SeeRatingsButton from "./SeeRatingsButton";
 
 const DefaultPopup = (props) => {
     const handleChange = e => {
@@ -15,6 +15,8 @@ const DefaultPopup = (props) => {
      let costOrFree = props.marker.cost ? "Pay toilet" : "Free Toilet"
 
     let avgRating = props.marker.avgRat === 0? "Not rated yet" : props.marker.avgRat
+
+
     return (
         <>
         <div style={{display: props.displayMe}}>
@@ -37,6 +39,7 @@ const DefaultPopup = (props) => {
         <button name="report" onClick={handleChange}>
             Report toilet
         </button>
+            <SeeRatingsButton toiletId={props.marker.id} />
         </div>
         </>
     )
