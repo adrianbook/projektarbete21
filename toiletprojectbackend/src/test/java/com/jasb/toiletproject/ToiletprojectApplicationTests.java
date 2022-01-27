@@ -86,6 +86,9 @@ class ToiletprojectApplicationTests {
 						.contentType(MediaType.APPLICATION_JSON)
 						.content(LAT_LONG_JSON))
 				.andExpect(status().isCreated())
+				.andExpect(MockMvcResultMatchers.jsonPath("$.longitude").value(11.937))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.latitude").value(57.706))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.separateGenders").value(false))
 				.andExpect(content().string("{\"longitude\":11.937,\"latitude\":57.706," +
 						"\"cost\":false,\"urinal\":false,\"separateGenders\":false,\"changingTable\":false," +
 						"\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":2}"));
@@ -100,6 +103,12 @@ class ToiletprojectApplicationTests {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.toilets[0].longitude").value(11.937))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.toilets[0].latitude").value(57.706))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.toilets[0].cost").value(false))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.toilets[1].longitude").value(57.0))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.toilets[1].latitude").value(11.9))
+				.andExpect(MockMvcResultMatchers.jsonPath("$.toilets[1].cost").value(false))
 				.andExpect(content().string("{\"toilets\":[{" +
 						"\"longitude\":11.937,\"latitude\":57.706,\"cost\":false,\"urinal\":false," +
 						"\"separateGenders\":false,\"changingTable\":false,\"shower\":false," +
@@ -115,55 +124,29 @@ class ToiletprojectApplicationTests {
 	void getAllRatingsForToiletTest() throws Exception {
 		Role role = new Role(3L, "ROLE_APPUSER");
 		roleRepo.save(role);
-
 		Collection<Role> roles = new ArrayList<>();
 		roles.add(role);
 		ToiletUser toiletUser = new ToiletUser(1L, "John Doe", "jd",
 					"secret", "john.doe@mail.com", false, roles);
 		toiletUserRepo.save(toiletUser);
-
-		mockMvc.perform(post("/api/v1/toilets/create")
-						.with(user("usr").roles("ADMIN"))
-						.contentType("application/json")
-						.content(LAT_LONG_JSON))
-				.andExpect(status().isCreated());
-
-		List<Toilet> list = toiletRepository.findAll();
-		for (Toilet t :
-				list) {
-			System.out.println("THIS is the toiletid" + t.getId());
-		}
-		System.out.println("THIS is the toiletuser:" + toiletUserRepo.findToiletUserByUsername("jd"));
+		toiletRepository.save(TOILET_OBJECT_1);
 		Rating rating = new Rating(toiletRepository.getById(5L),
 				toiletUserRepo.findToiletUserByUsername("jd"), 3, "clean");
 		ratingRepository.save(rating);
-		List<Rating>  ratings = ratingRepository.findAll();
-		for (Rating r :
-				ratings) {
-			System.out.println("This is the rating: " + r.getId());
-			System.out.println("This is the toilet in rating: "+ r.getToilet().getId());
-
-		}
 
 		mockMvc.perform(get("/api/v1/toilets/ratings/5")
 						.with(user("usr").roles("ADMIN"))
 						.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isAccepted());
-		/*Assertions.assertEquals(3.0, ratingRepository.findAvgRating(5L));*/
+				.andExpect(status().isAccepted())
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0].notes").value("clean"))
+				.andExpect(MockMvcResultMatchers.jsonPath("$[0].toiletUser..name").value("John Doe"));
 	}
 
 	@Test
 	void setRatingForToiletTest() throws Exception {
 		toiletRepository.save(TOILET_OBJECT_1);
-		List<Toilet> list = toiletRepository.findAll();
-		for (Toilet t :
-				list) {
-			System.out.println("This is the toiletId:" + t.getId());
-		}
-
 		Role role = new Role(12L, "ROLE_APPUSER");
 		roleRepo.save(role);
-
 		Collection<Role> roles = new ArrayList<>();
 		roles.add(role);
 		ToiletUser toiletUser = new ToiletUser(13L, "John Doe", "jd",
@@ -196,22 +179,13 @@ class ToiletprojectApplicationTests {
 	@Test
 	void reportToiletTest() throws Exception{
 		toiletRepository.save(TOILET_OBJECT_1);
-		List<Toilet> list = toiletRepository.findAll();
-		for (Toilet t :
-				list) {
-			System.out.println("This is the toiletId: "+t.getId());
-		}
 		Role role = new Role(8L, "ROLE_APPUSER");
 		roleRepo.save(role);
-		System.out.println("THis is the role:"+roleRepo.findByName(
-				"ROLE_APPUSER"));
-
 		Collection<Role> roles = new ArrayList<>();
 		roles.add(role);
 		ToiletUser toiletUser = new ToiletUser(9L, "John Doe", "jd",
 				"secret", "john.doe@mail.com", false, roles);
 		toiletUserRepo.save(toiletUser);
-		System.out.println(toiletUserRepo.findToiletUserByUsername("jd").getId());
 
 		try (MockedStatic<ToiletUserFetcher> theMock =
 					 Mockito.mockStatic(ToiletUserFetcher.class)) {
@@ -226,9 +200,10 @@ class ToiletprojectApplicationTests {
 			mockMvc.perform(post("/api/v1/toilets/reports/report")
 					.with(user("usr").roles("APPUSER"))
 					.contentType(MediaType.APPLICATION_JSON)
-					.content("{\"issue\":\"bad comment\"," +
-							"\"notAToilet\":false,\"toiletId\":7}"))
-					.andExpect(status().isCreated());
+					.content("{\"issue\":\"bad comment\",\"notAToilet\":false,\"toiletId\":7}"))
+					.andExpect(status().isCreated())
+					.andExpect(MockMvcResultMatchers.jsonPath("$.issue").value("bad comment"))
+					.andExpect(MockMvcResultMatchers.jsonPath("$.owningUser.username").value("jd"));
 		} catch (ToiletUserNotFoundException e) {
 			e.printStackTrace();
 		}
