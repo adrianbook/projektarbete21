@@ -85,8 +85,10 @@ public class RatingRepositoryImpl {
                         "where r.toilet.Id=:id")
                 .setParameter("id", id)
                 .getResultList();
+        em.flush();
         for (Rating r :
                 ratings) {
+            em.detach(r);
             r.getToiletUser().setPassword(null);
             r.getToiletUser().setRoles(null);
             r.getToiletUser().setEmail(null);

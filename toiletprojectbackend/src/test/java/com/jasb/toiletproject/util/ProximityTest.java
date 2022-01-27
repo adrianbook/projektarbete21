@@ -35,9 +35,8 @@ public class ProximityTest {
 
     @Test
     public void testToiletNotTooClose() {
-        Toilet toiletLongitudeNotTooClose = new Toilet(4, longitude+minimumDistance, latitude, false, false, false, false, false, false,1);
+        Toilet toiletLongitudeNotTooClose = new Toilet(4, longitude+minimumDistance, latitude, false, false, false, false, false, false, 1);
         Toilet toiletLatitudeNotTooClose = new Toilet(4, longitude, latitude+minimumDistance, false, false, false, false, false, false, 1);
-
         assertFalse(Proximity.tooClose(toiletLongitudeNotTooClose, existingToilets));
         assertFalse(Proximity.tooClose(toiletLatitudeNotTooClose, existingToilets));
     }

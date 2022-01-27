@@ -22,7 +22,6 @@ public class Proximity {
         double endLat = toiletToCheck.getLatitude() + minimumDistance;
         double startLong = toiletToCheck.getLongitude() - minimumDistance;
         double endLong = toiletToCheck.getLongitude() + minimumDistance;
-
         for (Toilet t :
                 allTtoilets) {
             if (t.getLatitude() > startLat &&
