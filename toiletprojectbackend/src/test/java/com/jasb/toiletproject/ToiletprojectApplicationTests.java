@@ -35,9 +35,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ToiletprojectApplicationTests {
 	private static final String LAT_LONG_JSON = "{\"latitude\":57.706,\"longitude\":11.937}";
 	private final static Toilet TOILET_OBJECT_1 = new Toilet(1L, 11.937, 57.706,false,
-			false, false, false, false, 0.0);
+			false, false, false, false, false, 0.0);
 	private final static Toilet TOILET_OBJECT_2 = new Toilet(2L, 57.000, 11.900, false,
-			false, false, false, false, 0.0);
+			false, false, false, false, false, 0.0);
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -58,7 +58,7 @@ class ToiletprojectApplicationTests {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().string("{\"longitude\":11.937,\"latitude\":57.706," +
-						"\"urinal\":false,\"separateGenders\":false,\"changingTable\":false," +
+						"\"cost\":false,\"urinal\":false,\"separateGenders\":false,\"changingTable\":false," +
 						"\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":1}"));;
 	}
 
@@ -70,7 +70,7 @@ class ToiletprojectApplicationTests {
 						.content(LAT_LONG_JSON)) //toiletId = 2 in db
 				.andExpect(status().isCreated())
 				.andExpect(content().string("{\"longitude\":11.937,\"latitude\":57.706," +
-						"\"urinal\":false,\"separateGenders\":false,\"changingTable\":false," +
+						"\"cost\":false,\"urinal\":false,\"separateGenders\":false,\"changingTable\":false," +
 						"\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":2}"));
 	}
 
@@ -83,11 +83,13 @@ class ToiletprojectApplicationTests {
 				.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(content().string("{\"toilets\":" +
-						"[{\"longitude\":11.937,\"latitude\":57.706,\"urinal\":false,\"separateGenders\":false," +
-						"\"changingTable\":false,\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":7}," +
-						"{\"longitude\":57.0,\"latitude\":11.9,\"urinal\":false,\"separateGenders\":false," +
-						"\"changingTable\":false,\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":8}]}"));
+				.andExpect(content().string("{\"toilets\":[{" +
+						"\"longitude\":11.937,\"latitude\":57.706,\"cost\":false,\"urinal\":false," +
+						"\"separateGenders\":false,\"changingTable\":false,\"shower\":false," +
+						"\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":7}," +
+						"{\"longitude\":57.0,\"latitude\":11.9,\"cost\":false,\"urinal\":false," +
+						"\"separateGenders\":false,\"changingTable\":false,\"shower\":false," +
+						"\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":8}]}"));
 	}
 
 	@Test
