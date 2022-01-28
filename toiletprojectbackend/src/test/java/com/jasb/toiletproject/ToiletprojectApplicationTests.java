@@ -9,10 +9,8 @@ import com.jasb.toiletproject.repo.RatingRepository;
 import com.jasb.toiletproject.repo.RoleRepo;
 import com.jasb.toiletproject.repo.ToiletRepository;
 
-import com.jasb.toiletproject.service.toilet.ToiletService;
 import com.jasb.toiletproject.util.ToiletUserFetcher;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.mockito.MockedStatic;
