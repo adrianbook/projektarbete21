@@ -3,17 +3,23 @@ import React, { useEffect, useState } from "react";
 import PopupContainer from "./popups/PopupContainer";
 import L from "leaflet";
 import toiletIcon from "../static/icons/toilet3.png";
+import positionIcon from "../static/icons/happiness.png";
 
 const icon = new L.Icon({
     iconUrl: toiletIcon,
     iconRetinaUrl: toiletIcon,
-    iconSize: [60, 45],
-    iconAnchor: [29, 45],
+    iconSize: [43, 45],
+    iconAnchor: [20, 45],
+    className: "toiletIcon",
+    popupAnchor: [2, -35]
+})
+
+const happyIcon = new L.Icon({
+    iconUrl: positionIcon,
+    iconRetinaUrl: positionIcon,
+    iconSize: [35, 35],
+    iconAnchor: [19, 10],
     className: "toiletIcon"
-    /*shadowSize: [50, 64],
-    ,
-    shadowAnchor: [4, 62],
-    popupAnchor: [-3, -76],*/
 })
 
 function ClickEvent(props) {
@@ -50,7 +56,7 @@ function LocationMarker() {
   }, [mymap]);
 
   return position === null ? null : (
-      <Marker position={position}>
+      <Marker icon={happyIcon} position={position}>
         <Popup>
           You are here. <br />
         </Popup>

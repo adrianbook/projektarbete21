@@ -39,7 +39,7 @@ const SeeRatingsButton = (toiletId) => {
                         <Card style={{margin: "1rem"}}>
                             <Card.Header as="h5">Rating</Card.Header>
                             <ListGroup variant="flush">
-                                <ListGroup.Item>Raiting User: {rating.toiletUser.name}</ListGroup.Item>
+                                <ListGroup.Item>Rating User: {rating.toiletUser.name}</ListGroup.Item>
                                 <ListGroup.Item>Rating: {rating.rating}</ListGroup.Item>
                                 <ListGroup.Item><p>Notes:</p><p>{rating.notes}</p></ListGroup.Item>
                             </ListGroup>

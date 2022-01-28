@@ -20,13 +20,13 @@ const DefaultPopup = (props) => {
     return (
         <>
         <div style={{display: props.displayMe}}>
-        ID: {props.marker.id}
         <br />
-        Average rating: {avgRating}
+        <b>Average rating: {avgRating}</b> 
         <br/>
         {costOrFree}
-            <ul>
-                <p>Has:</p>
+        <div style={{marginTop: "0.5em"}}>
+            <ul style={{marginLeft: "0.6em"}}>
+                
             {Object.getOwnPropertyNames(props.marker).map(o => {
                 if(descriptions.hasOwnProperty(o) && props.marker[o]) {
                     return <li>{descriptions[o]}</li>
@@ -35,6 +35,7 @@ const DefaultPopup = (props) => {
             }
             )}
             </ul>
+        </div>
         <button name="rating" onClick={handleChange}>
             Rate toilet
         </button>
