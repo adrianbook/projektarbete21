@@ -1,6 +1,5 @@
 package com.jasb.toiletuserservice;
 
-import com.jasb.entities.Role;
 import com.jasb.toiletuserservice.repo.RoleRepo;
 import com.jasb.toiletuserservice.service.ToiletUserServiceImpl;
 import org.junit.jupiter.api.Assertions;
@@ -16,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
 import java.util.Locale;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -53,7 +51,7 @@ class ToiletuserserviceApplicationTests {
 	private RoleRepo roleRepo;
 
 	@BeforeEach
-	public void intitEach() throws Exception {
+	public void initEach() throws Exception {
 		mockMvc.perform(post("/api/role/save")
 				.with(user("usr").roles("SUPER_ADMIN"))
 				.contentType(MediaType.APPLICATION_JSON)
