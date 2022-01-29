@@ -64,8 +64,8 @@ public class ToiletUserResource {
     public ResponseEntity<ToiletUser> getToiletUserByUserName(@PathVariable(
             "username")String username) {
         ToiletUser foundUser = userService.getToiletUser(username);
-        foundUser.setPassword(null);
         if (foundUser != null) {
+            foundUser.setPassword(null);
             return ResponseEntity.ok(foundUser);
         }
         return ResponseEntity.notFound().build();
@@ -84,7 +84,6 @@ public class ToiletUserResource {
     public ResponseEntity<String> saveToiletUsers(@RequestBody ToiletUser toiletUser) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toUriString());
         userService.saveToiletUser(toiletUser);
-        // TODO får nu tillbaka "User created" även om det inte funkade
         return ResponseEntity.created(uri).body("User created");
     }
 
