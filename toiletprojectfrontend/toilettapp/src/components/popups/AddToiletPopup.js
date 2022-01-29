@@ -41,9 +41,7 @@ const AddToiletPopup = (props) => {
         handicapFriendly: "Handicap Friendly"
     }
 
-  
-
-    const addToilet = (e) => {
+      const addToilet = (e) => {
         e.preventDefault()
         e.target.reset()
         sendNewToiletToServer({latitude: props.marker.thispos[0],
@@ -76,7 +74,7 @@ const AddToiletPopup = (props) => {
                         <div key={des}>
                         <label> {descriptions[des]}
                             <input
-                                onChange={handleChange}
+                                onClick={handleChange}
                                 name={des}
                                 value={formData[des]}
                                 type="checkbox"

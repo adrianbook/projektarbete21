@@ -24,7 +24,7 @@ const AddReportPopup = (props) => {
                 prompt(`report received on toilet number ${response.toilet.id}`)
                 props.changeView()
             })
-            .catch(e => console.log(e))
+            .catch(e => alert(e.message))
     }
 
     const handleChange = e => {

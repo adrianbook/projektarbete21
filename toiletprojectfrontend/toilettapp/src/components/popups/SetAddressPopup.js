@@ -11,6 +11,7 @@ const SetAddressPopup = (props) => {
             const response = await fetch(GEOCODE_URL+coordinatesString);
             const responseJson = await response.json();
             setLocation(responseJson);
+            console.log(responseJson)
         };
         getAddress(props)
     }, []);

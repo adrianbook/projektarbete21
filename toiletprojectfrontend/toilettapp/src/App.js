@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import {BrowserRouter, Route, Routes, Link} from "react-router-dom";
 import MapPage from "./routes/MapPage";
-import CreateUser from "./routes/CreateUser";
+import CreateUserComponent from "./components/CreateUserComponent";
 import Admin from "./routes/Admin";
 import { loginCall, verifyUser } from "./servercalls/Calls";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -9,7 +9,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Container from "react-bootstrap/Container";
 import toiletIcon from "./static/icons/toilet3.png";
 import LoginComponent from "./components/LoginComponent";
-import {Collapse} from "react-bootstrap";
+
 
 const App = () => {
   const [loginInfo, setLoginInfo] = useState({
@@ -22,7 +22,7 @@ const App = () => {
     loggedInVisible: loginInfo.loggedIn ? {} : {display: "none"},
     loggedOutVisible: loginInfo.loggedIn ? {display: "none"} : {}
   })
-  const [open, setOpen] = useState(false);
+
 
   useEffect(() => {
     const token = sessionStorage.getItem("loggedInUser")
@@ -96,14 +96,7 @@ const App = () => {
           </Navbar.Brand>
         </Container>
         <div style={display.loggedOutVisible}>
-        <button
-            onClick={() => setOpen(!open)}
-            aria-controls="example-collapse-text"
-            aria-expanded={open}
-        >
-          Login
-        </button>
-        <Collapse in={open}>
+
         <Container>
           Login:
             <LoginComponent
@@ -111,9 +104,9 @@ const App = () => {
                 handleChange={handleChange}
                 handleSubmit={handleSubmit}
             />
-          <button style={display.loggedOutVisible}><Link to="/createuser">Create User</Link> </button>
+          <CreateUserComponent setLoginInfo={setLoginInfo}/>
           </Container>
-        </Collapse>
+
         </div>
         <button onClick={logOut} style={display.loggedInVisible}><Link to={'/'}>LOG OUT</Link> </button>
       </Navbar>
@@ -124,7 +117,6 @@ const App = () => {
 
     <Routes>
       <Route path="/" element={<MapPage loggedIn={loginInfo.loggedIn} />} />
-      <Route path="/createuser" element={<CreateUser setLoginInfo={setLoginInfo}/>}/>
       <Route path="/admin" element={<Admin/>}/>
     </Routes>
   </BrowserRouter>

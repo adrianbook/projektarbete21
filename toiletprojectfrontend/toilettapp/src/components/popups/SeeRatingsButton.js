@@ -1,5 +1,5 @@
 import {getAllRatingsForToilet} from "../../servercalls/Calls";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Modal from 'react-bootstrap/Modal'
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
@@ -33,7 +33,7 @@ const SeeRatingsButton = (toiletId) => {
                 <Modal.Header closeButton>
                     <Modal.Title>Ratings for toilet with id: {toiletId.toiletId}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body class="overflow-auto">{ratings.map(rating => {
+                <Modal.Body className="overflow-auto">{ratings.map(rating => {
                     return (
                     <div>
                         <Card style={{margin: "1rem"}}>
