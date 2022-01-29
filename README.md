@@ -30,14 +30,14 @@ Prerequisites:
 To run this project:
  - Clone repo
  - Create empty folder 'dbVolume' in root folder of your cloned repo
- - Run following command in root folder of entities 
+ - Run following command in root folder of entities: 
     ./gradlew build
- - Run follwing command in root folders of toiletprojectbackend and toiletuserservice
+ - Run follwing command in root folders of toiletprojectbackend and toiletuserservice:
     ./gradlew clean bootJar
- - Run following command in root folder of your cloned repo to populate table Roles in database
-    docker docker exec -it db-dev bash -c 'mysql -u root -pYrgo2021 toiletdb < /scripts/init.sql'
- - Run following command in root folder of your cloned repo
+ - Run following command in root folder of your cloned repo:
     docker-compose up
+ - Run following command in root folder of your cloned repo to populate table Roles in database:
+   docker exec -it db-dev bash -c 'mysql -u root -pYrgo2021 toiletdb < /scripts/init.sql'
  - Web application available at localhost:3000
 
 Only a super admin can alter the roles of other users through the web interface. To create a super admin user you need to alter the database directly. Find the id of a user in the database toiletdb in docker container 'db-dev'. Insert this id and the id of the role 'ROLE_SUPER_ADMIN' from the table 'role'.
