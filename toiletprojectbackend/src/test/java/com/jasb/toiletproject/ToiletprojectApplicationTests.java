@@ -27,7 +27,6 @@ import com.jasb.toiletproject.repo.ToiletUserRepo;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -55,6 +54,7 @@ class ToiletprojectApplicationTests {
 			false, false, false, false, false, 0.0);
 	private static final Toilet TOILET_OBJECT_2 = new Toilet(2L, 57.000, 11.900, false,
 			false, false, false, false, false, 0.0);
+
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -92,6 +92,7 @@ class ToiletprojectApplicationTests {
 				.andExpect(content().string("{\"longitude\":11.937,\"latitude\":57.706," +
 						"\"cost\":false,\"urinal\":false,\"separateGenders\":false,\"changingTable\":false," +
 						"\"shower\":false,\"handicapFriendly\":false,\"avgRating\":0.0,\"id\":2}"));
+		Assertions.assertEquals(false, toiletRepository.getById(2L).isHandicapFriendly());
 	}
 
 	@Test
