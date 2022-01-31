@@ -26,8 +26,6 @@ const getAllToiletsCall = () => {
         );
     }
 const sendNewToiletToServer = (toiletData) => {
-    console.log("CALL_____")
-    console.log(toiletData)
     return fetch('http://localhost:9091/api/v1/toilets/create', {
         method: 'POST',
         body: JSON.stringify({latitude: parseFloat(toiletData.latitude),
