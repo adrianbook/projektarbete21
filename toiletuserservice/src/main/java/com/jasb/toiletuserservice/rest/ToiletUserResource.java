@@ -64,6 +64,7 @@ public class ToiletUserResource {
     public ResponseEntity<ToiletUser> getToiletUserByUserName(@PathVariable(
             "username")String username) {
         ToiletUser foundUser = userService.getToiletUser(username);
+        foundUser.setPassword(null);
         if (foundUser != null) {
             return ResponseEntity.ok(foundUser);
         }
